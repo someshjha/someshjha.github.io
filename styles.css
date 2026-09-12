@@ -99,14 +99,17 @@ h1 em, h2 em { font-weight: 400; color: var(--orange); }
 
 .work { background: var(--ink); color: #f5f2ea; }
 .section-top.light > p, .work .section-index { color: #a6a79f; }
-.project-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 22px; }
+.project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; }
 .project-card { padding: 15px; border: 1px solid rgba(255,255,255,.16); }
-.project-card:nth-child(3) { grid-column: 2; }
-.project-featured { grid-row: span 2; align-self: start; }
+.project-featured { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr); align-items: center; }
+.project-featured-body { padding: 24px 25px 24px 38px; }
+.project-featured .project-visual { margin-bottom: 0; }
 .project-visual { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; margin-bottom: 25px; background: #242720; object-fit: contain; }
 .project-meta { display: flex; justify-content: space-between; margin-bottom: 14px; color: #aaa99f; text-transform: uppercase; letter-spacing: .14em; font-size: 9px; }
 .project-card h3 { margin-bottom: 12px; font-family: var(--serif); font-weight: 400; font-size: 29px; }
 .project-card p { max-width: 650px; color: #b9bab2; font-size: 13px; line-height: 1.65; }
+.project-card.project-featured h3 { font-size: clamp(34px, 4vw, 52px); }
+.project-card.project-featured p { max-width: 420px; font-size: 14px; }
 .project-card ul { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0 5px; padding: 0; list-style: none; }
 .project-card li { padding: 7px 10px; border: 1px solid rgba(255,255,255,.15); border-radius: 100px; color: #d9d8d1; font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
 .work-note { margin: 30px 0 0; color: #85877f; font-size: 11px; }
@@ -166,8 +169,9 @@ h1 em, h2 em { font-weight: 400; color: var(--orange); }
   .section-top { grid-template-columns: 1fr; gap: 25px; margin-bottom: 50px; }
   .section-top > p { max-width: 560px; }
   .project-grid { grid-template-columns: 1fr; }
-  .project-featured { grid-row: auto; }
-  .project-card:nth-child(3) { grid-column: auto; }
+  .project-featured { display: block; grid-column: auto; }
+  .project-featured-body { padding: 0; }
+  .project-featured .project-visual { margin-bottom: 25px; }
   .contact-action { max-width: 550px; }
 }
 
