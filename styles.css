@@ -122,7 +122,7 @@ h1 em, h2 em { font-weight: 400; color: var(--orange); }
 .article-row > span { padding-top: 6px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .12em; }
 
 .contact { padding: 125px 0 30px; background: var(--orange); }
-.contact-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 10vw; align-items: end; }
+.contact-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 10vw; align-items: start; }
 .contact h2 { max-width: 790px; font-size: clamp(52px, 7vw, 100px); }
 .contact-action { padding-bottom: 8px; }
 .contact-action p { font-family: var(--serif); font-size: 20px; line-height: 1.5; }
