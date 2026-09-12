@@ -63,6 +63,9 @@ h1 em, h2 em { font-weight: 400; color: var(--orange); }
 .orbit-label-a { top: 15%; left: 8%; }
 .orbit-label-b { right: 6%; top: 46%; }
 .orbit-label-c { bottom: 13%; left: 20%; }
+.orbit-label-d { top: 15%; right: 15%; }
+.orbit-label-e { right: 17%; bottom: 13%; }
+.orbit-label-f { top: 46%; left: 6%; }
 .availability { display: flex; gap: 9px; align-items: center; margin-top: 20px; color: var(--muted); font-size: 11px; }
 .availability span { width: 8px; height: 8px; border-radius: 50%; background: #65a653; box-shadow: 0 0 0 4px rgba(101,166,83,.12); }
 .hero-foot { display: flex; align-items: end; justify-content: space-between; padding-top: 50px; }
