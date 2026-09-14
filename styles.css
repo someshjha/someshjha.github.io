@@ -77,12 +77,8 @@ h1 em, h2 em { font-weight: 400; color: var(--orange); }
 .section-heading h2, .section-top h2, .contact h2 { margin: 0; font-family: var(--serif); font-weight: 400; letter-spacing: -.045em; line-height: 1.04; }
 .section-heading h2 { font-size: clamp(46px, 5vw, 74px); }
 .about-copy { padding-top: 46px; }
-.about-intro { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 38px; align-items: start; }
 .about-copy p { color: #4e504a; font-size: 16px; line-height: 1.75; }
 .about-copy .lead { color: var(--ink); font-family: var(--serif); font-size: 27px; line-height: 1.4; }
-.about-portrait { margin: 4px 10px 0 0; }
-.about-portrait img { display: block; width: 100%; height: auto; border: 1px solid var(--line); box-shadow: 10px 10px 0 var(--orange); }
-.about-portrait figcaption { margin-top: 19px; color: var(--muted); font-size: 9px; font-weight: 700; line-height: 1.5; letter-spacing: .12em; text-transform: uppercase; }
 .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 55px; padding-top: 25px; border-top: 1px solid var(--line); }
 .principles strong, .principles span { display: block; }
 .principles strong { margin-bottom: 10px; font-family: var(--serif); font-size: 20px; }
@@ -185,8 +181,6 @@ h1 em, h2 em { font-weight: 400; color: var(--orange); }
   .hero-foot { display: block; }
   .hero-disciplines { margin-top: 25px; align-items: start; }
   .principles { grid-template-columns: 1fr; }
-  .about-intro { grid-template-columns: 1fr; }
-  .about-portrait { width: min(78%, 300px); margin-top: 14px; }
   .service { grid-template-columns: 34px 1fr; }
   .service-arrow { display: none; }
   .article-row { grid-template-columns: 1fr; gap: 10px; }
