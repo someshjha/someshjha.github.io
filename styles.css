@@ -238,17 +238,11 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
 .architecture-flow-note { margin: 8px 0 0; color: var(--muted); font-family: var(--sans); font-size: 12px; line-height: 1.55; }
 
 /* Legacy modernization note */
-.modernization-diagram { margin: 38px 0; padding: 24px; border: 1px solid var(--line); background: #eee8dc; font-family: var(--sans); }
-.diagram-layer { padding: 16px; border: 1px solid rgba(20,35,30,.24); background: var(--paper); }
-.diagram-layer + .diagram-layer { margin-top: 24px; }
-.diagram-layer + .diagram-layer::before { content: "↓"; display: block; height: 24px; margin-top: -41px; margin-bottom: 17px; color: var(--copper-deep); font-size: 16px; font-weight: 700; text-align: center; }
-.diagram-layer h3 { margin: 0 0 12px; color: var(--copper-deep); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; }
-.diagram-nodes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
-.diagram-nodes.five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-.diagram-node { display: grid; place-items: center; min-height: 58px; padding: 10px; border: 1px solid var(--line); background: rgba(255,255,255,.4); color: var(--ink-soft); font-size: 11px; font-weight: 650; line-height: 1.35; text-align: center; }
-.diagram-layer.accent { border-color: rgba(159,76,53,.5); background: rgba(225,122,86,.08); }
-.diagram-layer.legacy { border-style: dashed; background: rgba(20,35,30,.035); }
-.diagram-bridge { margin: 18px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; text-align: center; }
+.drawio-figure { margin: 38px 0; border: 1px solid var(--line); background: #eee8dc; font-family: var(--sans); }
+.drawio-canvas { padding: 18px; overflow-x: auto; }
+.drawio-canvas img { display: block; width: 100%; min-width: 760px; height: auto; background: #fff; }
+.drawio-figure figcaption { padding: 0 18px 18px; }
+.diagram-source-link { margin-left: 8px; color: var(--copper-deep); font-weight: 700; text-underline-offset: 3px; }
 .sequence-diagram { margin: 38px 0; border: 1px solid var(--line); background: #eee8dc; font-family: var(--sans); }
 .sequence-canvas { padding: 18px; overflow-x: auto; }
 .sequence-svg { display: block; width: 100%; min-width: 760px; height: auto; }
@@ -331,7 +325,6 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
   .article-body h2 { margin-top: 62px; }
   .article-summary { padding: 23px 20px; }
   .article-two-col, .decision-model, .framework-tradeoffs, .architecture-flow-row, .article-code-cols, .article-metrics { grid-template-columns: 1fr; }
-  .diagram-nodes, .diagram-nodes.five { grid-template-columns: 1fr; }
   .sequence-canvas { padding: 14px; }
   .article-quote { font-size: 23px; }
   .article-stages section { grid-template-columns: 1fr; gap: 8px; }
