@@ -68,9 +68,9 @@
 
       <figure class="drawio-figure" aria-labelledby="target-caption">
         <div class="drawio-canvas">
-          <img src="assets/diagrams/legacy-modernization-target.svg?v=rules-platform" loading="lazy" decoding="async" alt="Target architecture for modernizing a legacy insurance core. Channels reach business services through an API gateway and workflow orchestrator. Rating and underwriting services evaluate versioned GoRules decision graphs through Zen Engine. Services publish domain events to Kafka or Event Hub, while Sybase remains connected through CDC during transition.">
+          <img src="assets/diagrams/legacy-modernization-target.svg?v=all-services-rules" loading="lazy" decoding="async" alt="Target architecture for modernizing a legacy insurance core. Channels reach business services through an API gateway and workflow orchestrator. Rating, underwriting, policy issuance, billing and commission, and claims services all connect to the shared rules layer and evaluate versioned decision graphs through Zen Engine. Services publish domain events to Kafka or Event Hub, while Sybase remains connected through CDC during transition.">
         </div>
-        <figcaption class="architecture-flow-note" id="target-caption">Target architecture: workflow moves into services; frequently changed rules move into decision graphs managed through GoRules BRMS and evaluated through Zen Engine. <a class="diagram-source-link" href="assets/diagrams/legacy-modernization-target.drawio" download>Editable Draw.io source</a></figcaption>
+        <figcaption class="architecture-flow-note" id="target-caption">Target architecture: every business service connects to the shared rules layer. Decision graphs are governed through GoRules BRMS and evaluated through Zen Engine at the service boundary. <a class="diagram-source-link" href="assets/diagrams/legacy-modernization-target.drawio" download>Editable Draw.io source</a></figcaption>
       </figure>
 
       <div class="article-table-wrap">
