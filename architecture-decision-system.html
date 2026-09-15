@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1d19">
+  <meta name="description" content="Why architecture should preserve decisions, constraints, trade-offs, ownership, and review triggers—not only diagrams.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Architecture is a decision system, not a diagram — Somesh Jha">
+  <meta property="og:description" content="Creating alignment and preserving decision context as systems and organizations evolve.">
+  <meta property="og:url" content="https://someshjha.com/architecture-decision-system.html">
+  <link rel="canonical" href="https://someshjha.com/architecture-decision-system.html">
+  <link rel="stylesheet" href="styles.css?v=article-1">
+  <title>Architecture is a decision system, not a diagram — Somesh Jha</title>
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#article">Skip to article</a>
+
+  <header class="article-nav">
+    <div class="shell article-nav-inner">
+      <a class="brand" href="index.html" aria-label="Somesh Jha, home">
+        <span class="brand-mark" aria-hidden="true">SJ</span>
+        <span class="brand-name">Somesh Jha</span>
+      </a>
+      <a class="article-back" href="index.html#writing">← Notes from the work</a>
+    </div>
+  </header>
+
+  <main id="article">
+    <header class="article-hero">
+      <div class="article-shell">
+        <p class="eyebrow"><span></span> Point of view · Architecture practice</p>
+        <h1>Architecture is a decision system, <em>not a diagram.</em></h1>
+        <p class="article-subtitle">Creating alignment and preserving decision context as systems and organizations evolve.</p>
+        <p class="article-byline">By Somesh Jha</p>
+      </div>
+    </header>
+
+    <article class="article-body article-shell">
+      <aside class="article-summary" aria-labelledby="summary-title">
+        <p class="article-label" id="summary-title">Executive summary</p>
+        <p>Most organizations treat architecture as a set of diagrams—boxes, arrows, and lines produced for a review and then filed away. But a diagram is a snapshot: it shows the decisions a team landed on, not the constraints, trade-offs, and people behind them. When those people move on and memory fades, the picture survives. The reasoning behind it usually does not.</p>
+        <p>Teams end up re-litigating settled trade-offs, onboarding takes longer, and architectural drift goes unnoticed until it surfaces as an incident or an expensive re-platform. Architecture should instead operate as a decision system: a living, traceable record of what was decided, why, and under what conditions it should be revisited—with diagrams as one output of that system.</p>
+      </aside>
+
+      <h2>The diagram trap</h2>
+      <p class="article-lede">Diagrams are excellent at showing <em>what</em> a system looks like. They are poor at preserving <em>why</em> it looks that way.</p>
+      <p>A C4 diagram or deployment topology captures a point-in-time shape. It does not capture the alternatives that were rejected, the constraint that forced a compromise, or the budget and organizational realities that shaped the outcome. That context lives, at best, in a chat thread or a meeting nobody recorded—and at worst, only in the head of whoever made the call.</p>
+
+      <div class="article-two-col">
+        <section class="article-card">
+          <h3>What gets lost</h3>
+          <ul>
+            <li>Why option B was chosen over the apparently obvious option A</li>
+            <li>Which cost, compliance, skill, or deadline constraint forced a trade-off</li>
+            <li>What would need to change for the decision to be revisited</li>
+            <li>Who owns the decision today</li>
+          </ul>
+        </section>
+        <section class="article-card">
+          <h3>What that costs</h3>
+          <ul>
+            <li>Re-arguing decisions that were already settled</li>
+            <li>Slower onboarding for architects and engineers</li>
+            <li>Silent drift between the diagram and the running system</li>
+            <li>No defensible trail for audits, incidents, or due diligence</li>
+          </ul>
+        </section>
+      </div>
+
+      <h2>Reframing architecture as a decision system</h2>
+      <p>A decision system is an explicit, structured, evolving record of the choices that shape a system: what was decided, why, which alternatives were considered, which constraints applied, who owns the decision, and what would trigger revisiting it.</p>
+
+      <div class="decision-model" aria-label="Comparison of diagram-centric and decision-system models">
+        <section>
+          <p class="article-label">Diagram-centric</p>
+          <ol>
+            <li>Architect draws a diagram</li>
+            <li>Diagram is shared in a review</li>
+            <li>Diagram is filed away</li>
+            <li>Context disappears before the next change</li>
+          </ol>
+        </section>
+        <section>
+          <p class="article-label">Decision-system</p>
+          <ol>
+            <li>Decision is proposed with context and alternatives</li>
+            <li>Rationale and ownership are recorded</li>
+            <li>Diagrams become views of the decisions</li>
+            <li>Changes supersede decisions without erasing history</li>
+          </ol>
+        </section>
+      </div>
+
+      <p class="article-quote">In the diagram-centric model, the artifact you keep has the least information. In the decision-system model, the artifact you keep explains the system.</p>
+
+      <h2>Two audiences, one system</h2>
+      <p>The payoff shows up on both sides of the table—for the business and for engineering, in different forms.</p>
+      <div class="article-two-col">
+        <section class="article-card">
+          <h3>For the business</h3>
+          <ul>
+            <li><strong>Risk and compliance:</strong> an auditable trail of who decided what and why</li>
+            <li><strong>Cost control:</strong> avoid paying twice to relearn the same lesson</li>
+            <li><strong>Due diligence:</strong> reduce uncertainty during acquisitions, migrations, and vendor transitions</li>
+            <li><strong>Leadership onboarding:</strong> explain why the estate works as it does without relying on tribal memory</li>
+          </ul>
+        </section>
+        <section class="article-card">
+          <h3>For engineering</h3>
+          <ul>
+            <li><strong>Faster onboarding:</strong> give incoming engineers the history behind the system</li>
+            <li><strong>Less decision fatigue:</strong> keep settled trade-offs settled until evidence changes</li>
+            <li><strong>Safer change:</strong> expose the constraints a proposal would violate</li>
+            <li><strong>Better postmortems:</strong> separate accepted trade-offs from genuine blind spots</li>
+          </ul>
+        </section>
+      </div>
+
+      <h2>The anatomy of a decision system</h2>
+      <p>In practice, five parts work together.</p>
+      <div class="article-parts">
+        <section><span>01</span><div><h3>Decision records</h3><p>Capture the context, decision, alternatives, consequences, owner, and current status for choices that are hard to reverse or affect more than one team.</p></div></section>
+        <section><span>02</span><div><h3>Views</h3><p>Link C4 diagrams, sequence diagrams, and deployment maps back to the decisions that produced them.</p></div></section>
+        <section><span>03</span><div><h3>Traceability</h3><p>Connect decisions to the components, services, code, and infrastructure they affect.</p></div></section>
+        <section><span>04</span><div><h3>Governance</h3><p>Name the owner and approver, then define the event that should reopen the decision: a new initiative, detected drift, an incident, or a scheduled review.</p></div></section>
+        <section><span>05</span><div><h3>Lifecycle</h3><p>Move decisions from proposed to accepted to superseded without overwriting their history.</p></div></section>
+      </div>
+
+      <h2>Diagram-centric versus decision-system</h2>
+      <div class="article-table-wrap">
+        <table>
+          <thead><tr><th>Dimension</th><th>Diagram-centric</th><th>Decision-system</th></tr></thead>
+          <tbody>
+            <tr><td>Source of truth</td><td>The picture</td><td>The decision record</td></tr>
+            <tr><td>Change history</td><td>Overwritten</td><td>Versioned and append-only</td></tr>
+            <tr><td>Onboarding</td><td>Ask around</td><td>Documented and self-service</td></tr>
+            <tr><td>Audit and compliance</td><td>Reconstructed after the fact</td><td>Built into the record</td></tr>
+            <tr><td>Revisiting decisions</td><td>Original context is lost</td><td>Alternatives and rationale are preserved</td></tr>
+            <tr><td>Ownership</td><td>Implicit</td><td>Explicit and named</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>An operating model that works in practice</h2>
+      <ul class="article-checklist">
+        <li>Record every decision that is hard to reverse or crosses team boundaries. Keep it a lightweight habit, not a governance ceremony.</li>
+        <li>Tie diagrams to the decisions that produced them instead of maintaining standalone artifacts.</li>
+        <li>Keep one versioned, searchable decision log alongside the systems it describes.</li>
+        <li>Review decisions when an event warrants it: a major initiative, detected drift, an incident, or a periodic architecture review.</li>
+        <li>Give every decision a named owner and a clear supersedes or superseded-by chain.</li>
+        <li>Ask new team members to read the decision log before they read the diagram.</li>
+      </ul>
+
+      <h2>Anti-patterns to avoid</h2>
+      <ul class="article-anti-list">
+        <li>A “diagram of record” that lives in one person’s head or an unmaintained slide deck</li>
+        <li>Decision records written once at kickoff and never revisited or marked superseded</li>
+        <li>Decisions with no named owner</li>
+        <li>Architecture review treated as a one-time gate instead of an ongoing practice</li>
+        <li>Confusing an outdated diagram with a wrong decision</li>
+      </ul>
+
+      <h2>Getting started</h2>
+      <div class="article-stages">
+        <section><span>Crawl</span><h3>Record the consequential choices</h3><p>Adopt one lightweight template: context, decision, alternatives, consequences, owner, and status. Store each record beside the code or in a linked, versioned repository.</p></section>
+        <section><span>Walk</span><h3>Connect decisions to the system</h3><p>Link diagrams to their decision records, assign owners by architectural domain, and build a traceable supersession history.</p></section>
+        <section><span>Run</span><h3>Use history as operating data</h3><p>Make decisions searchable across teams and connect them to incident and observability data so drift becomes visible.</p></section>
+      </div>
+
+      <footer class="article-closing">
+        <p class="article-quote">A diagram tells you what a system looks like today. A decision system tells you why it looks that way, what was rejected, and what it would take to change it.</p>
+        <p><strong>A note on tooling.</strong> This is the thinking behind Archavow, my local-first architecture workbench: decisions—not diagrams—are treated as the source of truth, with views kept traceable to the reasoning that produced them.</p>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="article-site-footer">
+    <div class="shell"><p>© 2026 Somesh Jha</p><a href="index.html#writing">More notes from the work →</a></div>
+  </footer>
+</body>
+</html>
