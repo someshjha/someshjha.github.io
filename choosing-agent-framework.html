@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1d19">
+  <meta name="description" content="A practical framework for choosing an agent orchestration platform, with a recommendation for durable, observable workflows.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Choosing an agent framework — Somesh Jha">
+  <meta property="og:description" content="Why durable execution, explicit state, and operational traceability led me to LangGraph.">
+  <meta property="og:url" content="https://someshjha.com/choosing-agent-framework.html">
+  <link rel="canonical" href="https://someshjha.com/choosing-agent-framework.html">
+  <link rel="stylesheet" href="styles.css?v=agent-framework">
+  <title>Choosing an agent framework — Somesh Jha</title>
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#article">Skip to article</a>
+
+  <header class="article-nav">
+    <div class="shell article-nav-inner">
+      <a class="brand" href="index.html" aria-label="Somesh Jha, home">
+        <span class="brand-mark" aria-hidden="true">SJ</span>
+        <span class="brand-name">Somesh Jha</span>
+      </a>
+      <a class="article-back" href="index.html#writing">← Notes from the work</a>
+    </div>
+  </header>
+
+  <main id="article">
+    <header class="article-hero">
+      <div class="article-shell">
+        <p class="eyebrow"><span></span> Point of view · Applied AI</p>
+        <h1>Choosing an <em>agent framework.</em></h1>
+        <p class="article-subtitle">Why durable execution, explicit state, and operational traceability led me to LangGraph.</p>
+        <p class="article-byline">By Somesh Jha</p>
+      </div>
+    </header>
+
+    <article class="article-body article-shell">
+      <aside class="article-summary" aria-labelledby="summary-title">
+        <p class="article-label" id="summary-title">The recommendation</p>
+        <p>For production systems with long-running workflows, human approval, and meaningful recovery requirements, I would start with LangGraph. The recommendation is not based on how quickly it produces a demo. It is based on whether the execution model remains understandable when the workflow branches, pauses, fails, and resumes.</p>
+        <p>That choice carries a cost: teams must define state, transitions, and failure behaviour earlier. For small assistants that call one or two tools, a lighter SDK may be the better decision.</p>
+      </aside>
+
+      <h2>The problem this decision solves</h2>
+      <p class="article-lede">Most frameworks can demonstrate a chatbot that calls tools. Far fewer remain dependable once work must survive a restart, pause for approval, and leave an operational record.</p>
+      <p>The frameworks in this comparison optimize for different problems. Some favour rapid prototypes, some conversational collaboration between agents, and others close integration with a model or cloud platform. The useful question is not which framework has the most momentum. It is which execution model fits the system you are responsible for operating.</p>
+
+      <h2>Evaluation criteria</h2>
+      <div class="article-parts">
+        <section><span>01</span><div><h3>State and durability</h3><p>Can a workflow checkpoint, recover after a failure, and resume without reconstructing its state by hand?</p></div></section>
+        <section><span>02</span><div><h3>Observability</h3><p>Can operators trace node transitions, tool calls, decisions, latency, and failure paths?</p></div></section>
+        <section><span>03</span><div><h3>Control model</h3><p>Are agents composed through explicit graphs, role-based crews, conversations, or hand-offs—and does that model fit the work?</p></div></section>
+        <section><span>04</span><div><h3>Model portability</h3><p>Can the platform change models without requiring the application to be redesigned?</p></div></section>
+        <section><span>05</span><div><h3>Human intervention</h3><p>Can execution pause at a defined point, present context for approval, and resume cleanly?</p></div></section>
+        <section><span>06</span><div><h3>Deployment fit</h3><p>Can the runtime be operated as an ordinary service inside the organization’s existing infrastructure and controls?</p></div></section>
+      </div>
+
+      <h2>The field</h2>
+      <p>The following is a practical positioning of the main options I considered. Framework capabilities move quickly, so each choice should be validated against the current product and deployment requirements before procurement.</p>
+      <div class="framework-list">
+        <section class="framework-card selected">
+          <div class="framework-head"><h3>LangGraph</h3><span>Recommended for controlled workflows</span></div>
+          <p>Agents, tools, checkpoints, and approval steps are represented as nodes in a directed graph. Conditional edges make control flow explicit and reviewable.</p>
+          <div class="framework-tradeoffs">
+            <div><h4>Strengths</h4><ul><li>Explicit state and execution paths</li><li>Durable checkpoints and resumable workflows</li><li>Native interrupt points for human review</li><li>Model-provider flexibility</li><li>Detailed per-node tracing</li></ul></div>
+            <div><h4>Trade-offs</h4><ul><li>Requires state and graph design up front</li><li>Higher learning curve than role-based tools</li><li>More machinery than a small assistant needs</li><li>Nodes must be designed for safe re-execution</li></ul></div>
+          </div>
+        </section>
+        <section class="framework-card">
+          <div class="framework-head"><h3>CrewAI</h3><span>Role-based crews</span></div>
+          <p>A direct way to express agents as roles with goals, tools, and delegated tasks. It is approachable for business-process prototypes and smaller multi-agent workflows.</p>
+          <div class="framework-tradeoffs">
+            <div><h4>Strengths</h4><ul><li>Low barrier to a working prototype</li><li>Intuitive role and task model</li><li>Model-provider flexibility</li></ul></div>
+            <div><h4>Trade-offs</h4><ul><li>Less explicit control over complex branching</li><li>Durability requires more deliberate design</li><li>Operational behaviour can become implicit as workflows grow</li></ul></div>
+          </div>
+        </section>
+        <section class="framework-card">
+          <div class="framework-head"><h3>Microsoft Agent Framework</h3><span>Microsoft ecosystem</span></div>
+          <p>A natural candidate for teams invested in Microsoft’s application and cloud stack, particularly where Python and .NET interoperability matters.</p>
+          <div class="framework-tradeoffs">
+            <div><h4>Strengths</h4><ul><li>Strong enterprise integration story</li><li>Python and .NET support</li><li>Good fit for Azure-standardized teams</li></ul></div>
+            <div><h4>Trade-offs</h4><ul><li>Most value is realized inside the Microsoft ecosystem</li><li>Conversation-led state can be harder to audit than an explicit graph</li><li>Teams should confirm current maturity for their use case</li></ul></div>
+          </div>
+        </section>
+        <section class="framework-card">
+          <div class="framework-head"><h3>OpenAI Agents SDK</h3><span>Handoffs and tools</span></div>
+          <p>A concise, opinionated model for tools, guardrails, tracing, and hand-offs between agents. It suits teams that want a direct path on the OpenAI platform.</p>
+          <div class="framework-tradeoffs">
+            <div><h4>Strengths</h4><ul><li>Fast path from idea to working agent</li><li>Clear hand-off model</li><li>Built-in tracing and guardrail primitives</li></ul></div>
+            <div><h4>Trade-offs</h4><ul><li>Tighter coupling to one model platform</li><li>Durable application state remains an architectural responsibility</li><li>Hand-offs are less expressive than graphs for complex branches</li></ul></div>
+          </div>
+        </section>
+        <section class="framework-card">
+          <div class="framework-head"><h3>Google ADK</h3><span>Google Cloud ecosystem</span></div>
+          <p>A code-first framework aligned with Gemini and Vertex AI, with useful multimodal and agent-interoperability capabilities.</p>
+          <div class="framework-tradeoffs">
+            <div><h4>Strengths</h4><ul><li>Strong multimodal capabilities</li><li>Good fit for Vertex AI deployments</li><li>Support for agent interoperability patterns</li></ul></div>
+            <div><h4>Trade-offs</h4><ul><li>Best fit is within Google Cloud</li><li>Teams should validate operational maturity for their workload</li><li>Less compelling for a cloud-neutral platform</li></ul></div>
+          </div>
+        </section>
+        <section class="framework-card">
+          <div class="framework-head"><h3>Claude Agent SDK</h3><span>Anthropic ecosystem</span></div>
+          <p>A focused SDK for Claude-based agents, tool use, and context management. It is most attractive when Claude is an intentional platform commitment.</p>
+          <div class="framework-tradeoffs">
+            <div><h4>Strengths</h4><ul><li>Strong tool-use model</li><li>Natural fit for Claude-centred applications</li><li>Useful integration with MCP-based tools</li></ul></div>
+            <div><h4>Trade-offs</h4><ul><li>Coupled to the Claude model platform</li><li>Durable orchestration still needs deliberate design</li><li>Less direct for complex graph topologies</li></ul></div>
+          </div>
+        </section>
+      </div>
+
+      <h2>Side by side</h2>
+      <div class="article-table-wrap">
+        <table>
+          <thead><tr><th>Option</th><th>Control model</th><th>Best fit</th><th>Primary concern</th></tr></thead>
+          <tbody>
+            <tr><td>LangGraph</td><td>Directed graph</td><td>Durable, branching workflows</td><td>Up-front design effort</td></tr>
+            <tr><td>CrewAI</td><td>Role-based crew</td><td>Fast multi-agent prototypes</td><td>Implicit behaviour at scale</td></tr>
+            <tr><td>Microsoft Agent Framework</td><td>Agents and conversations</td><td>Microsoft-aligned estates</td><td>Ecosystem dependence</td></tr>
+            <tr><td>OpenAI Agents SDK</td><td>Agent hand-offs</td><td>OpenAI-centred products</td><td>Platform coupling</td></tr>
+            <tr><td>Google ADK</td><td>Agent hierarchy</td><td>Gemini and Vertex AI</td><td>Cloud fit</td></tr>
+            <tr><td>Claude Agent SDK</td><td>Agent and tool loop</td><td>Claude-centred products</td><td>Platform coupling</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Why LangGraph</h2>
+      <div class="article-parts">
+        <section><span>01</span><div><h3>The graph is inspectable</h3><p>The topology exposes nodes, edges, and conditional branches directly. An architect can review the control flow in the code instead of reverse-engineering it from prompts and conversation history.</p></div></section>
+        <section><span>02</span><div><h3>Recovery is part of the model</h3><p>A checkpointer records state between nodes so a long-running workflow can resume after interruption. Replay is not deterministic reproduction: nodes after the selected checkpoint execute again, so idempotency still matters.</p></div></section>
+        <section><span>03</span><div><h3>Operations can see each step</h3><p>Per-node traces make tool calls, branches, interrupts, latency, and errors visible as distinct events instead of one opaque application request.</p></div></section>
+        <section><span>04</span><div><h3>The model provider remains replaceable</h3><p>The orchestration layer can work across providers and local models, reducing the cost of changing the model behind a workflow.</p></div></section>
+      </div>
+      <p class="article-quote">The extra design work is not overhead when the workflow is consequential. It is where the operating model becomes explicit.</p>
+
+      <h2>Reference architecture</h2>
+      <p>The framework should sit inside normal production controls, not beside them. A typical deployment keeps orchestration, state, telemetry, events, and downstream tools as separate operational concerns.</p>
+      <div class="architecture-flow" aria-label="Reference architecture for a production agent workflow">
+        <div class="architecture-flow-row"><div class="architecture-node">Client or API request</div><div class="architecture-node">FastAPI gateway</div><div class="architecture-node primary">LangGraph orchestrator</div></div>
+        <div class="architecture-flow-row"><div class="architecture-node primary">Router: model reasoning · tool call · human approval</div></div>
+        <div class="architecture-flow-row"><div class="architecture-node">Postgres checkpointer</div><div class="architecture-node">OpenTelemetry and dashboards</div><div class="architecture-node">Kafka and downstream services</div></div>
+      </div>
+      <p class="architecture-flow-note">Every node transition should emit a trace span. The checkpointer preserves workflow state; it does not remove the need for idempotent tools and explicit failure handling.</p>
+
+      <h2>Adoption checklist</h2>
+      <ul class="article-checklist">
+        <li>Map the graph before implementation: nodes, edges, decisions, and interrupt points.</li>
+        <li>Design the state schema and reducers with the same care as an event contract.</li>
+        <li>Choose and size the checkpoint store for concurrent, long-running sessions.</li>
+        <li>Add tracing before the first pilot so failure paths are visible from day one.</li>
+        <li>Pause by default before financial, irreversible, or customer-facing actions.</li>
+        <li>Load-test failure branches, including termination during node execution.</li>
+        <li>Pilot one bounded workflow before generalizing the pattern across teams.</li>
+      </ul>
+
+      <footer class="article-closing">
+        <p class="article-quote">Choose the framework whose failure and recovery model you are prepared to operate—not the one that produces the fastest demo.</p>
+        <p><strong>A note on timing.</strong> Agent frameworks change quickly. This comparison reflects the architectural trade-offs considered at the time of writing; product capabilities, deployment options, and commercial terms should be revalidated before a final platform decision.</p>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="article-site-footer">
+    <div class="shell"><p>© 2026 Somesh Jha</p><a href="index.html#writing">More notes from the work →</a></div>
+  </footer>
+</body>
+</html>
