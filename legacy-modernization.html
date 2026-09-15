@@ -10,7 +10,7 @@
   <meta property="og:description" content="Extracting buried business rules through incremental, evidence-led migration.">
   <meta property="og:url" content="https://someshjha.com/legacy-modernization.html">
   <link rel="canonical" href="https://someshjha.com/legacy-modernization.html">
-  <link rel="stylesheet" href="styles.css?v=drawio-target">
+  <link rel="stylesheet" href="styles.css?v=rules-platform">
   <title>Modernizing a legacy insurance core — Somesh Jha</title>
 </head>
 <body class="article-page">
@@ -40,7 +40,7 @@
       <aside class="article-summary" aria-labelledby="summary-title">
         <p class="article-label" id="summary-title">Executive summary</p>
         <p>Long-running insurance platforms often hold rating, billing, claims, and commission logic inside thousands of stored procedures. That is not only a database problem. It makes routine product and regulatory changes dependent on a small number of specialists and on logic that is difficult to test or explain.</p>
-        <p>The objective is not simply to replace Sybase—or another legacy database—with a newer database. It is to make the decisions embedded in that estate explicit, testable, versioned, and accessible through well-defined services. The safest route is an incremental strangler migration supported by change data capture, shadow execution, and evidence-based cutover criteria.</p>
+        <p>The objective is not simply to replace Sybase—or another legacy database—with a newer database. It is to make orchestration explicit in services and move frequently changed pricing and underwriting decisions into governed, versioned decision graphs. The safest route is an incremental strangler migration supported by change data capture, shadow execution, and evidence-based cutover criteria.</p>
       </aside>
 
       <h2>The legacy reality in insurance</h2>
@@ -64,17 +64,32 @@
       <p class="article-quote">The work is not to migrate the database. It is to migrate the business decisions the database has been making on the insurer’s behalf.</p>
 
       <h2>Target-state architecture</h2>
-      <p>The target state separates channels, orchestration, business services, events, and data. Rules leave stored procedures and become named services with explicit contracts and test suites. The legacy core remains available as a source during transition, but its responsibility shrinks domain by domain.</p>
+      <p>The target state separates channels, orchestration, business services, rules, events, and data. Services own workflow and data access; a rules layer owns pricing, underwriting, and eligibility decisions that change frequently or require business approval. The legacy core remains available during transition, but its responsibility shrinks domain by domain.</p>
 
       <figure class="drawio-figure" aria-labelledby="target-caption">
         <div class="drawio-canvas">
-          <img src="assets/diagrams/legacy-modernization-target.svg?v=light" width="1159" height="803" loading="lazy" decoding="async" alt="Target architecture for modernizing a legacy insurance core: distribution channels flow through an API gateway and workflow orchestrator into rating, underwriting, policy issuance, billing, commission, and claims services. Services publish domain events to Kafka or Event Hub, which feeds modern operational and analytical data stores. Sybase remains temporarily connected through CDC, dual-write, and business-rule extraction paths.">
+          <img src="assets/diagrams/legacy-modernization-target.svg?v=rules-platform" loading="lazy" decoding="async" alt="Target architecture for modernizing a legacy insurance core. Channels reach business services through an API gateway and workflow orchestrator. Rating and underwriting services evaluate versioned GoRules decision graphs through Zen Engine. Services publish domain events to Kafka or Event Hub, while Sybase remains connected through CDC during transition.">
         </div>
-        <figcaption class="architecture-flow-note" id="target-caption">Draw.io target architecture: business services connected through an event backbone, with the legacy core retained as a controlled transition source. <a class="diagram-source-link" href="assets/diagrams/legacy-modernization-target.drawio" download>Editable source</a></figcaption>
+        <figcaption class="architecture-flow-note" id="target-caption">Target architecture: workflow moves into services; frequently changed rules move into decision graphs managed through GoRules BRMS and evaluated through Zen Engine. <a class="diagram-source-link" href="assets/diagrams/legacy-modernization-target.drawio" download>Editable Draw.io source</a></figcaption>
       </figure>
 
+      <div class="article-table-wrap">
+        <table>
+          <thead><tr><th>Legacy responsibility</th><th>Modern home</th><th>Reason for the move</th></tr></thead>
+          <tbody>
+            <tr><td>Workflow and orchestration in stored procedures</td><td>Spring Boot or FastAPI business services</td><td>Versioned, testable logic with an explicit service contract</td></tr>
+            <tr><td>Rating, underwriting, and eligibility rules</td><td>GoRules JDM decision graphs, managed in BRMS and evaluated by Zen Engine</td><td>Governed rule changes without coupling every change to an application release</td></tr>
+            <tr><td>Nightly batch chains</td><td>Kafka or Event Hub with stream processing</td><td>Domain events become available without an overnight delay</td></tr>
+            <tr><td>Linked-server integration</td><td>REST or gRPC APIs behind a gateway</td><td>Consumers no longer depend on physical database schemas</td></tr>
+            <tr><td>Sybase ASE transactional storage</td><td>Managed PostgreSQL or an equivalent operational store</td><td>A supported platform with standard tooling and an open ecosystem</td></tr>
+            <tr><td>Reporting queries on the transactional core</td><td>A separate analytical store fed through CDC</td><td>Reporting load no longer competes with policy transactions</td></tr>
+            <tr><td>Manual regression comparison</td><td>Contract tests and golden-file rule tests</td><td>Changes can be assessed against known legacy outcomes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <h2>From stored procedure to business service</h2>
-      <p>The central modernization task is to turn anonymous procedural logic into named rules with explicit inputs, outputs, ownership, tests, and an explanation of why the rule exists.</p>
+      <p>The central modernization task is to separate workflow from decision logic. Services should retain orchestration and data access. Rules that change frequently or require actuarial or underwriting approval should become named, versioned decision graphs with explicit inputs, outputs, tests, and ownership.</p>
 
       <div class="article-code-cols">
         <section>
@@ -103,374 +118,73 @@ BEGIN
 END</code></pre>
         </section>
         <section>
-          <p class="article-code-label">Modern · rating service</p>
+          <p class="article-code-label">Modern · service evaluates a published decision</p>
           <pre class="article-code"><code>@Service
 class PremiumRatingService {
+  private final RateTableRepository rates;
+  private final ZenEngine rules;
+
   PremiumQuote calculate(PolicyContext ctx) {
-    var base = rateTable
-        .findLiabilityRate(ctx.state());
+    var base = rates.findLiabilityRate(ctx.state());
+    var input = Map.of(
+        "driverAge", ctx.driverAge(),
+        "baseRate", base,
+        "state", ctx.state());
 
-    var surcharge = ageSurchargeRule
-        .apply(ctx.driverAge(), base);
+    var result = rules.evaluate(
+        surchargeDecisionId, input);
 
-    return new PremiumQuote(
-        ctx.policyId(),
-        base,
-        surcharge,
-        ageSurchargeRule.explain());
-  }
-}
-
-class AgeSurchargeRule {
-  BigDecimal apply(int age, BigDecimal base) {
-    if (age &lt; 25) return base.multiply(YOUNG_DRIVER);
-    if (age &gt; 70) return base.multiply(SENIOR_DRIVER);
-    return BigDecimal.ZERO;
+    return PremiumQuote.from(
+        ctx.policyId(), base, result);
   }
 }</code></pre>
         </section>
       </div>
 
+      <p class="article-note">The Java example illustrates the boundary: a configuration-driven decision identifier, an engine call, and a typed result. Exact SDK signatures should be confirmed against the version selected for implementation.</p>
+
+      <p class="article-code-label">Decision location and environment are configuration</p>
+      <pre class="article-code article-code-wide"><code>rules:
+  engine:
+    mode: agent
+    agent-url: https://rules-agent.internal.example
+    project: auto-policy-rating
+    environment: ${DEPLOY_ENV:PROD}
+  premium-surcharge:
+    decision: auto/liability/age-surcharge
+    version: latest-published</code></pre>
+
+      <p>The age brackets and surcharge percentages are authored and tested as a decision table. GoRules stores the published model as JDM JSON; business users work through the management interface rather than editing this representation directly.</p>
+
+      <p class="article-code-label">Conceptual decision table output</p>
+      <pre class="article-code article-code-wide"><code>{
+  "rules": [
+    { "driverAge": "&lt; 25",   "surcharge": "baseRate * 0.35" },
+    { "driverAge": "&gt; 70",   "surcharge": "baseRate * 0.15" },
+    { "driverAge": "[25..70]", "surcharge": "0" }
+  ]
+}</code></pre>
+
       <div class="article-two-col">
-        <section class="article-card"><h3>What becomes explicit</h3><ul><li>The rule has a name, owner, version, and unit tests</li><li>Inputs and outputs are defined by a service contract</li><li>The result carries a trace explaining how it was calculated</li><li>Jurisdictional variants become configuration or strategies</li></ul></section>
-        <section class="article-card"><h3>What stops being implicit</h3><ul><li>No hidden update side effect inside a calculation</li><li>No downstream dependency on a database trigger</li><li>No shared-table coupling to the physical schema</li><li>No need to infer the rule from procedural code alone</li></ul></section>
+        <section class="article-card"><h3>What becomes explicit</h3><ul><li>Every decision has a stable identifier, owner, version, and test suite</li><li>The service contract defines the required context and returned result</li><li>The rule version is retained with the quote for audit and diagnosis</li><li>Product and jurisdiction variants are managed deliberately</li></ul></section>
+        <section class="article-card"><h3>What leaves application code</h3><ul><li>Age bands, thresholds, and surcharge calculations that change often</li><li>Copy-pasted rule branches across services or stored procedures</li><li>Hidden database updates inside a calculation</li><li>Release dependencies for routine approved rule changes</li></ul></section>
       </div>
 
       <h2>Migration strategy: strangler pattern and CDC</h2>
       <p>A big-bang rewrite concentrates technical, operational, and regulatory risk into one cutover. A safer approach moves one bounded capability at a time, compares its output against the legacy path, and retires the old responsibility only after agreed evidence is met.</p>
 
-      <figure class="sequence-diagram" aria-labelledby="sequence-caption">
-        <div class="sequence-canvas">
-          <svg class="sequence-svg" viewBox="0 0 900 550" role="img" aria-labelledby="sequence-title sequence-desc">
-            <title id="sequence-title">Shadow-mode cutover sequence</title>
-            <desc id="sequence-desc">A premium quote request moves from the client through the gateway to the new rating service. The modern result is compared with the legacy core through change data capture and Kafka before a traced response is returned.</desc>
-            <defs>
-              <marker id="sequence-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
-              </marker>
-            </defs>
-
-            <rect class="actor-box" x="20" y="18" width="140" height="52"></rect>
-            <rect class="actor-box" x="190" y="18" width="140" height="52"></rect>
-            <rect class="actor-box active" x="370" y="18" width="140" height="52"></rect>
-            <rect class="actor-box" x="550" y="18" width="140" height="52"></rect>
-            <rect class="actor-box" x="740" y="18" width="140" height="52"></rect>
-            <text class="actor-label" x="90" y="49">Agent / API client</text>
-            <text class="actor-label" x="260" y="49">API gateway</text>
-            <text class="actor-label" x="440" y="42"><tspan x="440">New rating</tspan><tspan x="440" dy="15">service</tspan></text>
-            <text class="actor-label" x="620" y="42"><tspan x="620">Legacy Sybase</tspan><tspan x="620" dy="15">core</tspan></text>
-            <text class="actor-label" x="810" y="42"><tspan x="810">CDC and</tspan><tspan x="810" dy="15">Kafka</tspan></text>
-
-            <line class="lifeline" x1="90" y1="70" x2="90" y2="530"></line>
-            <line class="lifeline" x1="260" y1="70" x2="260" y2="530"></line>
-            <line class="lifeline" x1="440" y1="70" x2="440" y2="530"></line>
-            <line class="lifeline" x1="620" y1="70" x2="620" y2="530"></line>
-            <line class="lifeline" x1="810" y1="70" x2="810" y2="530"></line>
-
-            <text class="step-number" x="28" y="111">01</text>
-            <text class="message-label" x="175" y="104">Premium quote request</text>
-            <line class="message" x1="92" y1="116" x2="256" y2="116"></line>
-
-            <text class="step-number" x="198" y="166">02</text>
-            <text class="message-label" x="350" y="159">Route to modern path</text>
-            <line class="message" x1="262" y1="171" x2="436" y2="171"></line>
-
-            <text class="step-number" x="378" y="221">03</text>
-            <text class="message-label" x="546" y="214">Apply rules and create trace</text>
-            <path class="message" d="M 442 226 H 535 V 258 H 446"></path>
-
-            <text class="step-number" x="378" y="300">04</text>
-            <text class="message-label" x="530" y="293">Shadow write for comparison</text>
-            <line class="message return" x1="442" y1="305" x2="616" y2="305"></line>
-
-            <text class="step-number" x="558" y="355">05</text>
-            <text class="message-label" x="715" y="348">Legacy change stream</text>
-            <line class="message" x1="622" y1="360" x2="806" y2="360"></line>
-
-            <text class="step-number" x="748" y="410">06</text>
-            <text class="message-label" x="625" y="403">Reconcile outputs and variance</text>
-            <line class="message return" x1="808" y1="415" x2="444" y2="415"></line>
-
-            <text class="step-number" x="378" y="465">07</text>
-            <text class="message-label" x="350" y="458">Quote and rule trace</text>
-            <line class="message return" x1="438" y1="470" x2="264" y2="470"></line>
-
-            <text class="step-number" x="198" y="520">08</text>
-            <text class="message-label" x="175" y="513">Approved response</text>
-            <line class="message return" x1="258" y1="525" x2="94" y2="525"></line>
-          </svg>
-        </div>
-        <figcaption class="architecture-flow-note" id="sequence-caption">Shadow-mode cutover: the modern path serves or observes traffic while output is reconciled against the legacy system before retirement.</figcaption>
-      </figure>
-
-      <h2>The five phases</h2>
-      <div class="article-phases">
-        <section class="article-phase"><span>1</span><div><small>Discovery and rule mining · 6–10 weeks</small><h3>Inventory the stored-procedure estate</h3><p>Build a dependency graph and classify procedures as data access, business-rule-bearing, or unused. Rank them by business criticality, change frequency, and blast radius.</p></div></section>
-        <section class="article-phase"><span>2</span><div><small>Foundation · 8–12 weeks</small><h3>Establish the event and synchronization layer</h3><p>Stand up the event backbone, historical backfill, CDC pipeline, observability, and reconciliation patterns needed to operate both estates during transition.</p></div></section>
-        <section class="article-phase"><span>3</span><div><small>Incremental extraction · By domain</small><h3>Extract one bounded capability</h3><p>Start with a high-value, constrained slice—for example, rating for one product and jurisdiction. Rebuild it as a tested service and expose it behind a controlled routing boundary.</p></div></section>
-        <section class="article-phase"><span>4</span><div><small>Parallel run and validation · 4–8 weeks per domain</small><h3>Prove equivalence before cutover</h3><p>Run legacy and modern paths against production inputs. Investigate differences and obtain actuarial, compliance, and operational sign-off against explicit acceptance criteria.</p></div></section>
-        <section class="article-phase"><span>5</span><div><small>Decommission · Rolling</small><h3>Retire responsibility from the legacy core</h3><p>Disable and archive the superseded procedures, remove the CDC feed when it is no longer needed, and report the remaining legacy surface after every release.</p></div></section>
-      </div>
-
-      <h2>Risks and controls</h2>
-      <div class="article-table-wrap">
-        <table>
-          <thead><tr><th>Risk</th><th>Control</th></tr></thead>
-          <tbody>
-            <tr><td>A rare rule is discovered late</td><td>Use shadow reconciliation before retirement and retain a controlled rollback path through an agreed audit cycle</td></tr>
-            <tr><td>Performance regresses on the new stack</td><td>Load-test every extracted service at production-equivalent volume before traffic moves</td></tr>
-            <tr><td>Data diverges during parallel operation</td><td>Monitor CDC lag, reconcile business outcomes, and alert on variance beyond the agreed threshold</td></tr>
-            <tr><td>Regulatory evidence is incomplete</td><td>Version every extracted rule and retain its calculation trace, approval, and effective date</td></tr>
-            <tr><td>Legacy intent is misunderstood</td><td>Pair domain experts and legacy specialists with the engineers performing extraction; record intent in decision records</td></tr>
-            <tr><td>The program loses momentum</td><td>Release domain by domain and report business outcomes rather than waiting for a full-platform launch</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2>Governance: preserve the reason</h2>
-      <p>The migration is difficult because years of decisions were embedded in code without durable context. Rebuilding the rules in a modern language without recording their purpose only recreates the same risk. Each extracted rule should be paired with a concise decision record: what it does, why it exists, who owns it, the source of authority, and the condition under which it should be reviewed.</p>
-
-      <h2>What good looks like</h2>
-      <div class="article-metrics">
-        <div class="article-metric"><strong>Weeks → days</strong><span>Time required to implement and validate a rate or rule change</span></div>
-        <div class="article-metric"><strong>Named ownership</strong><span>Every consequential business rule has a versioned owner and source of authority</span></div>
-        <div class="article-metric"><strong>Agreed variance</strong><span>Shadow-mode acceptance thresholds are defined with actuarial and compliance stakeholders</span></div>
-        <div class="article-metric"><strong>Shrinking legacy surface</strong><span>Remaining procedures, jobs, and integrations decline after each domain release</span></div>
-      </div>
-
-      <h2>Where to start</h2>
-      <ul class="article-checklist">
-        <li>Inventory procedures and triggers; produce a dependency graph and business-criticality ranking.</li>
-        <li>Select one high-value domain with a contained blast radius.</li>
-        <li>Define the event, CDC, reconciliation, and rollback patterns before moving live traffic.</li>
-        <li>Build tests from real historical inputs and outputs of the legacy procedure.</li>
-        <li>Run in shadow mode and investigate every material variance.</li>
-        <li>Pair legacy specialists with engineers and capture rule intent in decision records.</li>
-        <li>Track the remaining legacy surface as a program-level measure after every release.</li>
-      </ul>
-
-      <footer class="article-closing">
-        <p class="article-quote">Getting off Sybase is an outcome. The real goal is to make the insurer’s business logic visible, testable, and safe to change.</p>
-        <p><strong>Scope.</strong> The architecture, code, timelines, and measures in this note are illustrative. A modernization plan should be grounded in the insurer’s actual product rules, regulatory obligations, operating model, and legacy dependencies.</p>
-      </footer>
-    </article>
-  </main>
-
-  <footer class="article-site-footer">
-    <div class="shell"><p>© 2026 Somesh Jha</p><a href="index.html#writing">More notes from the work →</a></div>
-  </footer>
-</body>
-</html>
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0f1d19">
-  <meta name="description" content="A practical approach to extracting business rules from a legacy insurance core and moving toward an event-driven, cloud-native platform.">
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="Modernizing a legacy insurance core — Somesh Jha">
-  <meta property="og:description" content="Extracting buried business rules through incremental, evidence-led migration.">
-  <meta property="og:url" content="https://someshjha.com/legacy-modernization.html">
-  <link rel="canonical" href="https://someshjha.com/legacy-modernization.html">
-  <link rel="stylesheet" href="styles.css?v=drawio-target">
-  <title>Modernizing a legacy insurance core — Somesh Jha</title>
-</head>
-<body class="article-page">
-  <a class="skip-link" href="#article">Skip to article</a>
-
-  <header class="article-nav">
-    <div class="shell article-nav-inner">
-      <a class="brand" href="index.html" aria-label="Somesh Jha, home">
-        <span class="brand-mark" aria-hidden="true">SJ</span>
-        <span class="brand-name">Somesh Jha</span>
-      </a>
-      <a class="article-back" href="index.html#writing">← Notes from the work</a>
-    </div>
-  </header>
-
-  <main id="article">
-    <header class="article-hero">
-      <div class="article-shell">
-        <p class="eyebrow"><span></span> Point of view · Legacy modernization</p>
-        <h1>Modernizing a legacy <em>insurance core.</em></h1>
-        <p class="article-subtitle">Extracting buried business rules through incremental, evidence-led migration.</p>
-        <p class="article-byline">By Somesh Jha <span aria-hidden="true">·</span> <time datetime="2026-09">September 2026</time></p>
-      </div>
-    </header>
-
-    <article class="article-body article-shell">
-      <aside class="article-summary" aria-labelledby="summary-title">
-        <p class="article-label" id="summary-title">Executive summary</p>
-        <p>Long-running insurance platforms often hold rating, billing, claims, and commission logic inside thousands of stored procedures. That is not only a database problem. It makes routine product and regulatory changes dependent on a small number of specialists and on logic that is difficult to test or explain.</p>
-        <p>The objective is not simply to replace Sybase—or another legacy database—with a newer database. It is to make the decisions embedded in that estate explicit, testable, versioned, and accessible through well-defined services. The safest route is an incremental strangler migration supported by change data capture, shadow execution, and evidence-based cutover criteria.</p>
-      </aside>
-
-      <h2>The legacy reality in insurance</h2>
-      <p class="article-lede">In an insurance core, the product is largely a rules engine: rating tables, underwriting criteria, rounding conventions, jurisdictional variations, commission schedules, and endorsement calculations.</p>
-      <p>Over many years, those rules accumulate across procedures, triggers, views, and batch chains. The precise scale varies by organization, but the operating pattern is familiar: business logic is distributed and poorly documented, batch sequencing is tightly coupled, integration occurs through shared tables, and regression confidence depends on people rather than repeatable tests.</p>
-
-      <div class="article-table-wrap">
-        <table>
-          <thead><tr><th>Characteristic</th><th>Common legacy condition</th></tr></thead>
-          <tbody>
-            <tr><td>Business logic</td><td>Distributed across procedures, triggers, and views with incomplete documentation</td></tr>
-            <tr><td>Rating and underwriting</td><td>Conditional logic duplicated by jurisdiction or product, with gradual drift</td></tr>
-            <tr><td>Processing</td><td>Nightly policy, billing, and commission jobs with strict sequencing</td></tr>
-            <tr><td>Integration</td><td>Direct database links rather than stable service contracts</td></tr>
-            <tr><td>Change confidence</td><td>Slow regression cycles because automated coverage is limited</td></tr>
-            <tr><td>Knowledge</td><td>A small number of specialists understand critical procedures</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="article-quote">The work is not to migrate the database. It is to migrate the business decisions the database has been making on the insurer’s behalf.</p>
-
-      <h2>Target-state architecture</h2>
-      <p>The target state separates channels, orchestration, business services, events, and data. Rules leave stored procedures and become named services with explicit contracts and test suites. The legacy core remains available as a source during transition, but its responsibility shrinks domain by domain.</p>
-
-      <figure class="drawio-figure" aria-labelledby="target-caption">
+      <figure class="drawio-figure" aria-labelledby="sequence-caption">
         <div class="drawio-canvas">
-          <img src="assets/diagrams/legacy-modernization-target.svg" width="1159" height="803" loading="lazy" decoding="async" alt="Target architecture for modernizing a legacy insurance core: distribution channels flow through an API gateway and workflow orchestrator into rating, underwriting, policy issuance, billing, commission, and claims services. Services publish domain events to Kafka or Event Hub, which feeds modern operational and analytical data stores. Sybase remains temporarily connected through CDC, dual-write, and business-rule extraction paths.">
+          <img src="assets/diagrams/legacy-modernization-sequence.svg?v=rules-platform" loading="lazy" decoding="async" alt="Shadow-mode cutover sequence. A premium quote reaches the new rating service through the API gateway. The service evaluates a published GoRules age-surcharge decision, writes a shadow result to the legacy core, and compares it with changes received through Flink and Kafka before returning the quote and rule version.">
         </div>
-        <figcaption class="architecture-flow-note" id="target-caption">Draw.io target architecture: business services connected through an event backbone, with the legacy core retained as a controlled transition source. <a class="diagram-source-link" href="assets/diagrams/legacy-modernization-target.drawio" download>Editable source</a></figcaption>
-      </figure>
-
-      <h2>From stored procedure to business service</h2>
-      <p>The central modernization task is to turn anonymous procedural logic into named rules with explicit inputs, outputs, ownership, tests, and an explanation of why the rule exists.</p>
-
-      <div class="article-code-cols">
-        <section>
-          <p class="article-code-label">Legacy · stored procedure</p>
-          <pre class="article-code"><code>CREATE PROCEDURE sp_calc_premium
-  @policy_id INT
-AS
-BEGIN
-  SELECT @state = state_cd,
-         @driver_age = drv_age
-  FROM policy_master
-  WHERE policy_id = @policy_id
-
-  SELECT @base_rate = rate_amt
-  FROM rate_table
-  WHERE state_cd = @state
-
-  IF @driver_age &lt; 25
-    SET @surcharge = @base_rate * 0.35
-  ELSE IF @driver_age &gt; 70
-    SET @surcharge = @base_rate * 0.15
-
-  UPDATE policy_master
-  SET premium_amt = @base_rate + @surcharge
-  WHERE policy_id = @policy_id
-END</code></pre>
-        </section>
-        <section>
-          <p class="article-code-label">Modern · rating service</p>
-          <pre class="article-code"><code>@Service
-class PremiumRatingService {
-  PremiumQuote calculate(PolicyContext ctx) {
-    var base = rateTable
-        .findLiabilityRate(ctx.state());
-
-    var surcharge = ageSurchargeRule
-        .apply(ctx.driverAge(), base);
-
-    return new PremiumQuote(
-        ctx.policyId(),
-        base,
-        surcharge,
-        ageSurchargeRule.explain());
-  }
-}
-
-class AgeSurchargeRule {
-  BigDecimal apply(int age, BigDecimal base) {
-    if (age &lt; 25) return base.multiply(YOUNG_DRIVER);
-    if (age &gt; 70) return base.multiply(SENIOR_DRIVER);
-    return BigDecimal.ZERO;
-  }
-}</code></pre>
-        </section>
-      </div>
-
-      <div class="article-two-col">
-        <section class="article-card"><h3>What becomes explicit</h3><ul><li>The rule has a name, owner, version, and unit tests</li><li>Inputs and outputs are defined by a service contract</li><li>The result carries a trace explaining how it was calculated</li><li>Jurisdictional variants become configuration or strategies</li></ul></section>
-        <section class="article-card"><h3>What stops being implicit</h3><ul><li>No hidden update side effect inside a calculation</li><li>No downstream dependency on a database trigger</li><li>No shared-table coupling to the physical schema</li><li>No need to infer the rule from procedural code alone</li></ul></section>
-      </div>
-
-      <h2>Migration strategy: strangler pattern and CDC</h2>
-      <p>A big-bang rewrite concentrates technical, operational, and regulatory risk into one cutover. A safer approach moves one bounded capability at a time, compares its output against the legacy path, and retires the old responsibility only after agreed evidence is met.</p>
-
-      <figure class="sequence-diagram" aria-labelledby="sequence-caption">
-        <div class="sequence-canvas">
-          <svg class="sequence-svg" viewBox="0 0 900 550" role="img" aria-labelledby="sequence-title sequence-desc">
-            <title id="sequence-title">Shadow-mode cutover sequence</title>
-            <desc id="sequence-desc">A premium quote request moves from the client through the gateway to the new rating service. The modern result is compared with the legacy core through change data capture and Kafka before a traced response is returned.</desc>
-            <defs>
-              <marker id="sequence-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
-              </marker>
-            </defs>
-
-            <rect class="actor-box" x="20" y="18" width="140" height="52"></rect>
-            <rect class="actor-box" x="190" y="18" width="140" height="52"></rect>
-            <rect class="actor-box active" x="370" y="18" width="140" height="52"></rect>
-            <rect class="actor-box" x="550" y="18" width="140" height="52"></rect>
-            <rect class="actor-box" x="740" y="18" width="140" height="52"></rect>
-            <text class="actor-label" x="90" y="49">Agent / API client</text>
-            <text class="actor-label" x="260" y="49">API gateway</text>
-            <text class="actor-label" x="440" y="42"><tspan x="440">New rating</tspan><tspan x="440" dy="15">service</tspan></text>
-            <text class="actor-label" x="620" y="42"><tspan x="620">Legacy Sybase</tspan><tspan x="620" dy="15">core</tspan></text>
-            <text class="actor-label" x="810" y="42"><tspan x="810">CDC and</tspan><tspan x="810" dy="15">Kafka</tspan></text>
-
-            <line class="lifeline" x1="90" y1="70" x2="90" y2="530"></line>
-            <line class="lifeline" x1="260" y1="70" x2="260" y2="530"></line>
-            <line class="lifeline" x1="440" y1="70" x2="440" y2="530"></line>
-            <line class="lifeline" x1="620" y1="70" x2="620" y2="530"></line>
-            <line class="lifeline" x1="810" y1="70" x2="810" y2="530"></line>
-
-            <text class="step-number" x="28" y="111">01</text>
-            <text class="message-label" x="175" y="104">Premium quote request</text>
-            <line class="message" x1="92" y1="116" x2="256" y2="116"></line>
-
-            <text class="step-number" x="198" y="166">02</text>
-            <text class="message-label" x="350" y="159">Route to modern path</text>
-            <line class="message" x1="262" y1="171" x2="436" y2="171"></line>
-
-            <text class="step-number" x="378" y="221">03</text>
-            <text class="message-label" x="546" y="214">Apply rules and create trace</text>
-            <path class="message" d="M 442 226 H 535 V 258 H 446"></path>
-
-            <text class="step-number" x="378" y="300">04</text>
-            <text class="message-label" x="530" y="293">Shadow write for comparison</text>
-            <line class="message return" x1="442" y1="305" x2="616" y2="305"></line>
-
-            <text class="step-number" x="558" y="355">05</text>
-            <text class="message-label" x="715" y="348">Legacy change stream</text>
-            <line class="message" x1="622" y1="360" x2="806" y2="360"></line>
-
-            <text class="step-number" x="748" y="410">06</text>
-            <text class="message-label" x="625" y="403">Reconcile outputs and variance</text>
-            <line class="message return" x1="808" y1="415" x2="444" y2="415"></line>
-
-            <text class="step-number" x="378" y="465">07</text>
-            <text class="message-label" x="350" y="458">Quote and rule trace</text>
-            <line class="message return" x1="438" y1="470" x2="264" y2="470"></line>
-
-            <text class="step-number" x="198" y="520">08</text>
-            <text class="message-label" x="175" y="513">Approved response</text>
-            <line class="message return" x1="258" y1="525" x2="94" y2="525"></line>
-          </svg>
-        </div>
-        <figcaption class="architecture-flow-note" id="sequence-caption">Shadow-mode cutover: the modern path serves or observes traffic while output is reconciled against the legacy system before retirement.</figcaption>
+        <figcaption class="architecture-flow-note" id="sequence-caption">Shadow-mode cutover: the service evaluates the published rule, records the rule version, and reconciles the modern result against the legacy path until the agreed variance threshold is met. <a class="diagram-source-link" href="assets/diagrams/legacy-modernization-sequence.drawio" download>Editable Draw.io source</a></figcaption>
       </figure>
 
       <h2>The five phases</h2>
       <div class="article-phases">
         <section class="article-phase"><span>1</span><div><small>Discovery and rule mining · 6–10 weeks</small><h3>Inventory the stored-procedure estate</h3><p>Build a dependency graph and classify procedures as data access, business-rule-bearing, or unused. Rank them by business criticality, change frequency, and blast radius.</p></div></section>
-        <section class="article-phase"><span>2</span><div><small>Foundation · 8–12 weeks</small><h3>Establish the event and synchronization layer</h3><p>Stand up the event backbone, historical backfill, CDC pipeline, observability, and reconciliation patterns needed to operate both estates during transition.</p></div></section>
-        <section class="article-phase"><span>3</span><div><small>Incremental extraction · By domain</small><h3>Extract one bounded capability</h3><p>Start with a high-value, constrained slice—for example, rating for one product and jurisdiction. Rebuild it as a tested service and expose it behind a controlled routing boundary.</p></div></section>
+        <section class="article-phase"><span>2</span><div><small>Foundation · 8–12 weeks</small><h3>Establish the event, synchronization, and rules platforms</h3><p>Stand up the event backbone, historical backfill, CDC pipeline, observability, and reconciliation patterns. In parallel, establish the GoRules management workflow and connect the first service to Zen Engine.</p></div></section>
+        <section class="article-phase"><span>3</span><div><small>Incremental extraction · By domain</small><h3>Separate service workflow from decision rules</h3><p>Start with a constrained slice such as rating for one product and jurisdiction. Move orchestration and data access into a tested service; move the actual rating decisions into governed decision tables.</p></div></section>
         <section class="article-phase"><span>4</span><div><small>Parallel run and validation · 4–8 weeks per domain</small><h3>Prove equivalence before cutover</h3><p>Run legacy and modern paths against production inputs. Investigate differences and obtain actuarial, compliance, and operational sign-off against explicit acceptance criteria.</p></div></section>
         <section class="article-phase"><span>5</span><div><small>Decommission · Rolling</small><h3>Retire responsibility from the legacy core</h3><p>Disable and archive the superseded procedures, remove the CDC feed when it is no longer needed, and report the remaining legacy surface after every release.</p></div></section>
       </div>
@@ -485,6 +199,7 @@ class AgeSurchargeRule {
             <tr><td>Data diverges during parallel operation</td><td>Monitor CDC lag, reconcile business outcomes, and alert on variance beyond the agreed threshold</td></tr>
             <tr><td>Regulatory evidence is incomplete</td><td>Version every extracted rule and retain its calculation trace, approval, and effective date</td></tr>
             <tr><td>Legacy intent is misunderstood</td><td>Pair domain experts and legacy specialists with the engineers performing extraction; record intent in decision records</td></tr>
+            <tr><td>Engineers become the gatekeeper for every rate or eligibility change</td><td>Externalize frequently changed decisions into governed rules with business ownership, review, and publication controls</td></tr>
             <tr><td>The program loses momentum</td><td>Release domain by domain and report business outcomes rather than waiting for a full-platform launch</td></tr>
           </tbody>
         </table>
@@ -506,6 +221,7 @@ class AgeSurchargeRule {
         <li>Inventory procedures and triggers; produce a dependency graph and business-criticality ranking.</li>
         <li>Select one high-value domain with a contained blast radius.</li>
         <li>Define the event, CDC, reconciliation, and rollback patterns before moving live traffic.</li>
+        <li>Establish the GoRules management workflow and connect Zen Engine using configuration-driven decision identifiers and environments.</li>
         <li>Build tests from real historical inputs and outputs of the legacy procedure.</li>
         <li>Run in shadow mode and investigate every material variance.</li>
         <li>Pair legacy specialists with engineers and capture rule intent in decision records.</li>
@@ -514,7 +230,7 @@ class AgeSurchargeRule {
 
       <footer class="article-closing">
         <p class="article-quote">Getting off Sybase is an outcome. The real goal is to make the insurer’s business logic visible, testable, and safe to change.</p>
-        <p><strong>Scope.</strong> The architecture, code, timelines, and measures in this note are illustrative. A modernization plan should be grounded in the insurer’s actual product rules, regulatory obligations, operating model, and legacy dependencies.</p>
+        <p><strong>Scope.</strong> The architecture, code, timelines, and measures in this note are illustrative. A modernization plan should be grounded in the insurer’s actual product rules, regulatory obligations, operating model, and legacy dependencies. Product capabilities and SDK signatures should be revalidated against the selected GoRules release before implementation.</p>
       </footer>
     </article>
   </main>
