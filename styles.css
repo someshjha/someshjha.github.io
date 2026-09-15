@@ -243,22 +243,11 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
 .drawio-canvas img { display: block; width: 100%; min-width: 760px; height: auto; background: #fff; }
 .drawio-figure figcaption { padding: 0 18px 18px; }
 .diagram-source-link { margin-left: 8px; color: var(--copper-deep); font-weight: 700; text-underline-offset: 3px; }
-.sequence-diagram { margin: 38px 0; border: 1px solid var(--line); background: #eee8dc; font-family: var(--sans); }
-.sequence-canvas { padding: 18px; overflow-x: auto; }
-.sequence-svg { display: block; width: 100%; min-width: 760px; height: auto; }
-.sequence-svg .actor-box { fill: var(--paper); stroke: rgba(20,35,30,.32); }
-.sequence-svg .actor-box.active { fill: #f3e8da; stroke: var(--copper); stroke-width: 2; }
-.sequence-svg .actor-label { fill: var(--ink); font-size: 12px; font-weight: 700; text-anchor: middle; }
-.sequence-svg .lifeline { stroke: rgba(20,35,30,.3); stroke-width: 1.5; stroke-dasharray: 5 6; }
-.sequence-svg .message { fill: none; stroke: var(--copper-deep); stroke-width: 1.8; marker-end: url(#sequence-arrow); }
-.sequence-svg marker path { fill: var(--copper-deep); }
-.sequence-svg .message.return { stroke-dasharray: 6 5; }
-.sequence-svg .message-label { fill: var(--ink-soft); font-size: 11px; text-anchor: middle; }
-.sequence-svg .step-number { fill: var(--copper-deep); font-size: 9px; font-weight: 800; }
-.sequence-diagram figcaption { padding: 0 18px 18px; }
 .article-code-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 35px 0; }
 .article-code-label { margin-bottom: 8px; color: var(--muted); font-family: var(--sans); font-size: 9px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
 .article-code { height: calc(100% - 26px); margin: 0; padding: 18px; overflow-x: auto; background: var(--panel-dark); color: var(--on-dark-muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; line-height: 1.55; white-space: pre; }
+.article-code-wide { height: auto; margin: 0 0 28px; }
+.article-note { margin: -18px 0 30px; color: var(--muted); font-family: var(--sans); font-size: 12px; line-height: 1.65; }
 .article-phases { display: grid; gap: 12px; margin: 32px 0; font-family: var(--sans); }
 .article-phase { display: grid; grid-template-columns: 42px 1fr; gap: 16px; padding: 20px; border: 1px solid var(--line); background: rgba(255,255,255,.3); }
 .article-phase > span { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--copper); color: var(--copper-deep); font-size: 11px; font-weight: 800; }
@@ -325,7 +314,6 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
   .article-body h2 { margin-top: 62px; }
   .article-summary { padding: 23px 20px; }
   .article-two-col, .decision-model, .framework-tradeoffs, .architecture-flow-row, .article-code-cols, .article-metrics { grid-template-columns: 1fr; }
-  .sequence-canvas { padding: 14px; }
   .article-quote { font-size: 23px; }
   .article-stages section { grid-template-columns: 1fr; gap: 8px; }
   .article-stages p { grid-column: auto; }
