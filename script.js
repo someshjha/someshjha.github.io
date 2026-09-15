@@ -10,12 +10,14 @@ navToggle.addEventListener('click', () => {
   const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
   navToggle.setAttribute('aria-expanded', String(!isOpen));
   nav.classList.toggle('open', !isOpen);
+  header.classList.toggle('nav-open', !isOpen);
   document.body.style.overflow = isOpen ? '' : 'hidden';
 });
 
 nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
   navToggle.setAttribute('aria-expanded', 'false');
   nav.classList.remove('open');
+  header.classList.remove('nav-open');
   document.body.style.overflow = '';
 }));
 
