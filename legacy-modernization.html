@@ -10,7 +10,7 @@
   <meta property="og:description" content="Extracting buried business rules through incremental, evidence-led migration.">
   <meta property="og:url" content="https://someshjha.com/legacy-modernization.html">
   <link rel="canonical" href="https://someshjha.com/legacy-modernization.html">
-  <link rel="stylesheet" href="styles.css?v=legacy-modernization">
+  <link rel="stylesheet" href="styles.css?v=sequence-diagram">
   <title>Modernizing a legacy insurance core — Somesh Jha</title>
 </head>
 <body class="article-page">
@@ -158,15 +158,65 @@ class AgeSurchargeRule {
       <p>A big-bang rewrite concentrates technical, operational, and regulatory risk into one cutover. A safer approach moves one bounded capability at a time, compares its output against the legacy path, and retires the old responsibility only after agreed evidence is met.</p>
 
       <figure class="sequence-diagram" aria-labelledby="sequence-caption">
-        <div class="sequence-participants" aria-hidden="true"><span>Agent or API</span><span>Gateway</span><span>New service</span><span>Legacy core</span><span>CDC and Kafka</span></div>
-        <div class="sequence-steps">
-          <div class="sequence-step"><strong>Client</strong><i>→</i><span>Gateway receives a premium quote request</span></div>
-          <div class="sequence-step"><strong>Gateway</strong><i>→</i><span>Feature flag routes the request to the modern rating service</span></div>
-          <div class="sequence-step"><strong>New service</strong><i>→</i><span>Extracted rules calculate the quote and produce a rule trace</span></div>
-          <div class="sequence-step"><strong>New service</strong><i>⇄</i><span>Shadow output is compared with the legacy calculation</span></div>
-          <div class="sequence-step"><strong>Legacy core</strong><i>→</i><span>Existing writes continue through the CDC stream</span></div>
-          <div class="sequence-step"><strong>CDC and Kafka</strong><i>→</i><span>Reconciliation identifies differences and their causes</span></div>
-          <div class="sequence-step"><strong>Gateway</strong><i>→</i><span>The approved modern result is returned with its trace</span></div>
+        <div class="sequence-canvas">
+          <svg class="sequence-svg" viewBox="0 0 900 550" role="img" aria-labelledby="sequence-title sequence-desc">
+            <title id="sequence-title">Shadow-mode cutover sequence</title>
+            <desc id="sequence-desc">A premium quote request moves from the client through the gateway to the new rating service. The modern result is compared with the legacy core through change data capture and Kafka before a traced response is returned.</desc>
+            <defs>
+              <marker id="sequence-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+              </marker>
+            </defs>
+
+            <rect class="actor-box" x="20" y="18" width="140" height="52"></rect>
+            <rect class="actor-box" x="190" y="18" width="140" height="52"></rect>
+            <rect class="actor-box active" x="370" y="18" width="140" height="52"></rect>
+            <rect class="actor-box" x="550" y="18" width="140" height="52"></rect>
+            <rect class="actor-box" x="740" y="18" width="140" height="52"></rect>
+            <text class="actor-label" x="90" y="49">Agent / API client</text>
+            <text class="actor-label" x="260" y="49">API gateway</text>
+            <text class="actor-label" x="440" y="42"><tspan x="440">New rating</tspan><tspan x="440" dy="15">service</tspan></text>
+            <text class="actor-label" x="620" y="42"><tspan x="620">Legacy Sybase</tspan><tspan x="620" dy="15">core</tspan></text>
+            <text class="actor-label" x="810" y="42"><tspan x="810">CDC and</tspan><tspan x="810" dy="15">Kafka</tspan></text>
+
+            <line class="lifeline" x1="90" y1="70" x2="90" y2="530"></line>
+            <line class="lifeline" x1="260" y1="70" x2="260" y2="530"></line>
+            <line class="lifeline" x1="440" y1="70" x2="440" y2="530"></line>
+            <line class="lifeline" x1="620" y1="70" x2="620" y2="530"></line>
+            <line class="lifeline" x1="810" y1="70" x2="810" y2="530"></line>
+
+            <text class="step-number" x="28" y="111">01</text>
+            <text class="message-label" x="175" y="104">Premium quote request</text>
+            <line class="message" x1="92" y1="116" x2="256" y2="116"></line>
+
+            <text class="step-number" x="198" y="166">02</text>
+            <text class="message-label" x="350" y="159">Route to modern path</text>
+            <line class="message" x1="262" y1="171" x2="436" y2="171"></line>
+
+            <text class="step-number" x="378" y="221">03</text>
+            <text class="message-label" x="546" y="214">Apply rules and create trace</text>
+            <path class="message" d="M 442 226 H 535 V 258 H 446"></path>
+
+            <text class="step-number" x="378" y="300">04</text>
+            <text class="message-label" x="530" y="293">Shadow write for comparison</text>
+            <line class="message return" x1="442" y1="305" x2="616" y2="305"></line>
+
+            <text class="step-number" x="558" y="355">05</text>
+            <text class="message-label" x="715" y="348">Legacy change stream</text>
+            <line class="message" x1="622" y1="360" x2="806" y2="360"></line>
+
+            <text class="step-number" x="748" y="410">06</text>
+            <text class="message-label" x="625" y="403">Reconcile outputs and variance</text>
+            <line class="message return" x1="808" y1="415" x2="444" y2="415"></line>
+
+            <text class="step-number" x="378" y="465">07</text>
+            <text class="message-label" x="350" y="458">Quote and rule trace</text>
+            <line class="message return" x1="438" y1="470" x2="264" y2="470"></line>
+
+            <text class="step-number" x="198" y="520">08</text>
+            <text class="message-label" x="175" y="513">Approved response</text>
+            <line class="message return" x1="258" y1="525" x2="94" y2="525"></line>
+          </svg>
         </div>
         <figcaption class="architecture-flow-note" id="sequence-caption">Shadow-mode cutover: the modern path serves or observes traffic while output is reconciled against the legacy system before retirement.</figcaption>
       </figure>
