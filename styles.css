@@ -130,7 +130,8 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
 .article-link :where(.article-date, h3, p, span) { text-decoration: none !important; }
 .article-link:hover { border-color: rgba(159,76,53,.55); border-left-color: var(--copper); background: #f3e8da; box-shadow: 8px 8px 0 rgba(20,35,30,.12); transform: translateY(-2px); }
 .article-link:hover h3 { color: var(--copper-deep); }
-.article-date { padding-top: 5px; color: var(--copper-deep); font-size: 10px; text-transform: uppercase; letter-spacing: .13em; }
+.article-date { display: grid; align-content: start; gap: 8px; padding-top: 5px; color: var(--copper-deep); font-size: 10px; text-transform: uppercase; letter-spacing: .13em; }
+.article-date time { color: var(--muted); font-size: 9px; letter-spacing: .1em; }
 .article-row h3 { margin-bottom: 8px; font-family: var(--serif); font-weight: 400; font-size: clamp(24px, 3vw, 35px); letter-spacing: -.02em; }
 .article-row p { max-width: 700px; margin-bottom: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
 .article-row > span { padding-top: 6px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .12em; }
