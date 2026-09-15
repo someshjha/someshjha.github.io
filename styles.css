@@ -126,9 +126,9 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
 .writing { background: var(--paper); }
 .article-row { display: grid; grid-template-columns: 190px 1fr auto; gap: 30px; padding: 31px 0; border-top: 1px solid var(--line); }
 .article-row:last-child { border-bottom: 1px solid var(--line); }
-.article-link { position: relative; color: var(--ink); text-decoration: none !important; transition: background-color .2s, box-shadow .2s; }
+.article-link { position: relative; margin-bottom: 22px; padding: 30px 24px; border: 1px solid rgba(20,35,30,.28); border-left: 4px solid var(--copper); background: #f8f2e8; color: var(--ink); text-decoration: none !important; box-shadow: 6px 6px 0 rgba(20,35,30,.09); transition: background-color .2s, border-color .2s, box-shadow .2s, transform .2s; }
 .article-link :where(.article-date, h3, p, span) { text-decoration: none !important; }
-.article-link:hover { background: rgba(225,122,86,.07); box-shadow: inset 3px 0 0 var(--copper); }
+.article-link:hover { border-color: rgba(159,76,53,.55); border-left-color: var(--copper); background: #f3e8da; box-shadow: 8px 8px 0 rgba(20,35,30,.12); transform: translateY(-2px); }
 .article-link:hover h3 { color: var(--copper-deep); }
 .article-date { padding-top: 5px; color: var(--copper-deep); font-size: 10px; text-transform: uppercase; letter-spacing: .13em; }
 .article-row h3 { margin-bottom: 8px; font-family: var(--serif); font-weight: 400; font-size: clamp(24px, 3vw, 35px); letter-spacing: -.02em; }
