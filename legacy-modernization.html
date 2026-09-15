@@ -10,7 +10,7 @@
   <meta property="og:description" content="Extracting buried business rules through incremental, evidence-led migration.">
   <meta property="og:url" content="https://someshjha.com/legacy-modernization.html">
   <link rel="canonical" href="https://someshjha.com/legacy-modernization.html">
-  <link rel="stylesheet" href="styles.css?v=sequence-diagram">
+  <link rel="stylesheet" href="styles.css?v=drawio-target">
   <title>Modernizing a legacy insurance core — Somesh Jha</title>
 </head>
 <body class="article-page">
@@ -66,29 +66,11 @@
       <h2>Target-state architecture</h2>
       <p>The target state separates channels, orchestration, business services, events, and data. Rules leave stored procedures and become named services with explicit contracts and test suites. The legacy core remains available as a source during transition, but its responsibility shrinks domain by domain.</p>
 
-      <figure class="modernization-diagram" aria-labelledby="target-caption">
-        <div class="diagram-layer">
-          <h3>Distribution and channels</h3>
-          <div class="diagram-nodes"><div class="diagram-node">Agent portal</div><div class="diagram-node">Broker API</div><div class="diagram-node">Direct web and mobile</div></div>
+      <figure class="drawio-figure" aria-labelledby="target-caption">
+        <div class="drawio-canvas">
+          <img src="assets/diagrams/legacy-modernization-target.svg" width="1159" height="803" loading="lazy" decoding="async" alt="Target architecture for modernizing a legacy insurance core: distribution channels flow through an API gateway and workflow orchestrator into rating, underwriting, policy issuance, billing, commission, and claims services. Services publish domain events to Kafka or Event Hub, which feeds modern operational and analytical data stores. Sybase remains temporarily connected through CDC, dual-write, and business-rule extraction paths.">
         </div>
-        <div class="diagram-layer">
-          <h3>API and orchestration</h3>
-          <div class="diagram-nodes"><div class="diagram-node">API gateway</div><div class="diagram-node">Workflow orchestrator</div><div class="diagram-node">Identity and policy controls</div></div>
-        </div>
-        <div class="diagram-layer accent">
-          <h3>Business services extracted from stored procedures</h3>
-          <div class="diagram-nodes five"><div class="diagram-node">Rating</div><div class="diagram-node">Underwriting</div><div class="diagram-node">Policy issuance</div><div class="diagram-node">Billing and commission</div><div class="diagram-node">Claims</div></div>
-        </div>
-        <div class="diagram-layer">
-          <h3>Event backbone and modern data</h3>
-          <div class="diagram-nodes"><div class="diagram-node">Kafka or Event Hub</div><div class="diagram-node">Operational database</div><div class="diagram-node">Analytics lakehouse</div></div>
-        </div>
-        <div class="diagram-layer legacy">
-          <h3>Legacy core · draining during migration</h3>
-          <div class="diagram-nodes"><div class="diagram-node">Sybase ASE</div><div class="diagram-node">Legacy stored procedures</div><div class="diagram-node">CDC stream to event backbone</div></div>
-          <p class="diagram-bridge">Business logic moves upward into services. Change data capture keeps the old and new estates synchronized until each domain is retired.</p>
-        </div>
-        <figcaption class="architecture-flow-note" id="target-caption">Target architecture: explicit business services connected through an event backbone, with the legacy core retained as a controlled transition source.</figcaption>
+        <figcaption class="architecture-flow-note" id="target-caption">Draw.io target architecture: business services connected through an event backbone, with the legacy core retained as a controlled transition source. <a class="diagram-source-link" href="assets/diagrams/legacy-modernization-target.drawio" download>Editable source</a></figcaption>
       </figure>
 
       <h2>From stored procedure to business service</h2>
