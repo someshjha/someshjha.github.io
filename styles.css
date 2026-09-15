@@ -250,15 +250,18 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
 .diagram-layer.legacy { border-style: dashed; background: rgba(20,35,30,.035); }
 .diagram-bridge { margin: 18px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; text-align: center; }
 .sequence-diagram { margin: 38px 0; border: 1px solid var(--line); background: #eee8dc; font-family: var(--sans); }
-.sequence-participants { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
-.sequence-participants span { padding: 13px 7px; border-right: 1px solid var(--line); color: var(--copper-deep); font-size: 9px; font-weight: 750; letter-spacing: .06em; text-align: center; text-transform: uppercase; }
-.sequence-participants span:last-child { border-right: 0; }
-.sequence-steps { counter-reset: sequence; padding: 14px 18px; }
-.sequence-step { display: grid; grid-template-columns: 24px 130px 18px 1fr; gap: 10px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--ink-soft); font-size: 11px; line-height: 1.45; }
-.sequence-step:last-child { border-bottom: 0; }
-.sequence-step::before { counter-increment: sequence; content: counter(sequence, decimal-leading-zero); color: var(--copper-deep); font-size: 9px; font-weight: 750; }
-.sequence-step strong { color: var(--ink); font-weight: 700; }
-.sequence-step i { color: var(--copper-deep); font-style: normal; text-align: center; }
+.sequence-canvas { padding: 18px; overflow-x: auto; }
+.sequence-svg { display: block; width: 100%; min-width: 760px; height: auto; }
+.sequence-svg .actor-box { fill: var(--paper); stroke: rgba(20,35,30,.32); }
+.sequence-svg .actor-box.active { fill: #f3e8da; stroke: var(--copper); stroke-width: 2; }
+.sequence-svg .actor-label { fill: var(--ink); font-size: 12px; font-weight: 700; text-anchor: middle; }
+.sequence-svg .lifeline { stroke: rgba(20,35,30,.3); stroke-width: 1.5; stroke-dasharray: 5 6; }
+.sequence-svg .message { fill: none; stroke: var(--copper-deep); stroke-width: 1.8; marker-end: url(#sequence-arrow); }
+.sequence-svg marker path { fill: var(--copper-deep); }
+.sequence-svg .message.return { stroke-dasharray: 6 5; }
+.sequence-svg .message-label { fill: var(--ink-soft); font-size: 11px; text-anchor: middle; }
+.sequence-svg .step-number { fill: var(--copper-deep); font-size: 9px; font-weight: 800; }
+.sequence-diagram figcaption { padding: 0 18px 18px; }
 .article-code-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 35px 0; }
 .article-code-label { margin-bottom: 8px; color: var(--muted); font-family: var(--sans); font-size: 9px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
 .article-code { height: calc(100% - 26px); margin: 0; padding: 18px; overflow-x: auto; background: var(--panel-dark); color: var(--on-dark-muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; line-height: 1.55; white-space: pre; }
@@ -329,8 +332,7 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
   .article-summary { padding: 23px 20px; }
   .article-two-col, .decision-model, .framework-tradeoffs, .architecture-flow-row, .article-code-cols, .article-metrics { grid-template-columns: 1fr; }
   .diagram-nodes, .diagram-nodes.five { grid-template-columns: 1fr; }
-  .sequence-participants { display: none; }
-  .sequence-step { grid-template-columns: 24px 90px 14px 1fr; }
+  .sequence-canvas { padding: 14px; }
   .article-quote { font-size: 23px; }
   .article-stages section { grid-template-columns: 1fr; gap: 8px; }
   .article-stages p { grid-column: auto; }
