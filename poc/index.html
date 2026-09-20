@@ -11,7 +11,7 @@
   <meta property="og:url" content="https://someshjha.com/poc/">
   <link rel="canonical" href="https://someshjha.com/poc/">
   <script>document.documentElement.classList.add('js')</script>
-  <link rel="stylesheet" href="../styles.css?v=orderflow-iframe-v1">
+  <link rel="stylesheet" href="../styles.css?v=orderflow-iframe-v2">
   <script defer src="../script.js?v=site-navigation"></script>
   <title>OrderFlow PoC mock dashboard — Somesh Jha</title>
 </head>
@@ -47,7 +47,7 @@
           <h1 id="poc-title">OrderFlow <em>PoC.</em></h1>
         </div>
         <div class="poc-embed-copy">
-          <p>This page embeds the dashboard mock UI in an iframe so the public demo opens from one URL. The frame uses representative static data only.</p>
+          <p>This page embeds the dashboard mock UI directly below. It uses representative static data only, while the repository contains the runnable Kafka, Flink, PostgreSQL, kind, and Argo CD implementation.</p>
           <div class="poc-embed-actions">
             <a class="button button-dark" href="https://github.com/someshjha/poc_order_flow_kafka_flink" target="_blank" rel="noopener noreferrer">Real implementation repo <span aria-hidden="true">↗</span></a>
             <a class="text-link" href="../pocs.html#streaming-orders">PoC registry</a>
@@ -90,5 +90,34 @@
       <a href="../pocs.html">PoC registry ↑</a>
     </div>
   </footer>
+  <script>
+    const frame = document.querySelector("#orderflow-frame");
+
+    function resizeDashboardFrame() {
+      try {
+        const doc = frame.contentDocument;
+        if (!doc) return;
+        const height = Math.max(
+          doc.documentElement.scrollHeight,
+          doc.body?.scrollHeight || 0,
+          880
+        );
+        frame.style.height = `${height}px`;
+      } catch {
+        frame.style.height = "940px";
+      }
+    }
+
+    frame.addEventListener("load", () => {
+      resizeDashboardFrame();
+      const doc = frame.contentDocument;
+      if (!doc) return;
+      new ResizeObserver(resizeDashboardFrame).observe(doc.documentElement);
+      doc.addEventListener("click", () => requestAnimationFrame(resizeDashboardFrame));
+      doc.addEventListener("input", () => requestAnimationFrame(resizeDashboardFrame));
+    });
+
+    window.addEventListener("resize", resizeDashboardFrame);
+  </script>
 </body>
 </html>
