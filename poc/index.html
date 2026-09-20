@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f0e8">
+  <meta name="description" content="Mock-only browser showcase for the Kafka, Flink, and PostgreSQL OrderFlow proof of concept by Somesh Jha.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OrderFlow PoC mock demo — Somesh Jha">
+  <meta property="og:description" content="A static mock showcase for the OrderFlow Kafka, Flink, and PostgreSQL proof of concept.">
+  <meta property="og:url" content="https://someshjha.com/poc/">
+  <link rel="canonical" href="https://someshjha.com/poc/">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="../styles.css?v=orderflow-poc">
+  <script defer src="../script.js?v=site-navigation"></script>
+  <title>OrderFlow PoC mock demo — Somesh Jha</title>
+</head>
+<body class="pocs-page orderflow-mock-page">
+  <a class="skip-link" href="#mock-demo">Skip to mock demo</a>
+
+  <header class="site-header scrolled" data-header>
+    <div class="shell nav-wrap">
+      <a class="brand" href="../index.html" aria-label="Somesh Jha, home">
+        <span class="brand-mark" aria-hidden="true">SJ</span>
+        <span class="brand-name">Somesh Jha</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span><span></span>
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Primary navigation">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#services">Services</a>
+        <a href="../index.html#work">Work</a>
+        <a href="../pocs.html" aria-current="page">PoCs</a>
+        <a href="../index.html#writing">Writing</a>
+        <a class="nav-cta" href="../index.html#contact">Contact <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="mock-demo">
+    <header class="poc-hero orderflow-hero">
+      <div class="shell orderflow-hero-grid">
+        <div class="reveal">
+          <p class="eyebrow"><span></span> Mock-only showcase</p>
+          <h1>OrderFlow <em>control room.</em></h1>
+          <p class="orderflow-lede">A browser-only preview of the Kafka, Flink, and PostgreSQL proof of concept. It is safe to open anywhere because it does not connect to live services.</p>
+          <div class="orderflow-actions">
+            <a class="button button-dark" href="https://github.com/someshjha/poc_order_flow_kafka_flink" target="_blank" rel="noopener noreferrer">View real PoC repository <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="../pocs.html#streaming-orders">Back to PoC registry</a>
+          </div>
+        </div>
+        <aside class="mock-disclaimer reveal" aria-label="Mock-only notice">
+          <strong>Mock only</strong>
+          <p>This public page uses representative data and static UI states. The runnable implementation lives in the repository and runs locally with kind, Argo CD, Kafka, Flink, and PostgreSQL.</p>
+          <a href="https://github.com/someshjha/poc_order_flow_kafka_flink" target="_blank" rel="noopener noreferrer">github.com/someshjha/poc_order_flow_kafka_flink</a>
+        </aside>
+      </div>
+    </header>
+
+    <section class="mock-dashboard" aria-labelledby="dashboard-title">
+      <div class="shell mock-dashboard-grid">
+        <div class="mock-dashboard-copy reveal">
+          <p class="section-index">What the real demo proves</p>
+          <h2 id="dashboard-title">Streaming correctness, visible end to end.</h2>
+          <p>The actual local demo lets a presenter produce order and payment events, watch them in Kafka, inspect Flink processing and checkpoint recovery, and verify the final read model in PostgreSQL.</p>
+        </div>
+
+        <div class="mock-control-room reveal" aria-label="Static mock control room">
+          <div class="mock-window-bar">
+            <span></span><span></span><span></span>
+            <strong>OrderFlow local PoC</strong>
+            <em>MOCK DATA</em>
+          </div>
+
+          <div class="mock-kpis" aria-label="Representative KPI cards">
+            <div><small>Orders received</small><strong>42</strong><span>2 current demo orders</span></div>
+            <div><small>Captured amount</small><strong>$7,589.98</strong><span>32 captured orders</span></div>
+            <div><small>Rejected events</small><strong>3</strong><span>Invalid data isolated</span></div>
+            <div><small>Checkpoint restores</small><strong>2</strong><span>Recovered from Flink crash</span></div>
+          </div>
+
+          <div class="mock-pipeline" aria-label="Representative Kafka to Flink to PostgreSQL pipeline">
+            <div><span>K</span><strong>Kafka</strong><small>events accepted</small></div>
+            <i aria-hidden="true"></i>
+            <div><span>F</span><strong>Flink</strong><small>dedupe + correlate</small></div>
+            <i aria-hidden="true"></i>
+            <div><span>P</span><strong>PostgreSQL</strong><small>serving read model</small></div>
+          </div>
+
+          <div class="mock-table" role="table" aria-label="Representative order stream">
+            <div role="row">
+              <span role="columnheader">Event</span>
+              <span role="columnheader">Outcome</span>
+              <span role="columnheader">Proof</span>
+            </div>
+            <div role="row">
+              <span role="cell">Duplicate order event</span>
+              <strong role="cell">Duplicate prevented</strong>
+              <span role="cell">Business totals unchanged</span>
+            </div>
+            <div role="row">
+              <span role="cell">Invalid negative amount</span>
+              <strong role="cell">Invalid event isolated</strong>
+              <span role="cell">DLQ + rejection audit</span>
+            </div>
+            <div role="row">
+              <span role="cell">TaskManager deleted</span>
+              <strong role="cell">Recovered from checkpoint</strong>
+              <span role="cell">Flink restored count increased</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mock-flow-section">
+      <div class="shell mock-flow-grid">
+        <article class="reveal">
+          <span>01</span>
+          <h2>Generate</h2>
+          <p>Use the real local UI to submit an order or payment. The API publishes the event to Kafka and returns the topic, partition, and offset.</p>
+        </article>
+        <article class="reveal">
+          <span>02</span>
+          <h2>Inspect</h2>
+          <p>Open Kafka UI and Flink Dashboard to show the message, live job, operators, backpressure, and checkpoint history.</p>
+        </article>
+        <article class="reveal">
+          <span>03</span>
+          <h2>Verify</h2>
+          <p>Open the OrderFlow UI and PostgreSQL read model to prove captured payments, duplicates, rejected events, and recovery outcomes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="mock-repo-section">
+      <div class="shell mock-repo-card reveal">
+        <div>
+          <p class="section-index">Run the real thing</p>
+          <h2>Source, docs, and local GitOps deployment are in the PoC repo.</h2>
+        </div>
+        <div>
+          <p>This public page is only a portfolio-friendly mock. For the actual implementation, use the repository with kind, Argo CD, Kafka, Flink, PostgreSQL, the web UI, and captured happy/unhappy-path runbooks.</p>
+          <a class="button button-dark" href="https://github.com/someshjha/poc_order_flow_kafka_flink" target="_blank" rel="noopener noreferrer">Open implementation repo <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="poc-footer">
+    <div class="shell">
+      <p>© <span data-year></span> Somesh Jha</p>
+      <p>Mock-only public showcase · Real system in GitHub</p>
+      <a href="../pocs.html">PoC registry ↑</a>
+    </div>
+  </footer>
+</body>
+</html>
