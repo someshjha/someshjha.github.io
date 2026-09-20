@@ -11,8 +11,8 @@
   <meta property="og:url" content="https://someshjha.com/poc-demos.html">
   <link rel="canonical" href="https://someshjha.com/poc-demos.html">
   <script>document.documentElement.classList.add('js')</script>
-  <link rel="stylesheet" href="styles.css?v=theme-writing-v1">
-  <script defer src="script.js?v=theme-writing"></script>
+  <link rel="stylesheet" href="styles.css?v=notes-navigation">
+  <script defer src="script.js?v=site-navigation"></script>
   <script defer src="poc-demos.js?v=1"></script>
   <title>PoC demonstrations — Somesh Jha</title>
 </head>
@@ -33,7 +33,7 @@
         <a href="index.html#services">Services</a>
         <a href="index.html#work">Work</a>
         <a href="pocs.html" aria-current="page">PoCs</a>
-        <a href="writing.html">Writing</a>
+        <a href="notes.html">Notes</a>
         <a class="nav-cta" href="index.html#contact">Contact <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
@@ -155,7 +155,7 @@
       <article class="demo-panel" id="streaming-orders-demo">
         <div class="shell demo-grid">
           <header class="demo-copy">
-            <p class="section-index">05 / Event correctness · Mock-only demo</p>
+            <p class="section-index">05 / Event correctness · Concept demo</p>
             <h2>Orders and payments stream</h2>
             <p>Revenue must remain correct through duplicates, late arrivals, and checkpoint recovery.</p>
           </header>
@@ -171,7 +171,6 @@
               <button type="button" data-demo-action="recover" aria-pressed="false">Recover checkpoint</button>
             </div>
             <p class="demo-output" data-demo-output aria-live="polite">Choose an event condition to inspect its effect on the materialized result.</p>
-            <p class="demo-output">This embedded scenario is mock-only. Open the dedicated <a href="poc/">OrderFlow mock page</a> or the <a href="https://github.com/someshjha/poc_order_flow_kafka_flink" target="_blank" rel="noopener noreferrer">real implementation repository</a>.</p>
           </div>
         </div>
       </article>

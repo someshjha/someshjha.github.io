@@ -11,8 +11,8 @@
   <meta property="og:url" content="https://someshjha.com/pocs.html">
   <link rel="canonical" href="https://someshjha.com/pocs.html">
   <script>document.documentElement.classList.add('js')</script>
-  <link rel="stylesheet" href="styles.css?v=theme-writing-v1">
-  <script defer src="script.js?v=theme-writing"></script>
+  <link rel="stylesheet" href="styles.css?v=notes-navigation">
+  <script defer src="script.js?v=site-navigation"></script>
   <title>Proof-of-concept registry — Somesh Jha</title>
 </head>
 <body class="pocs-page">
@@ -33,7 +33,7 @@
         <a href="index.html#services">Services</a>
         <a href="index.html#work">Work</a>
         <a href="pocs.html" aria-current="page">PoCs</a>
-        <a href="writing.html">Writing</a>
+        <a href="notes.html">Notes</a>
         <a class="nav-cta" href="index.html#contact">Contact <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
@@ -150,7 +150,7 @@
           <li class="poc-item reveal" id="streaming-orders">
             <div class="poc-item-meta">
               <span>05 / Event correctness</span>
-              <span class="poc-status poc-status-active"><i class="status-dot status-active"></i> Runnable locally</span>
+              <span class="poc-status"><i class="status-dot"></i> Planned</span>
             </div>
             <h3>Orders and payments streaming pipeline</h3>
             <p class="poc-claim">Can event-time correlation remain correct through duplicates, late arrivals, and checkpoint recovery?</p>
@@ -159,8 +159,8 @@
               <li>Kafka</li><li>Flink</li><li>PostgreSQL</li><li>Event-time processing</li>
             </ul>
             <div class="poc-actions">
-              <a class="poc-repo" href="https://github.com/someshjha/poc_order_flow_kafka_flink" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
-              <a class="poc-demo-link" href="poc/">Open mock demo <span aria-hidden="true">→</span></a>
+              <span class="poc-pending">Repository planned</span>
+              <a class="poc-demo-link" href="poc-demos.html#streaming-orders-demo">Concept demo <span aria-hidden="true">→</span></a>
             </div>
           </li>
         </ol>
