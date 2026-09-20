@@ -6,6 +6,22 @@
     <meta name="description" content="Mock-only public showcase for the OrderFlow Kafka, Flink, and PostgreSQL proof of concept." />
     <title>OrderFlow — Mock-Only PoC Showcase</title>
     <link rel="canonical" href="https://someshjha.com/poc/" />
+    <script>
+      let savedTheme;
+      try {
+        savedTheme = localStorage.getItem('someshjha-theme');
+      } catch {
+        savedTheme = null;
+      }
+      document.documentElement.dataset.theme = savedTheme === 'dark' || savedTheme === 'light'
+        ? savedTheme
+        : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      window.addEventListener('message', (event) => {
+        if (event.origin !== window.location.origin || event.data?.type !== 'theme') return;
+        document.documentElement.dataset.theme = event.data.theme;
+      });
+      window.parent?.postMessage({ type: 'theme-request' }, window.location.origin);
+    </script>
     <link rel="stylesheet" href="./styles.css?v=pages-mock-v1" />
   </head>
   <body>

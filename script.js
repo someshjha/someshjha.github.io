@@ -1,27 +1,107 @@
 const header = document.querySelector('[data-header]');
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.nav');
+const themeKey = 'someshjha-theme';
 
-const setHeader = () => header.classList.toggle('scrolled', window.scrollY > 24);
-setHeader();
-window.addEventListener('scroll', setHeader, { passive: true });
+function getPreferredTheme() {
+  let saved;
+  try {
+    saved = localStorage.getItem(themeKey);
+  } catch {
+    saved = null;
+  }
+  if (saved === 'dark' || saved === 'light') return saved;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
 
-navToggle.addEventListener('click', () => {
+function notifyFrames(theme) {
+  document.querySelectorAll('iframe').forEach((frame) => {
+    try {
+      frame.contentWindow?.postMessage({ type: 'theme', theme }, window.location.origin);
+    } catch {
+      // Cross-origin frames are ignored; this site only embeds same-origin pages.
+    }
+  });
+}
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0f1d19' : '#f4f0e8');
+  document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+    button.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
+    button.setAttribute('aria-pressed', String(theme === 'dark'));
+    button.querySelector('[data-theme-label]').textContent = theme === 'dark' ? 'Light' : 'Dark';
+  });
+  notifyFrames(theme);
+}
+
+function mountThemeToggle() {
+  const host = nav ?? document.querySelector('.article-nav-inner') ?? document.querySelector('.thanks-shell');
+  if (!host || host.querySelector('[data-theme-toggle]')) return;
+
+  const button = document.createElement('button');
+  button.className = 'theme-toggle';
+  button.type = 'button';
+  button.dataset.themeToggle = '';
+  button.innerHTML = '<span aria-hidden="true"></span><b data-theme-label>Theme</b>';
+  button.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    try {
+      localStorage.setItem(themeKey, next);
+    } catch {
+      // Theme still applies for this page view when storage is unavailable.
+    }
+    applyTheme(next);
+  });
+
+  const contact = host.querySelector('.nav-cta');
+  if (contact) host.insertBefore(button, contact);
+  else host.appendChild(button);
+}
+
+const initialTheme = getPreferredTheme();
+mountThemeToggle();
+applyTheme(initialTheme);
+
+const setHeader = () => header?.classList.toggle('scrolled', window.scrollY > 24);
+if (header) {
+  setHeader();
+  window.addEventListener('scroll', setHeader, { passive: true });
+}
+
+navToggle?.addEventListener('click', () => {
   const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
   navToggle.setAttribute('aria-expanded', String(!isOpen));
-  nav.classList.toggle('open', !isOpen);
-  header.classList.toggle('nav-open', !isOpen);
+  nav?.classList.toggle('open', !isOpen);
+  header?.classList.toggle('nav-open', !isOpen);
   document.body.style.overflow = isOpen ? '' : 'hidden';
 });
 
-nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
   navToggle.setAttribute('aria-expanded', 'false');
   nav.classList.remove('open');
-  header.classList.remove('nav-open');
+  header?.classList.remove('nav-open');
   document.body.style.overflow = '';
 }));
 
-document.querySelector('[data-year]').textContent = new Date().getFullYear();
+document.querySelectorAll('[data-year]').forEach((el) => {
+  el.textContent = new Date().getFullYear();
+});
+
+window.addEventListener('message', (event) => {
+  if (event.origin !== window.location.origin) return;
+  if (event.data?.type === 'theme' && (event.data.theme === 'dark' || event.data.theme === 'light')) {
+    try {
+      localStorage.setItem(themeKey, event.data.theme);
+    } catch {
+      // Theme still applies for this page view when storage is unavailable.
+    }
+    applyTheme(event.data.theme);
+    return;
+  }
+  if (event.data?.type !== 'theme-request') return;
+  event.source?.postMessage({ type: 'theme', theme: document.documentElement.dataset.theme }, event.origin);
+});
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (reducedMotion || !('IntersectionObserver' in window)) {

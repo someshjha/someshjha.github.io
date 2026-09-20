@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f0e8">
+  <meta name="description" content="Read Somesh Jha's architecture, AI, and modernization articles in a single iframe reader.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Writing — Somesh Jha">
+  <meta property="og:description" content="A single-page article reader for notes on architecture, applied AI, and modernization.">
+  <meta property="og:url" content="https://someshjha.com/writing.html">
+  <link rel="canonical" href="https://someshjha.com/writing.html">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=theme-writing-v1">
+  <script defer src="script.js?v=theme-writing"></script>
+  <script defer src="writing.js?v=1"></script>
+  <title>Writing — Somesh Jha</title>
+</head>
+<body class="pocs-page writing-reader-page">
+  <a class="skip-link" href="#article-frame">Skip to article</a>
+
+  <header class="site-header scrolled" data-header>
+    <div class="shell nav-wrap">
+      <a class="brand" href="index.html" aria-label="Somesh Jha, home">
+        <span class="brand-mark" aria-hidden="true">SJ</span>
+        <span class="brand-name">Somesh Jha</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span><span></span>
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Primary navigation">
+        <a href="index.html#about">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#work">Work</a>
+        <a href="pocs.html">PoCs</a>
+        <a href="writing.html" aria-current="page">Writing</a>
+        <a class="nav-cta" href="index.html#contact">Contact <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="writing-reader-hero">
+      <div class="shell writing-reader-grid">
+        <div>
+          <p class="eyebrow"><span></span> Writing</p>
+          <h1>Notes from <em>the work.</em></h1>
+        </div>
+        <div class="writing-reader-copy">
+          <p>Switch between articles without leaving the page. Each article is embedded in the reader below and can still be opened directly.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="writing-frame-section" aria-labelledby="reader-title">
+      <div class="shell writing-frame-layout">
+        <aside class="writing-picker" aria-label="Article list">
+          <button type="button" data-article-src="architecture-decision-system.html" aria-selected="true">
+            <span>Architecture practice</span>
+            <strong>Architecture is a decision system, not a diagram</strong>
+            <small>Preserving the reasoning behind system shape.</small>
+          </button>
+          <button type="button" data-article-src="choosing-agent-framework.html" aria-selected="false">
+            <span>Applied AI</span>
+            <strong>Choosing an agent framework</strong>
+            <small>Durability, explicit state, and operational traceability.</small>
+          </button>
+          <button type="button" data-article-src="legacy-modernization.html" aria-selected="false">
+            <span>Legacy modernization</span>
+            <strong>Modernizing a legacy insurance core</strong>
+            <small>Incremental migration with evidence-led cutover.</small>
+          </button>
+        </aside>
+
+        <article class="writing-frame-card" aria-labelledby="reader-title">
+          <div class="writing-frame-toolbar">
+            <strong id="reader-title">Article reader</strong>
+            <a id="article-direct-link" href="architecture-decision-system.html" target="_blank" rel="noopener noreferrer">Open article directly ↗</a>
+          </div>
+          <iframe id="article-frame" title="Selected article" src="architecture-decision-system.html" loading="eager"></iframe>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="poc-footer">
+    <div class="shell">
+      <p>© <span data-year></span> Somesh Jha</p>
+      <p>Writing reader · Articles embedded by iframe</p>
+      <a href="index.html">Return home ↑</a>
+    </div>
+  </footer>
+</body>
+</html>
