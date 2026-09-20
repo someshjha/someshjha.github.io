@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f0e8">
+  <meta name="description" content="Proof-of-concept systems by Somesh Jha, testing durable execution, cross-organization workflows, database security, agent access, and event-stream correctness.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Proof-of-concept registry — Somesh Jha">
+  <meta property="og:description" content="Five small systems built to test specific architectural claims under failure, trust, and operational constraints.">
+  <meta property="og:url" content="https://someshjha.com/pocs.html">
+  <link rel="canonical" href="https://someshjha.com/pocs.html">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css?v=poc-registry">
+  <script defer src="script.js?v=site-navigation"></script>
+  <title>Proof-of-concept registry — Somesh Jha</title>
+</head>
+<body class="pocs-page">
+  <a class="skip-link" href="#poc-registry">Skip to PoC registry</a>
+
+  <header class="site-header scrolled" data-header>
+    <div class="shell nav-wrap">
+      <a class="brand" href="index.html" aria-label="Somesh Jha, home">
+        <span class="brand-mark" aria-hidden="true">SJ</span>
+        <span class="brand-name">Somesh Jha</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span><span></span>
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Primary navigation">
+        <a href="index.html#about">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#work">Work</a>
+        <a href="pocs.html" aria-current="page">PoCs</a>
+        <a href="index.html#writing">Writing</a>
+        <a class="nav-cta" href="index.html#contact">Contact <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="poc-registry">
+    <header class="poc-hero">
+      <div class="shell poc-hero-grid">
+        <div class="reveal">
+          <p class="eyebrow"><span></span> Working systems · Honest status</p>
+          <h1>Proofs before <em>platforms.</em></h1>
+        </div>
+        <div class="poc-intro reveal">
+          <p>Each proof of concept tests one architectural claim under real operational constraints—not whether a technology can produce a polished demo.</p>
+          <p>The registry records what is running, what remains unverified, and what I learned from the boundary being tested.</p>
+        </div>
+      </div>
+      <div class="shell poc-summary reveal" aria-label="Registry summary">
+        <div><strong>05</strong><span>Focused systems</span></div>
+        <div><strong>02</strong><span>In verification</span></div>
+        <div><strong>03</strong><span>Planned</span></div>
+        <a href="#entries">Browse the registry <span aria-hidden="true">↓</span></a>
+      </div>
+    </header>
+
+    <section class="poc-registry-section" id="entries" aria-labelledby="registry-title">
+      <div class="shell poc-layout">
+        <aside class="poc-rail reveal">
+          <p class="section-index">The registry</p>
+          <h2 id="registry-title">Five claims worth testing.</h2>
+          <p>A compact view of the system boundary, status, stack, and available evidence.</p>
+          <nav aria-label="PoC list">
+            <a href="#evidence-review"><span>01</span> Durable review</a>
+            <a href="#prior-authorization"><span>02</span> Cross-org workflow</a>
+            <a href="#column-masking"><span>03</span> Data visibility</a>
+            <a href="#financial-data"><span>04</span> Scoped agent access</a>
+            <a href="#streaming-orders"><span>05</span> Stream correctness</a>
+          </nav>
+          <div class="poc-legend">
+            <span><i class="status-dot status-active"></i> Verification in progress</span>
+            <span><i class="status-dot"></i> Planned</span>
+          </div>
+        </aside>
+
+        <ol class="poc-list">
+          <li class="poc-item reveal" id="evidence-review">
+            <div class="poc-item-meta">
+              <span>01 / Durable execution</span>
+              <span class="poc-status poc-status-active"><i class="status-dot status-active"></i> Scaffolded</span>
+            </div>
+            <h3>Clinical evidence review</h3>
+            <p class="poc-claim">Can AI-assisted screening reduce reviewer effort without weakening recall or traceability?</p>
+            <p>A Temporal workflow coordinates literature search, structured model screening, and human verification. A worker can fail mid-search and resume without repeating completed work. Model suggestions and reviewer decisions remain separate so corrections propagate by construction.</p>
+            <ul class="poc-stack" aria-label="Technology stack">
+              <li>Temporal</li><li>FastAPI</li><li>React</li><li>PostgreSQL</li><li>Structured outputs</li>
+            </ul>
+            <a class="poc-repo" href="https://github.com/someshjha/temporal-clinical-evidence-review" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
+          </li>
+
+          <li class="poc-item reveal" id="prior-authorization">
+            <div class="poc-item-meta">
+              <span>02 / Organizational boundary</span>
+              <span class="poc-status poc-status-active"><i class="status-dot status-active"></i> Scaffolded</span>
+            </div>
+            <h3>Prior authorization across organizations</h3>
+            <p class="poc-claim">Can two independent parties preserve workflow durability without giving either side control of the other?</p>
+            <p>Provider and payer run as separate workflows over signed HTTP rather than as parent and child processes. SLA timers, idempotent callbacks, and resubmission remain intact when a worker disappears mid-case.</p>
+            <ul class="poc-stack" aria-label="Technology stack">
+              <li>Temporal</li><li>FastAPI</li><li>PostgreSQL</li><li>FHIR</li><li>Da Vinci PAS</li>
+            </ul>
+            <a class="poc-repo" href="https://github.com/someshjha/temporal-prior-auth" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
+          </li>
+
+          <li class="poc-item reveal" id="column-masking">
+            <div class="poc-item-meta">
+              <span>03 / Database trust</span>
+              <span class="poc-status"><i class="status-dot"></i> Planned</span>
+            </div>
+            <h3>Database column masking by role</h3>
+            <p class="poc-claim">Should the same query return a different record shape when the caller's responsibilities change?</p>
+            <p>This test moves role-scoped visibility to the database boundary. Support and finance users see different portions of the same customer record without relying on application code to hide sensitive columns.</p>
+            <ul class="poc-stack" aria-label="Technology stack">
+              <li>PostgreSQL</li><li>Column security</li><li>Role-based views</li>
+            </ul>
+            <span class="poc-pending">Repository planned</span>
+          </li>
+
+          <li class="poc-item reveal" id="financial-data">
+            <div class="poc-item-meta">
+              <span>04 / Agent access</span>
+              <span class="poc-status"><i class="status-dot"></i> Planned</span>
+            </div>
+            <h3>Scoped financial-data tools for agents</h3>
+            <p class="poc-claim">Can an agent receive only the financial-data capabilities its current task is allowed to use?</p>
+            <p>An MCP server exposes scoped tools instead of a standing API key. Every call is constrained by the calling context and produces an audit trail that can be reviewed independently of the agent conversation.</p>
+            <ul class="poc-stack" aria-label="Technology stack">
+              <li>Model Context Protocol</li><li>Python</li><li>Scoped authorization</li>
+            </ul>
+            <span class="poc-pending">Repository planned</span>
+          </li>
+
+          <li class="poc-item reveal" id="streaming-orders">
+            <div class="poc-item-meta">
+              <span>05 / Event correctness</span>
+              <span class="poc-status"><i class="status-dot"></i> Planned</span>
+            </div>
+            <h3>Orders and payments streaming pipeline</h3>
+            <p class="poc-claim">Can event-time correlation remain correct through duplicates, late arrivals, and checkpoint recovery?</p>
+            <p>Kafka decouples ingestion while Flink joins payments to orders in event time, deduplicates by event ID, and recovers without double-counting. PostgreSQL serves current state and minute-level revenue metrics for live verification.</p>
+            <ul class="poc-stack" aria-label="Technology stack">
+              <li>Kafka</li><li>Flink</li><li>PostgreSQL</li><li>Event-time processing</li>
+            </ul>
+            <span class="poc-pending">Repository planned</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="poc-next">
+      <div class="shell poc-next-grid">
+        <div>
+          <p class="section-index">From experiment to decision</p>
+          <h2>Testing a similar boundary?</h2>
+        </div>
+        <div>
+          <p>I use small, inspectable systems to replace architectural assumptions with evidence before a team commits to a platform direction.</p>
+          <a class="button button-dark" href="index.html#contact">Discuss the decision <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="poc-footer">
+    <div class="shell">
+      <p>© <span data-year></span> Somesh Jha</p>
+      <p>Statuses reflect what has run—not what is merely designed.</p>
+      <a href="index.html">Return home ↑</a>
+    </div>
+  </footer>
+</body>
+</html>
