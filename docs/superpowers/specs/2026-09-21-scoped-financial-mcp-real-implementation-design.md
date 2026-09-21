@@ -66,7 +66,7 @@ Two independent axes, both resolved from the same JWT, both enforced by Postgres
 | Axis | Source | Enforced by | Example |
 |---|---|---|---|
 | Task scope (capability) | Keycloak realm role claim | Postgres role `GRANT`s | `trade_execution` role can `INSERT` into `orders`; no other role can |
-| User identity (data) | Keycloak `sub` claim | Postgres RLS policy | user `alice` can `SELECT` from `accounts` only where `owner_user_id = 'alice'` |
+| User identity (data) | Keycloak `sub` claim | Postgres RLS policy | user `alice` can `SELECT` from `accounts` only where she appears in `account_owners` |
 
 Demo Keycloak users (defined in `keycloak/realm-export.json`), each with one realm role and one or more owned accounts:
 
@@ -84,7 +84,7 @@ This table intentionally gives `bob.risk` and `carol.trader` overlapping account
 All schema -- tables, roles, grants, and RLS policies -- is managed as **Liquibase changelogs**, not hand-run SQL scripts. This is the mechanism that makes schema changes GitOps-friendly: a `Job` (see Deployment, below) runs `liquibase update` against Postgres on every deploy, so the database's structure is declared and versioned in the repo exactly like the Kubernetes manifests are, and `liquibase status`/`history` gives an audit trail of schema changes independent of whoever ran them. The SQL shown in this section is the content of individual changesets, not scripts to run by hand.
 
 Schema mirrors the mock demo's tables (`accounts`, `positions`, `orders`, `transactions`, `market_data`, `fundamentals`), plus:
-- `accounts.owner_user_id text not null` — the Keycloak `sub` of the owning analyst.
+- A new `account_owners` join table: `account_id text not null references accounts(account_id), user_id text not null, primary key (account_id, user_id)` — an account can have more than one owning analyst (needed below, where `ACC-1001` is intentionally owned by two different demo users to prove the two axes are independent; a single `owner_user_id` column on `accounts` cannot represent that).
 - A new `audit_log` table: `id serial primary key, at timestamptz default now(), scope text, user_id text, kind text, name text, params jsonb, decision text, detail text`.
 
 Four Postgres roles, one per task scope, each `GRANT`ed only the tables its scope needs (mirroring the mock's `TASK_SCOPES` table exactly, so the two demos tell the same story). Each block below is one Liquibase "formatted SQL" changeset in `db/changelog/002-roles-grants.sql` (a `--changeset <author>:<id>` comment line per changeset, which is Liquibase's plain-SQL changelog format -- no XML/YAML needed for these):
@@ -114,16 +114,21 @@ Row-Level Security, enabled on the account-owned tables (`accounts`, `positions`
 --changeset someshjha:003-rls
 alter table accounts enable row level security;
 create policy owner_only on accounts
-  using (owner_user_id = current_setting('app.current_user_id', true));
+  using (account_id in (
+    select account_id from account_owners
+    where user_id = current_setting('app.current_user_id', true)
+  ));
 
--- positions/orders/transactions: policy joins to accounts for ownership
+-- positions/orders/transactions: same pattern, via account_owners
 create policy owner_only on positions
   using (account_id in (
-    select account_id from accounts
-    where owner_user_id = current_setting('app.current_user_id', true)
+    select account_id from account_owners
+    where user_id = current_setting('app.current_user_id', true)
   ));
 -- (orders, transactions: same pattern)
 ```
+
+`account_owners` itself is not RLS-gated -- the MCP server's queries always go through `accounts`/`positions`/`orders`/`transactions`, never read `account_owners` directly on a scoped connection, so it does not need its own policy for this PoC.
 
 The MCP server sets both `SET LOCAL ROLE <scope>` and `SET LOCAL app.current_user_id = '<sub>'` at the start of every transaction, so a single query is filtered by role-based `GRANT`s (which *tables* exist for this call) and by RLS (which *rows* of those tables this user owns) simultaneously, exactly as designed above.
 
