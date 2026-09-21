@@ -116,6 +116,7 @@ html[data-theme="dark"] .poc-entry-action { color: #07110f; }
 .eyebrow span { width: 27px; height: 1px; background: var(--copper); }
 h1, h2, h3, p { margin-top: 0; }
 h1 { margin-bottom: 24px; max-width: 900px; font-family: var(--serif); font-weight: 400; font-size: clamp(58px, 7.3vw, 96px); line-height: .89; letter-spacing: -.055em; }
+#hero-title { display: flex; flex-direction: column; gap: .1em; }
 h1 em, h2 em { font-weight: 400; color: var(--copper); }
 .hero-intro { max-width: 650px; color: var(--ink-soft); font-family: var(--serif); font-size: clamp(20px, 2vw, 28px); line-height: 1.38; }
 .hero-actions { display: flex; align-items: center; gap: 30px; margin-top: 30px; }
