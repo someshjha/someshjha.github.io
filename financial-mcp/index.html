@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f0e8">
+  <meta name="description" content="Mock-only embedded console for the scoped financial-data MCP proof of concept.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Scoped financial MCP mock console — Somesh Jha">
+  <meta property="og:description" content="A single-page mock-only showcase embedding a scoped MCP tools console and linking to the real implementation repository.">
+  <meta property="og:url" content="https://someshjha.com/financial-mcp/">
+  <link rel="canonical" href="https://someshjha.com/financial-mcp/">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="../styles.css?v=theme-notes-v2">
+  <script defer src="../script.js?v=theme-notes-v2"></script>
+  <title>Scoped financial MCP mock console — Somesh Jha</title>
+</head>
+<body class="pocs-page poc-embed-page">
+  <a class="skip-link" href="#financial-mcp-frame">Skip to console</a>
+
+  <header class="site-header scrolled" data-header>
+    <div class="shell nav-wrap">
+      <a class="brand" href="../index.html" aria-label="Somesh Jha, home">
+        <span class="brand-mark" aria-hidden="true">SJ</span>
+        <span class="brand-name">Somesh Jha</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span><span></span>
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Primary navigation">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#services">Services</a>
+        <a href="../index.html#work">Work</a>
+        <a href="../pocs.html" aria-current="page">PoCs</a>
+        <a href="../writing.html">Notes</a>
+        <a class="nav-cta" href="../index.html#contact">Contact <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="poc-embed-hero" aria-labelledby="poc-title">
+      <div class="shell poc-embed-hero-grid">
+        <div>
+          <p class="eyebrow"><span></span> Mock-only embedded console</p>
+          <h1 id="poc-title">Scoped financial <em>MCP.</em></h1>
+        </div>
+        <div class="poc-embed-copy">
+          <p>This page embeds a mock MCP console directly below. It simulates the tools/resources/prompts protocol with representative Postgres-shaped financial data and enforces task-scoped access in the browser only. The repository will contain the real Python MCP server, Postgres schema, and kind + Argo CD deployment.</p>
+          <div class="poc-embed-actions">
+            <a class="button button-dark" href="https://github.com/someshjha/poc_mcp" target="_blank" rel="noopener noreferrer">Real implementation repo <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="../pocs.html#financial-data">PoC registry</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="poc-embed-shell" aria-labelledby="frame-title">
+      <div class="shell">
+        <div class="poc-embed-notice" role="note">
+          <strong>Mock only</strong>
+          <span>The embedded console does not run a real MCP server or Postgres. Use the GitHub repository to run the real local kind + Argo CD implementation once it is published.</span>
+        </div>
+
+        <div class="poc-frame-card">
+          <div class="poc-frame-toolbar">
+            <div>
+              <span></span><span></span><span></span>
+            </div>
+            <strong id="frame-title">Scoped MCP console mock</strong>
+            <a href="./console.html" target="_blank" rel="noopener noreferrer">Open frame directly ↗</a>
+          </div>
+          <iframe
+            id="financial-mcp-frame"
+            title="Scoped financial MCP mock console"
+            src="./console.html"
+            loading="eager"
+            referrerpolicy="no-referrer"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="poc-footer">
+    <div class="shell">
+      <p>© <span data-year></span> Somesh Jha</p>
+      <p>Mock-only public iframe · Real system in GitHub</p>
+      <a href="../pocs.html">PoC registry ↑</a>
+    </div>
+  </footer>
+  <script>
+    const frame = document.querySelector("#financial-mcp-frame");
+
+    function resizeConsoleFrame() {
+      try {
+        const doc = frame.contentDocument;
+        if (!doc) return;
+        frame.style.height = "0px";
+        const height = Math.max(
+          doc.documentElement.scrollHeight,
+          doc.body?.scrollHeight || 0,
+          880
+        );
+        frame.style.height = `${height}px`;
+      } catch {
+        frame.style.height = "940px";
+      }
+    }
+
+    frame.addEventListener("load", () => {
+      resizeConsoleFrame();
+      const doc = frame.contentDocument;
+      if (!doc) return;
+      new ResizeObserver(() => requestAnimationFrame(resizeConsoleFrame)).observe(doc.documentElement);
+      doc.addEventListener("click", () => requestAnimationFrame(resizeConsoleFrame));
+      doc.addEventListener("input", () => requestAnimationFrame(resizeConsoleFrame));
+    });
+
+    new ResizeObserver(() => requestAnimationFrame(resizeConsoleFrame)).observe(frame);
+  </script>
+</body>
+</html>
