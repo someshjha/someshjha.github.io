@@ -267,7 +267,7 @@ const TOOL_DEFS = {
   get_audit_log: {
     description: "Get this session's full tool, resource, and prompt call history.",
     inputSchema: [],
-    handler: (_params, server) => clone(server.auditLog)
+    handler: (_params, server) => server.auditLog.map(({ result, ...rest }) => rest)
   }
 };
 

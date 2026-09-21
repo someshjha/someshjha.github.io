@@ -94,3 +94,18 @@ test("audit log accumulates both allow and deny entries in call order", () => {
 test("listAllTools exposes the full catalogue regardless of scope", () => {
   assert.equal(listAllTools().length, 8);
 });
+
+test("repeated get_audit_log calls do not cause exponential audit-log growth", () => {
+  const server = new MockMcpServer();
+  server.selectTaskScope("equity_research");
+  for (let i = 0; i < 30; i++) {
+    server.callTool("get_audit_log", {});
+  }
+  const size = JSON.stringify(server.getAuditLog()).length;
+  // Each get_audit_log call legitimately embeds a stripped snapshot of prior entries, so total
+  // size grows quadratically (not exponentially) with repeated calls. The old bug embedded each
+  // entry's full nested `result` and roughly doubled the log's size per call, exceeding 145 MB by
+  // the 20th call. 100000 chars comfortably covers the expected quadratic growth for 30 calls
+  // while still failing fast if the exponential/recursive behavior regresses.
+  assert.ok(size < 100000, `audit log serialized size ${size} exceeded 100000 chars`);
+});

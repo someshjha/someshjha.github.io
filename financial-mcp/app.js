@@ -152,18 +152,22 @@ function showResult(entry, method) {
   document.getElementById("console-response").textContent = JSON.stringify(entry, null, 2);
 }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
 function renderAuditLog() {
   const body = document.getElementById("audit-body");
   const log = server.getAuditLog();
   body.innerHTML = log.slice().reverse().map(e => `
-    <tr class="decision-${e.decision}">
-      <td>${e.id}</td>
-      <td>${new Date(e.at).toLocaleTimeString()}</td>
-      <td>${e.scope ?? "—"}</td>
-      <td>${e.kind}</td>
-      <td>${e.name}</td>
-      <td><span class="decision-badge">${e.decision}</span></td>
-      <td>${e.detail ?? (e.decision === "allow" ? "ok" : "")}</td>
+    <tr class="decision-${escapeHtml(e.decision)}">
+      <td>${escapeHtml(e.id)}</td>
+      <td>${escapeHtml(new Date(e.at).toLocaleTimeString())}</td>
+      <td>${escapeHtml(e.scope ?? "—")}</td>
+      <td>${escapeHtml(e.kind)}</td>
+      <td>${escapeHtml(e.name)}</td>
+      <td><span class="decision-badge">${escapeHtml(e.decision)}</span></td>
+      <td>${escapeHtml(e.detail ?? (e.decision === "allow" ? "ok" : ""))}</td>
     </tr>
   `).join("") || `<tr><td colspan="7">No calls yet.</td></tr>`;
 }
