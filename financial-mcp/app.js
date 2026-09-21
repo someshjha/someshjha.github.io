@@ -106,7 +106,7 @@ function renderConsole() {
   function renderParamFields() {
     const def = allTools.find(t => t.name === toolSelect.value);
     paramsHost.innerHTML = (def?.inputSchema ?? []).map(p => `
-      <label><span>${p.name}${p.required ? "" : " (optional)"}</span><input name="${p.name}" data-type="${p.type}" ${p.required ? "required" : ""} /></label>
+      <label><span>${p.name}${p.required ? "" : " (optional)"}</span><input name="${p.name}" data-type="${p.type}" ${p.type === "number" ? 'type="number" step="1" min="1"' : 'type="text"'} ${p.required ? "required" : ""} /></label>
     `).join("");
   }
 
