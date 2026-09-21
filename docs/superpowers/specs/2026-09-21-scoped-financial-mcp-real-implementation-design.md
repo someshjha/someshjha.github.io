@@ -81,13 +81,16 @@ This table intentionally gives `bob.risk` and `carol.trader` overlapping account
 
 ## Postgres schema and RLS design
 
+All schema -- tables, roles, grants, and RLS policies -- is managed as **Liquibase changelogs**, not hand-run SQL scripts. This is the mechanism that makes schema changes GitOps-friendly: a `Job` (see Deployment, below) runs `liquibase update` against Postgres on every deploy, so the database's structure is declared and versioned in the repo exactly like the Kubernetes manifests are, and `liquibase status`/`history` gives an audit trail of schema changes independent of whoever ran them. The SQL shown in this section is the content of individual changesets, not scripts to run by hand.
+
 Schema mirrors the mock demo's tables (`accounts`, `positions`, `orders`, `transactions`, `market_data`, `fundamentals`), plus:
 - `accounts.owner_user_id text not null` — the Keycloak `sub` of the owning analyst.
 - A new `audit_log` table: `id serial primary key, at timestamptz default now(), scope text, user_id text, kind text, name text, params jsonb, decision text, detail text`.
 
-Four Postgres roles, one per task scope, each `GRANT`ed only the tables its scope needs (mirroring the mock's `TASK_SCOPES` table exactly, so the two demos tell the same story):
+Four Postgres roles, one per task scope, each `GRANT`ed only the tables its scope needs (mirroring the mock's `TASK_SCOPES` table exactly, so the two demos tell the same story). Each block below is one Liquibase "formatted SQL" changeset in `db/changelog/002-roles-grants.sql` (a `--changeset <author>:<id>` comment line per changeset, which is Liquibase's plain-SQL changelog format -- no XML/YAML needed for these):
 
 ```sql
+--changeset someshjha:002-roles-grants
 create role equity_research;
 grant select on market_data, fundamentals to equity_research;
 
@@ -105,9 +108,10 @@ grant select on accounts, transactions to client_support;
 grant select, insert on audit_log to equity_research, portfolio_risk, trade_execution, client_support;
 ```
 
-Row-Level Security, enabled on the account-owned tables (`accounts`, `positions`, `orders`, `transactions` — not `market_data`/`fundamentals`, which are reference data with no owner):
+Row-Level Security, enabled on the account-owned tables (`accounts`, `positions`, `orders`, `transactions` — not `market_data`/`fundamentals`, which are reference data with no owner) -- changeset in `db/changelog/003-rls.sql`:
 
 ```sql
+--changeset someshjha:003-rls
 alter table accounts enable row level security;
 create policy owner_only on accounts
   using (owner_user_id = current_setting('app.current_user_id', true));
@@ -148,7 +152,7 @@ A FastAPI app that is simultaneously the web UI's backend and the MCP *client* �
 - `kind/bootstrap.sh` — creates the kind cluster, installs Argo CD's standard manifests into it, applies the root `Application`, waits for all child apps to reach `Synced`/`Healthy`. One command from a clean checkout to a running demo.
 - `argocd/root-app.yaml` — a single Argo CD `Application` pointed at `argocd/apps/` in this same repo (the "app of apps" pattern).
 - `argocd/apps/{postgres,keycloak,mcp-server,ui}.yaml` — one child `Application` per component, each syncing `k8s/<component>/`, each with automated sync + self-heal + prune, so a `git push` to any component's manifests resyncs only that component.
-- `k8s/postgres/` — `StatefulSet` + `PersistentVolumeClaim` + `Service` + `Secret` (admin credentials) + a `Job` that runs the schema/roles/RLS/seed SQL on first start.
+- `k8s/postgres/` — `StatefulSet` + `PersistentVolumeClaim` + `Service` + `Secret` (admin credentials) + a `Job` (using the official `liquibase/liquibase` container image) that runs `liquibase update` against `db/changelog/` on every deploy, applying the schema/roles/RLS/seed changesets in order.
 - `k8s/keycloak/` — `Deployment` + `Service` + `ConfigMap` (realm export).
 - `k8s/mcp-server/` — `Deployment` + `Service` + `ConfigMap` (Postgres connection info, Keycloak issuer URL).
 - `k8s/ui/` — `Deployment` + `Service` (+ `Ingress` or a `NodePort`/port-forward instructions for local access, since this is a `kind` cluster with no external load balancer).
@@ -158,7 +162,14 @@ A FastAPI app that is simultaneously the web UI's backend and the MCP *client* �
 ```
 poc_mcp/
 |-- mcp_server/           # Python MCP server (Streamable HTTP transport)
-|-- db/                   # schema.sql, roles.sql, rls.sql, seed.sql
+|-- db/
+|   |-- liquibase.properties
+|   `-- changelog/
+|       |-- changelog-master.xml
+|       |-- 001-schema.sql        # tables (changeset per table)
+|       |-- 002-roles-grants.sql  # create role + grant, one changeset per role
+|       |-- 003-rls.sql           # enable RLS + policies
+|       `-- 004-seed.sql          # demo accounts/positions/market data/users
 |-- ui/                   # FastAPI backend + static HTML/JS frontend
 |-- keycloak/
 |   `-- realm-export.json
@@ -194,7 +205,7 @@ The `README.md` documents this script as the thing to run after `kind/bootstrap.
 
 This is a real system, not a single sitting of work. Suggested sequencing for the future implementation plan (written later, in the `poc_mcp` repo):
 
-1. Postgres schema, roles, RLS policies, seed data, and `verify_scopes.py` running against a local (non-k8s) Postgres — prove the core database-level claim first, before any server or cluster exists.
+1. Liquibase changelogs (schema, roles, RLS policies, seed data) applied with `liquibase update` against a local (non-k8s) Postgres run via `docker run postgres:16`, plus `verify_scopes.py` — prove the core database-level claim first, before any server or cluster exists.
 2. MCP server implementing the tool catalogue against that schema, still running locally (not yet in k8s), authenticating against a locally-run Keycloak dev instance.
 3. Showcase UI, still local.
 4. Containerize all three; write `k8s/` manifests; validate with plain `kubectl apply` on a `kind` cluster (no Argo CD yet).
