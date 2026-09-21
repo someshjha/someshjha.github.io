@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1d19">
+  <meta name="description" content="Somesh Jha is a named inventor on US Patent 11,270,105 (IBM), a machine-learning system for extracting and validating symbols, connections, and annotations from engineering drawings.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="US Patent 11,270,105 — Extracting and analyzing information from engineering drawings — Somesh Jha">
+  <meta property="og:description" content="A machine-learning pipeline that classifies symbols, traces connections, and validates attributes in technical drawings against real engineering standards.">
+  <meta property="og:url" content="https://someshjha.com/patent.html">
+  <link rel="canonical" href="https://someshjha.com/patent.html">
+  <link rel="stylesheet" href="styles.css?v=theme-notes-v2">
+  <title>US Patent 11,270,105 — Extracting and analyzing information from engineering drawings — Somesh Jha</title>
+  <script defer src="script.js?v=theme-notes-v2"></script>
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#article">Skip to article</a>
+
+  <header class="article-nav">
+    <div class="shell article-nav-inner">
+      <a class="brand" href="index.html" aria-label="Somesh Jha, home">
+        <span class="brand-mark" aria-hidden="true">SJ</span>
+        <span class="brand-name">Somesh Jha</span>
+      </a>
+      <a class="article-back" href="index.html#work">← Back to selected work</a>
+    </div>
+  </header>
+
+  <main id="article">
+    <header class="article-hero">
+      <div class="article-shell">
+        <p class="eyebrow"><span></span> Patent · Intellectual property</p>
+        <h1>Extracting and analyzing information from <em>engineering drawings.</em></h1>
+        <p class="article-subtitle">US Patent 11,270,105, assigned to IBM. One of ten named inventors on a system that reads technical drawings the way an engineer does—symbols, connections, and annotations, checked against real standards.</p>
+        <p class="article-byline">Patent No. 11,270,105 <span aria-hidden="true">·</span> Filed September 24, 2019 <span aria-hidden="true">·</span> Issued March 8, 2022</p>
+      </div>
+    </header>
+
+    <article class="article-body article-shell">
+      <aside class="article-summary" aria-labelledby="summary-title">
+        <p class="article-label" id="summary-title">Executive summary</p>
+        <p>Engineering drawings—PCB fabrication prints, architectural plans, wiring diagrams—encode most of their meaning in symbols, connecting lines, and text annotations that vary in orientation, scale, and style from one drawing to the next. Reading them at scale has traditionally required a person. This patent describes a machine-learning pipeline that classifies the symbols (nodes) in a drawing, traces the connections (edges) between them, extracts each one's text and attributes, and checks the result against published standards and domain rules to catch errors a human reviewer would otherwise have to find by hand.</p>
+        <p>Somesh Jha is one of ten named inventors, credited while at IBM (Toronto). The patent is assigned to International Business Machines Corporation.</p>
+      </aside>
+
+      <h2>The problem with reading drawings automatically</h2>
+      <p class="article-lede">Symbols in a technical drawing rarely appear the same way twice.</p>
+      <p>The same component can show up rotated, rescaled, or redrawn in a slightly different house style across a set of drawings, which breaks pattern-matching approaches that expect a fixed template. Existing automated extraction tools could locate some of this content, but struggled to stay accurate across those variations—and even when extraction worked, nothing in the pipeline could tell whether the result was actually correct: a wire rated for less current than the annotation implies, a symbol missing a required label, a connection that doesn't match the standard it claims to follow. Catching that kind of error still meant a person reading the whole drawing.</p>
+
+      <div class="article-two-col">
+        <section class="article-card">
+          <h3>The node pipeline</h3>
+          <ul>
+            <li>Classify symbols with a region-based CNN, trained with rotation and scale augmentation so detection isn't tied to one orientation</li>
+            <li>Extract each symbol's text, color, and other visual attributes</li>
+            <li>Validate those attributes against stored standards, domain rules, and language models</li>
+            <li>Remove classified nodes from the image once they're read</li>
+          </ul>
+        </section>
+        <section class="article-card">
+          <h3>The edge pipeline</h3>
+          <ul>
+            <li>Apply edge-detection operators and reinforcement learning to trace the connecting lines left after nodes are removed</li>
+            <li>Extract each connection's text, color, and connectivity information</li>
+            <li>Validate connections and attributes against the same standards and domain knowledge</li>
+            <li>Flag, suggest a correction for, or modify attributes that don't check out</li>
+          </ul>
+        </section>
+      </div>
+
+      <p class="article-quote">The correction component can flag errors, suggest corrections, or modify attributes based on domain knowledge—for example, catching when a wire annotation specifies current exceeding the wire's rated ampacity.</p>
+
+      <h2>The method, step by step</h2>
+      <p>Six steps, run in sequence on each drawing.</p>
+      <div class="article-parts">
+        <section><span>01</span><div><h3>Node classification</h3><p>An R-CNN identifies and classifies the symbols in the drawing, trained to stay accurate regardless of a symbol's rotation or scale.</p></div></section>
+        <section><span>02</span><div><h3>Node attribute extraction</h3><p>Text annotations, colors, and other properties are retrieved for every classified symbol.</p></div></section>
+        <section><span>03</span><div><h3>Error detection</h3><p>Extracted attributes are compared against stored standards, domain rules, and language models to flag inconsistencies.</p></div></section>
+        <section><span>04</span><div><h3>Edge identification</h3><p>With classified nodes removed from the image, edge-detection operators and reinforcement learning trace the remaining connecting lines.</p></div></section>
+        <section><span>05</span><div><h3>Edge attribute extraction</h3><p>Text, color, and connectivity information are retrieved for every identified connection.</p></div></section>
+        <section><span>06</span><div><h3>Edge validation</h3><p>The same error-checking process validates connection attributes against domain knowledge.</p></div></section>
+      </div>
+
+      <h2>Key facts</h2>
+      <div class="article-table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>Detail</th></tr></thead>
+          <tbody>
+            <tr><td>Patent number</td><td>US 11,270,105 B2</td></tr>
+            <tr><td>Application number</td><td>US 16/580,229</td></tr>
+            <tr><td>Filed</td><td>September 24, 2019</td></tr>
+            <tr><td>Issued</td><td>March 8, 2022</td></tr>
+            <tr><td>Assignee</td><td>International Business Machines Corporation</td></tr>
+            <tr><td>Inventors</td><td>10 named, including Somesh Jha</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <footer class="article-closing">
+        <p class="article-quote">The attribute database behind the correction component holds published standards—IPC, ISO, IEC—alongside domain-specific rules, so an error gets caught against the actual rule it violates, not just a pattern mismatch.</p>
+        <p><strong>Read the filing.</strong> The full specification and claims are public on <a href="https://patents.google.com/patent/US11270105B2/en" target="_blank" rel="noreferrer">Google Patents</a>.</p>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="article-site-footer">
+    <div class="shell"><p>© 2026 Somesh Jha</p><a href="index.html#work">Back to selected work →</a></div>
+  </footer>
+</body>
+</html>
