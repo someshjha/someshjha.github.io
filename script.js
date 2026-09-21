@@ -30,20 +30,23 @@ function applyTheme(theme) {
   document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
     button.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
     button.setAttribute('aria-pressed', String(theme === 'dark'));
-    button.querySelector('[data-theme-label]').textContent = theme === 'dark' ? 'Light' : 'Dark';
   });
   notifyFrames(theme);
 }
 
 function mountThemeToggle() {
-  const host = nav ?? document.querySelector('.article-nav-inner') ?? document.querySelector('.thanks-shell');
-  if (!host || host.querySelector('[data-theme-toggle]')) return;
+  // Floats fixed at the bottom of the viewport, outside the nav/hamburger menu,
+  // so it stays reachable on mobile without opening the menu first.
+  if (document.querySelector('[data-theme-toggle]')) return;
 
   const button = document.createElement('button');
   button.className = 'theme-toggle';
   button.type = 'button';
   button.dataset.themeToggle = '';
-  button.innerHTML = '<span aria-hidden="true"></span><b data-theme-label>Theme</b>';
+  button.innerHTML = `<span class="theme-icon" aria-hidden="true">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.5v2.6M12 18.9v2.6M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2.5 12h2.6M18.9 12h2.6M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+  </span>`;
   button.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     try {
@@ -54,9 +57,7 @@ function mountThemeToggle() {
     applyTheme(next);
   });
 
-  const contact = host.querySelector('.nav-cta');
-  if (contact) host.insertBefore(button, contact);
-  else host.appendChild(button);
+  document.body.appendChild(button);
 }
 
 const initialTheme = getPreferredTheme();
