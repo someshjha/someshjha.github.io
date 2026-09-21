@@ -188,9 +188,13 @@ tr.decision-deny .decision-badge { background: var(--red-dark); color: var(--red
 tr.decision-error .decision-badge { background: var(--amber-dark); color: var(--amber); }
 
 @media (max-width: 860px) {
-  .sidebar { position: static; width: auto; border-right: none; border-bottom: 1px solid var(--line); flex-direction: row; align-items: center; flex-wrap: wrap; }
-  .nav-list { flex-direction: row; flex-wrap: wrap; }
-  .sidebar-footer { margin-top: 0; flex-direction: row; }
+  .sidebar {
+    position: static; width: auto; border-right: none; border-bottom: 1px solid var(--line);
+    flex-direction: row; flex-wrap: wrap; align-items: center; row-gap: 10px;
+  }
+  .brand { margin-bottom: 0; margin-right: 8px; }
+  .nav-list { display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .sidebar-footer { margin-top: 0; margin-left: auto; display: flex; flex-direction: row; align-items: center; gap: 8px; }
   .main-content { margin-left: 0; padding: 18px 16px 40px; }
   .console-layout { grid-template-columns: 1fr; }
 }
