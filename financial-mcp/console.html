@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mock-only public showcase for scoped financial-data MCP tools." />
+    <title>Scoped Financial MCP — Mock-Only PoC Showcase</title>
+    <link rel="canonical" href="https://someshjha.com/financial-mcp/" />
+    <script>
+      document.documentElement.dataset.theme = 'dark';
+    </script>
+    <link rel="stylesheet" href="./styles.css?v=financial-mcp-v1" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <a class="brand" href="#overview" aria-label="Scoped Financial MCP overview">
+          <span class="brand-mark" aria-hidden="true">MCP</span>
+          <span>Financial<span>MCP</span></span>
+        </a>
+        <nav class="nav-list">
+          <a class="nav-item active" href="#overview" data-view="overview"><span>Overview</span></a>
+          <a class="nav-item" href="#schema" data-view="schema"><span>Schema</span></a>
+          <a class="nav-item" href="#scope" data-view="scope"><span>Task Scope</span></a>
+          <a class="nav-item" href="#console" data-view="console"><span>Console</span></a>
+          <a class="nav-item" href="#catalog" data-view="catalog"><span>Resources &amp; Prompts</span></a>
+          <a class="nav-item" href="#audit" data-view="audit"><span>Audit Log</span></a>
+        </nav>
+        <div class="sidebar-footer">
+          <span class="environment-chip">MOCK ONLY</span>
+          <span class="synthetic-label"><i></i> Static public data</span>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <aside class="mock-only-banner" aria-label="Mock-only public page notice">
+          <div>
+            <strong>Mock-only public showcase</strong>
+            <span>This page simulates the MCP tools/resources/prompts protocol in the browser. It does not run a real MCP server or Postgres.</span>
+          </div>
+          <a href="https://github.com/someshjha/poc_mcp" target="_blank" rel="noopener noreferrer">Real implementation repo ↗</a>
+        </aside>
+
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">SCOPED AGENT ACCESS</p>
+            <h1 id="page-title">Overview</h1>
+          </div>
+          <div class="topbar-status">
+            <div class="scenario-identity">
+              <span>ACTIVE TASK SCOPE</span>
+              <strong id="active-scope-label">None selected</strong>
+            </div>
+          </div>
+        </header>
+
+        <div class="content-area">
+          <section class="view active" id="view-overview" data-view-panel="overview">
+            <div class="section-heading">
+              <div><p class="eyebrow">WHAT THIS DEMONSTRATES</p><h2>Task-scoped MCP capabilities</h2></div>
+            </div>
+            <div class="kpi-grid" id="kpi-grid"></div>
+            <article class="panel overview-copy">
+              <p>An agent working a task does not receive a standing API key. It receives exactly the tools, resources, and prompts that task is allowed to use, and every call — allowed or denied — is written to an audit trail.</p>
+              <p>Pick a task under <strong>Task Scope</strong>, then call tools from the <strong>Console</strong> to see the boundary enforced live.</p>
+            </article>
+          </section>
+
+          <section class="view" id="view-schema" data-view-panel="schema">
+            <div class="section-heading"><div><p class="eyebrow">MOCK POSTGRES SCHEMA</p><h2>Tables</h2></div></div>
+            <div class="schema-grid" id="schema-grid"></div>
+          </section>
+
+          <section class="view" id="view-scope" data-view-panel="scope">
+            <div class="section-heading"><div><p class="eyebrow">CHOOSE A TASK</p><h2>Task scope</h2></div></div>
+            <div class="scope-grid" id="scope-grid"></div>
+            <article class="panel capability-panel" id="capability-panel"></article>
+          </section>
+
+          <section class="view" id="view-console" data-view-panel="console">
+            <div class="section-heading"><div><p class="eyebrow">CALL A TOOL</p><h2>Console</h2></div></div>
+            <div class="console-layout">
+              <form class="panel console-form" id="console-form">
+                <label><span>Tool</span><select id="console-tool" name="tool"></select></label>
+                <div id="console-params"></div>
+                <button class="primary-action" type="submit">Call tool <span>→</span></button>
+              </form>
+              <aside class="panel console-evidence">
+                <div class="panel-header"><div><p class="eyebrow">REQUEST</p><h3>tools/call</h3></div></div>
+                <pre id="console-request"></pre>
+                <div class="panel-header"><div><p class="eyebrow">RESPONSE</p><h3>result</h3></div></div>
+                <pre id="console-response"></pre>
+              </aside>
+            </div>
+          </section>
+
+          <section class="view" id="view-catalog" data-view-panel="catalog">
+            <div class="section-heading"><div><p class="eyebrow">FULL CATALOGUE</p><h2>Resources &amp; prompts</h2></div></div>
+            <div class="catalog-grid">
+              <article class="panel"><h3>Resources</h3><div id="resource-list"></div></article>
+              <article class="panel"><h3>Prompts</h3><div id="prompt-list"></div></article>
+            </div>
+          </section>
+
+          <section class="view" id="view-audit" data-view-panel="audit">
+            <div class="section-heading"><div><p class="eyebrow">REVIEWABLE INDEPENDENTLY</p><h2>Audit log</h2></div></div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>#</th><th>Time</th><th>Task scope</th><th>Kind</th><th>Name</th><th>Decision</th><th>Detail</th></tr></thead>
+                <tbody id="audit-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="./app.js?v=financial-mcp-v1"></script>
+  </body>
+</html>
