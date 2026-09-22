@@ -67,7 +67,7 @@
           <p>A compact view of the system boundary, status, stack, and available evidence.</p>
           <nav aria-label="PoC list">
             <a href="#evidence-review"><span>01</span> Durable review</a>
-            <a href="#prior-authorization"><span>02</span> Cross-org workflow</a>
+            <a href="#prior-authorization"><span>02</span> SLA-bound review</a>
             <a href="#column-masking"><span>03</span> Data visibility</a>
             <a href="#financial-data"><span>04</span> Scoped agent access</a>
             <a href="#streaming-orders"><span>05</span> Stream correctness</a>
@@ -98,18 +98,18 @@
 
           <li class="poc-item reveal" id="prior-authorization">
             <div class="poc-item-meta">
-              <span>02 / Organizational boundary</span>
-              <span class="poc-status poc-status-active"><i class="status-dot status-active"></i> Scaffolded</span>
+              <span>02 / SLA-bound review</span>
+              <span class="poc-status"><i class="status-dot"></i> Planned</span>
             </div>
-            <h3>Prior authorization across organizations</h3>
-            <p class="poc-claim">Can two independent parties preserve workflow durability without giving either side control of the other?</p>
-            <p>Provider and payer run as separate workflows over signed HTTP rather than as parent and child processes. SLA timers, idempotent callbacks, and resubmission remain intact when a worker disappears mid-case.</p>
+            <h3>Fraud case investigation</h3>
+            <p class="poc-claim">Can a long-running investigation stay durable across a human review SLA without losing state if a worker restarts?</p>
+            <p>A Temporal workflow runs automated fraud checks, retries a flaky device-intelligence call without hand-written retry logic, then waits on an analyst's signal against an SLA timer. Killing and restarting the worker mid-case resumes exactly where it left off — nothing already completed re-runs, nothing in flight is lost.</p>
             <ul class="poc-stack" aria-label="Technology stack">
-              <li>Temporal</li><li>FastAPI</li><li>PostgreSQL</li><li>FHIR</li><li>Da Vinci PAS</li>
+              <li>Temporal</li><li>Python</li><li>FastAPI</li><li>PostgreSQL</li>
             </ul>
             <div class="poc-actions">
-              <a class="poc-repo" href="https://github.com/someshjha/temporal-prior-auth" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
-              <a class="poc-demo-link" href="poc-demos.html#prior-authorization-demo">Open demo <span aria-hidden="true">→</span></a>
+              <span class="poc-pending">Repository planned</span>
+              <a class="poc-demo-link" href="temporal_poc_fintech/">Open mock demo <span aria-hidden="true">→</span></a>
             </div>
           </li>
 

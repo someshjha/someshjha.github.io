@@ -23,13 +23,6 @@ if (demos) {
         : 'Reviewer overrode one exclusion. The model suggestion remains in the audit trail beside the human decision.';
     }
 
-    if (panel.id === 'prior-authorization-demo') {
-      panel.dataset.state = action;
-      output.textContent = action === 'delay'
-        ? 'Payer callback missed the SLA. The provider workflow remained active and issued an idempotent resubmission.'
-        : 'The repeated callback was accepted once; its duplicate was recorded and ignored.';
-    }
-
     if (panel.id === 'column-masking-demo') {
       const values = {
         support: ['Maya Chen', '••• ••• 1842', 'Hidden', 'Account support'],

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mock-only console for a Temporal-style fraud case investigation, showing retries, SLA timers, signals, and durable execution across a worker restart.">
+  <title>Fraud case investigation — mock console</title>
+  <link rel="stylesheet" href="./styles.css?v=temporal-fraud-v1">
+</head>
+<body>
+  <div class="console-shell">
+    <header class="case-header">
+      <div class="case-header-left">
+        <p class="eyebrow">Temporal-style durable execution · Mock only</p>
+        <h1 id="case-id">FRAUD-CASE-4417</h1>
+        <p class="case-claim">Can a long-running investigation stay durable across a human review SLA without losing state if a worker restarts?</p>
+      </div>
+      <div class="case-header-right">
+        <span class="status-badge" id="case-status-badge" data-status="idle">Not started</span>
+        <button type="button" class="primary-action" id="start-case-btn">Start case</button>
+      </div>
+    </header>
+
+    <section class="panel case-summary">
+      <div>
+        <span>Cardholder</span>
+        <strong id="cardholder-name"></strong>
+      </div>
+      <div>
+        <span>Account · Card</span>
+        <strong id="cardholder-account"></strong>
+      </div>
+      <div>
+        <span>Alert</span>
+        <strong id="alert-summary"></strong>
+      </div>
+      <div>
+        <span>Source</span>
+        <strong id="alert-source"></strong>
+      </div>
+    </section>
+
+    <section class="panel worker-panel">
+      <div class="worker-status">
+        <span>Worker</span>
+        <strong id="worker-status-label" data-alive="true">worker-1 — running</strong>
+      </div>
+      <div class="worker-controls">
+        <button type="button" id="kill-worker-btn">Kill worker mid-case</button>
+        <button type="button" id="restart-worker-btn" disabled>Restart worker</button>
+      </div>
+      <p class="worker-note">Killing the worker interrupts whatever step is in flight. Completed steps are never re-run on restart — the interrupted step alone re-executes from scratch, the way a real Temporal activity retried after a crash would.</p>
+    </section>
+
+    <section class="workflow-diagram" aria-label="Workflow steps">
+      <ol id="workflow-steps"></ol>
+    </section>
+
+    <div class="two-column">
+      <section class="panel review-panel">
+        <div class="panel-heading">
+          <p class="eyebrow">Human-in-the-loop</p>
+          <h2 id="review-stage-label">Awaiting automated checks</h2>
+        </div>
+        <div class="sla-clock">
+          <span>SLA remaining</span>
+          <strong id="sla-remaining">—</strong>
+          <div class="sla-track"><div class="sla-fill" id="sla-fill"></div></div>
+        </div>
+        <div class="decision-controls">
+          <button type="button" id="confirm-fraud-btn" disabled>Confirm fraud</button>
+          <button type="button" id="clear-btn" disabled>Clear as false positive</button>
+        </div>
+        <button type="button" class="text-btn" id="fast-forward-btn" disabled>Fast-forward SLA (demo escalation)</button>
+      </section>
+
+      <section class="panel query-panel">
+        <div class="panel-heading">
+          <p class="eyebrow">Read-only query</p>
+          <h2>Case status</h2>
+        </div>
+        <p class="query-note">A query reads current state without writing to the event history below — unlike every other action on this page.</p>
+        <button type="button" id="query-btn">Query case status</button>
+        <pre id="query-result">Not queried yet.</pre>
+      </section>
+    </div>
+
+    <section class="panel history-panel">
+      <div class="panel-heading">
+        <p class="eyebrow">Append-only, newest at the bottom</p>
+        <h2>Event history</h2>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>#</th><th>Time</th><th>Event</th><th>Name</th><th>Detail</th></tr></thead>
+          <tbody id="history-body"><tr><td colspan="5">No events yet — start the case.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <script type="module" src="./app.js?v=temporal-fraud-v1"></script>
+</body>
+</html>

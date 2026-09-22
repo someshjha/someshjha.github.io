@@ -55,7 +55,6 @@
 
     <nav class="shell demo-index" aria-label="Demonstration index">
       <a href="#evidence-review-demo"><span>01</span> Durable review</a>
-      <a href="#prior-authorization-demo"><span>02</span> Cross-org workflow</a>
       <a href="#column-masking-demo"><span>03</span> Data masking</a>
       <a href="#financial-data-demo"><span>04</span> Agent scope</a>
       <a href="#streaming-orders-demo"><span>05</span> Stream recovery</a>
@@ -82,28 +81,6 @@
               <button type="button" data-demo-action="override" aria-pressed="false">Record override</button>
             </div>
             <p class="demo-output" data-demo-output aria-live="polite">Choose a scenario to inspect the recovery or audit behaviour.</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="demo-panel" id="prior-authorization-demo" data-state="idle">
-        <div class="shell demo-grid">
-          <header class="demo-copy">
-            <p class="section-index">02 / Organizational boundary · Working demo</p>
-            <h2>Prior authorization</h2>
-            <p>Provider and payer must remain independent while deadlines, callbacks, and resubmissions stay durable.</p>
-          </header>
-          <div class="demo-stage">
-            <div class="boundary-flow" aria-label="Provider and payer workflow boundary">
-              <div><small>Provider</small><strong>Case PA-2048</strong><span>Waiting for decision</span></div>
-              <span class="boundary-link">Signed HTTP ↔</span>
-              <div><small>Payer</small><strong>Review queue</strong><span>SLA: 00:42 remaining</span></div>
-            </div>
-            <div class="demo-controls" aria-label="Prior authorization controls">
-              <button type="button" data-demo-action="delay" aria-pressed="false">Simulate payer delay</button>
-              <button type="button" data-demo-action="duplicate" aria-pressed="false">Repeat callback</button>
-            </div>
-            <p class="demo-output" data-demo-output aria-live="polite">Choose a boundary failure to see how the provider workflow responds.</p>
           </div>
         </div>
       </article>
