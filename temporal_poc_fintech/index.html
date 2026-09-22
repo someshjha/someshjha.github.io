@@ -60,7 +60,7 @@
       <div class="shell">
         <div class="poc-embed-notice" role="note">
           <strong>Mock only</strong>
-          <span>The embedded console does not run a real Temporal server, worker, or Postgres. The real implementation — a Python worker and Temporal server deployed to a local <code>kind</code> cluster via Argo CD — is designed and its repository is up, but not yet built. Use the GitHub repository to follow along once the real implementation lands.</span>
+          <span>The embedded console below still simulates Temporal's execution model in the browser with fake data. A real implementation now exists and runs — a real Temporal server, Postgres, and Python worker deployed to a local <code>kind</code> cluster, verified end-to-end by killing the worker pod mid-case and confirming it resumes without re-running completed work. See the GitHub repository to run it yourself.</span>
         </div>
 
         <div class="poc-frame-card">
