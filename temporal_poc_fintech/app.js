@@ -106,15 +106,15 @@ function renderReview() {
   if (workflow.phase === "awaiting-decision") {
     stageLabel.textContent = workflow.reviewStage === "SeniorAnalystReview" ? "Senior analyst review (escalated)" : "Analyst review";
     remaining.textContent = formatMs(workflow.slaRemainingMs);
-    fill.style.width = `${(workflow.slaRemainingMs / workflow.slaTotalMs) * 100}%`;
+    fill.style.transform = `scaleX(${workflow.slaRemainingMs / workflow.slaTotalMs})`;
   } else if (workflow.phase === "done" || workflow.phase === "resolving") {
     stageLabel.textContent = "Review complete";
     remaining.textContent = "—";
-    fill.style.width = "0%";
+    fill.style.transform = "scaleX(0)";
   } else {
     stageLabel.textContent = "Awaiting automated checks";
     remaining.textContent = "—";
-    fill.style.width = "0%";
+    fill.style.transform = "scaleX(0)";
   }
 
   const decisionActive = workflow.phase === "awaiting-decision" && workflow.workerAlive;

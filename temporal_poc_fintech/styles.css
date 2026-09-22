@@ -107,7 +107,7 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 .sla-clock span { font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--subtle); }
 .sla-clock strong { font-size: 24px; font-family: ui-monospace, monospace; color: var(--amber); }
 .sla-track { height: 6px; border-radius: 999px; background: var(--surface-soft); overflow: hidden; }
-.sla-fill { height: 100%; background: var(--amber); width: 100%; transition: width .2s linear; }
+.sla-fill { height: 100%; width: 100%; background: var(--amber); transform: scaleX(1); transform-origin: left; transition: transform .2s linear; }
 
 .decision-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
 .decision-controls button {
