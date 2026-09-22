@@ -66,12 +66,12 @@
           <h2 id="registry-title">Six claims worth testing.</h2>
           <p>A compact view of the system boundary, status, stack, and available evidence.</p>
           <nav aria-label="PoC list">
-            <a href="#evidence-review"><span>01</span> Durable review</a>
+            <a href="#physics-research-assistant"><span>01</span> Research lifecycle</a>
             <a href="#prior-authorization"><span>02</span> SLA-bound review</a>
             <a href="#column-masking"><span>03</span> Data visibility</a>
             <a href="#financial-data"><span>04</span> Scoped agent access</a>
             <a href="#streaming-orders"><span>05</span> Stream correctness</a>
-            <a href="#physics-research-assistant"><span>06</span> Research lifecycle</a>
+            <a href="#evidence-review"><span>06</span> Durable review</a>
           </nav>
           <div class="poc-legend">
             <span><i class="status-dot status-active"></i> Verification in progress</span>
@@ -80,19 +80,20 @@
         </aside>
 
         <ol class="poc-list">
-          <li class="poc-item reveal" id="evidence-review">
+          <li class="poc-item reveal" id="physics-research-assistant">
             <div class="poc-item-meta">
-              <span>01 / Durable execution</span>
-              <span class="poc-status poc-status-active"><i class="status-dot status-active"></i> Scaffolded</span>
+              <span>01 / Applied AI for research</span>
+              <span class="poc-status poc-status-active"><i class="status-dot status-active"></i> Runnable locally</span>
             </div>
-            <h3>Clinical evidence review</h3>
-            <p class="poc-claim">Can AI-assisted screening reduce reviewer effort without weakening recall or traceability?</p>
-            <p>A Temporal workflow coordinates literature search, structured model screening, and human verification. A worker can fail mid-search and resume without repeating completed work. Model suggestions and reviewer decisions remain separate so corrections propagate by construction.</p>
+            <h3>Research lifecycle assistant for physics &amp; math PhDs</h3>
+            <p class="poc-claim">Where in a PhD research loop does comparing multiple models actually change what gets published?</p>
+            <p>A single research question moves through six stages — literature retrieval, hypothesis and derivation, model comparison, numerical simulation, peer critique, and write-up — with several real models compared side by side at the stage where their answers diverge.</p>
             <ul class="poc-stack" aria-label="Technology stack">
-              <li>Temporal</li><li>FastAPI</li><li>React</li><li>PostgreSQL</li><li>Structured outputs</li>
+              <li>Multi-model comparison</li><li>Vanilla JS</li><li>Mock research data</li>
             </ul>
             <div class="poc-actions">
-              <a class="poc-repo" href="https://github.com/someshjha/temporal-clinical-evidence-review" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
+              <a class="poc-repo" href="ai-research-assistant-physics-math.html">Read the write-up <span aria-hidden="true">↗</span></a>
+              <a class="poc-demo-link" href="poc_physics_research_assistant/">Open mock demo <span aria-hidden="true">→</span></a>
             </div>
           </li>
 
@@ -164,20 +165,19 @@
             </div>
           </li>
 
-          <li class="poc-item reveal" id="physics-research-assistant">
+          <li class="poc-item reveal" id="evidence-review">
             <div class="poc-item-meta">
-              <span>06 / Applied AI for research</span>
-              <span class="poc-status poc-status-active"><i class="status-dot status-active"></i> Runnable locally</span>
+              <span>06 / Durable execution</span>
+              <span class="poc-status poc-status-active"><i class="status-dot status-active"></i> Scaffolded</span>
             </div>
-            <h3>Research lifecycle assistant for physics &amp; math PhDs</h3>
-            <p class="poc-claim">Where in a PhD research loop does comparing multiple models actually change what gets published?</p>
-            <p>A single research question moves through six stages — literature retrieval, hypothesis and derivation, model comparison, numerical simulation, peer critique, and write-up — with several real models compared side by side at the stage where their answers diverge.</p>
+            <h3>Clinical evidence review</h3>
+            <p class="poc-claim">Can AI-assisted screening reduce reviewer effort without weakening recall or traceability?</p>
+            <p>A Temporal workflow coordinates literature search, structured model screening, and human verification. A worker can fail mid-search and resume without repeating completed work. Model suggestions and reviewer decisions remain separate so corrections propagate by construction.</p>
             <ul class="poc-stack" aria-label="Technology stack">
-              <li>Multi-model comparison</li><li>Vanilla JS</li><li>Mock research data</li>
+              <li>Temporal</li><li>FastAPI</li><li>React</li><li>PostgreSQL</li><li>Structured outputs</li>
             </ul>
             <div class="poc-actions">
-              <a class="poc-repo" href="ai-research-assistant-physics-math.html">Read the write-up <span aria-hidden="true">↗</span></a>
-              <a class="poc-demo-link" href="poc_physics_research_assistant/">Open mock demo <span aria-hidden="true">→</span></a>
+              <a class="poc-repo" href="https://github.com/someshjha/temporal-clinical-evidence-review" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
             </div>
           </li>
         </ol>
