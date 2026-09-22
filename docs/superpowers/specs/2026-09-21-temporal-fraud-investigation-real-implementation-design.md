@@ -4,7 +4,7 @@
 
 The PoC registry ([pocs.html](https://someshjha.com/pocs.html#prior-authorization)) tests the claim: *"Can a long-running investigation stay durable across a human review SLA without losing state if a worker restarts?"* A browser-only mock of this already exists in the site repo ([temporal_poc_fintech/](https://someshjha.com/temporal_poc_fintech/)) and demonstrates the interaction model with fake, in-memory data — see [the mock demo's design spec](2026-09-21-temporal-fraud-investigation-mock-demo-design.md).
 
-This spec covers the **real implementation**: an actual Temporal server backed by real Postgres persistence, a real Python worker executing real workflow/activity code, deployed to a local `kind` Kubernetes cluster via Argo CD GitOps — the same deployment shape already specified for the [scoped financial-data MCP PoC](2026-09-21-scoped-financial-mcp-real-implementation-design.md). It lives in its own repository, `temporal-fraud-investigation` (not yet created), not in the static site repo. This spec is written now; implementation happens later, in a session working against that repo.
+This spec covers the **real implementation**: an actual Temporal server backed by real Postgres persistence, a real Python worker executing real workflow/activity code, deployed to a local `kind` Kubernetes cluster via Argo CD GitOps — the same deployment shape already specified for the [scoped financial-data MCP PoC](2026-09-21-scoped-financial-mcp-real-implementation-design.md). It lives in its own repository, [poc_temporal](https://github.com/someshjha/poc_temporal) (currently empty), not in the static site repo. This spec is written now; implementation happens later, in a session working against that repo.
 
 ## Business requirements — why this is worth building
 
@@ -60,7 +60,7 @@ Five components, each its own Kubernetes Deployment/StatefulSet in the same `kin
                         |   temporal-ui (official image, browses history/queries directly)    |
                         +--------------------------------------------------------------------+
 
-   Argo CD (in-cluster) --watches--> github.com/someshjha/temporal-fraud-investigation
+   Argo CD (in-cluster) --watches--> github.com/someshjha/poc_temporal
       \- root Application -> argocd/apps/{postgres,temporal,temporal-ui,mock-services,worker,api}.yaml
 ```
 
@@ -136,7 +136,7 @@ Activities (`activities.py`): `ingest_alert`, `device_intelligence_lookup` (the 
 ## Repo layout
 
 ```
-temporal-fraud-investigation/
+poc_temporal/
 |-- worker/
 |   |-- workflows.py
 |   |-- activities.py
@@ -177,7 +177,7 @@ The `README.md` documents this script as the thing to run after `kind/bootstrap.
 
 ## Implementation phases
 
-This is a real system, not a single sitting of work. Suggested sequencing for the future implementation plan (written later, in the `temporal-fraud-investigation` repo):
+This is a real system, not a single sitting of work. Suggested sequencing for the future implementation plan (written later, in the `poc_temporal` repo):
 
 1. Workflow, activities, and both mock services running locally (not yet in k8s) against a Temporal dev server (`temporal server start-dev`, which needs no separate Postgres) — prove the core retry and signal/timer behavior first, before any cluster exists.
 2. `verify_durability.py` written and passing against that local dev server, including the worker-kill step (kill the local worker process, restart it, confirm resumption) — prove the durability claim before containerizing anything.

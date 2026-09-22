@@ -49,7 +49,7 @@
         <div class="poc-embed-copy">
           <p>This page embeds a mock fraud-investigation console directly below. It simulates Temporal's durable execution model in the browser — retries with backoff, SLA timers, signals, queries, and resumption after a worker restart — against one representative case, with no real Temporal server involved.</p>
           <div class="poc-embed-actions">
-            <span class="poc-pending">Real implementation repository: planned</span>
+            <a class="button button-dark" href="https://github.com/someshjha/poc_temporal" target="_blank" rel="noopener noreferrer">Real implementation repo <span aria-hidden="true">↗</span></a>
             <a class="text-link" href="../pocs.html#prior-authorization">PoC registry</a>
           </div>
         </div>
@@ -60,7 +60,7 @@
       <div class="shell">
         <div class="poc-embed-notice" role="note">
           <strong>Mock only</strong>
-          <span>The embedded console does not run a real Temporal server, worker, or Postgres. The real implementation — a Python worker and Temporal server deployed to a local <code>kind</code> cluster via Argo CD — is designed but not yet built; see the design spec linked from the repository once it is published.</span>
+          <span>The embedded console does not run a real Temporal server, worker, or Postgres. The real implementation — a Python worker and Temporal server deployed to a local <code>kind</code> cluster via Argo CD — is designed and its repository is up, but not yet built. Use the GitHub repository to follow along once the real implementation lands.</span>
         </div>
 
         <div class="poc-frame-card">

@@ -4,7 +4,7 @@
 
 The PoC registry ([pocs.html](../../../pocs.html)) currently lists "Prior authorization across organizations" (`#prior-authorization`) as PoC 02. Per direction from the site owner, this slot is being replaced with a new PoC: **fraud case investigation on Temporal**, testing the claim *"Can a long-running investigation stay durable across a human review SLA without losing state if a worker restarts?"*
 
-The real implementation (a Temporal server + Python worker + FastAPI showcase, deployed to a local `kind` cluster) will live in a separate repository, `temporal-fraud-investigation` (not yet created), and is out of scope here — see the companion spec, [2026-09-21-temporal-fraud-investigation-real-implementation-design.md](2026-09-21-temporal-fraud-investigation-real-implementation-design.md).
+The real implementation (a Temporal server + Python worker + FastAPI showcase, deployed to a local `kind` cluster) will live in a separate repository, [poc_temporal](https://github.com/someshjha/poc_temporal) (currently empty), and is out of scope here — see the companion spec, [2026-09-21-temporal-fraud-investigation-real-implementation-design.md](2026-09-21-temporal-fraud-investigation-real-implementation-design.md).
 
 This spec covers only the mock, browser-only demo that lives in this static site, following the same pattern already established for the OrderFlow (`poc/`) and scoped-MCP (`financial-mcp/`) demos: a standalone page embedding a dashboard-style console via `<iframe>`, using an in-browser simulation of Temporal's own execution model (event history, retries, timers, signals, queries), with no backend calls and no real Temporal server.
 
@@ -79,7 +79,7 @@ A `MockFraudWorkflow` class that mirrors Temporal's execution model closely enou
 
 New top-level directory `temporal_poc_fintech/`, sibling to `poc/` and `financial-mcp/`:
 
-- `index.html` — hero + iframe embed wrapper, mirroring [poc/index.html](../../../poc/index.html) and [financial-mcp/index.html](../../../financial-mcp/index.html): explains this is mock-only, links back to `pocs.html#prior-authorization` (the entry's new anchor — kept as-is per the "replace this entry" instruction so existing external links to that anchor keep resolving to *a* PoC, now this one), links out to the (not yet created) real repo, and iframes `dashboard.html` with the same auto-resize script as the other two embeds.
+- `index.html` — hero + iframe embed wrapper, mirroring [poc/index.html](../../../poc/index.html) and [financial-mcp/index.html](../../../financial-mcp/index.html): explains this is mock-only, links back to `pocs.html#prior-authorization` (the entry's new anchor — kept as-is per the "replace this entry" instruction so existing external links to that anchor keep resolving to *a* PoC, now this one), links out to the (currently empty) real repo, and iframes `dashboard.html` with the same auto-resize script as the other two embeds.
 - `dashboard.html` — the app shell iframed by `index.html`. Always-dark theme, matching the other two consoles.
 - `mock-fraud-workflow.js` — the engine described above: fixture data, `MockFraudWorkflow` class (`start()`, `submitDecision(decision)`, `killWorker()`, `restartWorker()`, `fastForwardTimer()`, `getCaseStatus()`, `getEventHistory()`, a `subscribe(fn)` for reactive UI updates), structured like `financial-mcp/mock-mcp-server.js` and `poc/mock-api.js`.
 - `app.js` — renders the dashboard from the engine's state and wires up controls.
