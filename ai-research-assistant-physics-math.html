@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1c1440">
+  <meta name="description" content="A mock research-lifecycle assistant for physics and math PhDs that compares AI models stage by stage, and what a real local deployment on a kind cluster would need beyond the demo.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="An AI research assistant for physics and math PhDs — Somesh Jha">
+  <meta property="og:description" content="Walking the research lifecycle — literature, derivation, model comparison, simulation, review, write-up — with mock data, and a path to a real local deployment.">
+  <meta property="og:url" content="https://someshjha.com/ai-research-assistant-physics-math.html">
+  <link rel="canonical" href="https://someshjha.com/ai-research-assistant-physics-math.html">
+  <link rel="stylesheet" href="styles.css?v=theme-notes-v2">
+  <title>An AI research assistant for physics and math PhDs — Somesh Jha</title>
+  <script defer src="script.js?v=theme-notes-v2"></script>
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#article">Skip to article</a>
+
+  <header class="article-nav">
+    <div class="shell article-nav-inner">
+      <a class="brand" href="index.html" aria-label="Somesh Jha, home">
+        <span class="brand-mark" aria-hidden="true">SJ</span>
+        <span class="brand-name">Somesh Jha</span>
+      </a>
+      <a class="article-back" href="writing.html">← Notes from the work</a>
+    </div>
+  </header>
+
+  <main id="article">
+    <header class="article-hero">
+      <div class="article-shell">
+        <p class="eyebrow"><span></span> Point of view · Applied AI for research</p>
+        <h1>An AI research assistant, <em>for physics and math PhDs.</em></h1>
+        <p class="article-subtitle">One research question, walked through six stages of the research lifecycle, with several models compared side by side at the stage where their answers actually diverge.</p>
+        <p class="article-byline">By Somesh Jha <span aria-hidden="true">·</span> <time datetime="2026-09">September 2026</time></p>
+      </div>
+    </header>
+
+    <article class="article-body article-shell">
+      <aside class="article-summary" aria-labelledby="summary-title">
+        <p class="article-label" id="summary-title">The recommendation</p>
+        <p>Don't ask "which model is best at physics" in the abstract — ask which model is best at the specific stage of the research lifecycle you're currently in. In the <a href="pocs.html#physics-research-assistant">mock demo</a> below, every model agrees on the sign and leading order of a perturbative energy shift, but they diverge on whether they volunteer the second-order correction, whether they show their work symbolically or jump to a number, and how much they hedge. That divergence — not a single leaderboard score — is what a PhD researcher actually needs to see before trusting a model's output in a derivation.</p>
+        <p>The demo below is deliberately mock: no literature search ran, no model was called, no simulation executed. It exists to pin down the shape of the tool — six stages, one running research question, a model comparison in the middle — before any of it touches a real API key or a real corpus.</p>
+      </aside>
+
+      <h2>The problem this decision solves</h2>
+      <p class="article-lede">Most "AI for research" demos show a single prompt and a single answer. A PhD researcher's actual workflow is a loop: find context, propose a hypothesis, derive something, check it numerically, get it critiqued, and write it up — and at almost every stage, the researcher already has a strong prior about what a correct answer looks like. The interesting question isn't "can a model produce an answer," it's "where in this loop does a second opinion, or a numerical check, or an explicit critique actually change what gets published."</p>
+      <p>The <a href="pocs.html#physics-research-assistant">research lifecycle assistant PoC</a> tests that shape end to end on one illustrative problem — the ground-state energy shift of a quantum harmonic oscillator under a quartic anharmonic perturbation — using entirely fabricated literature, model answers, and simulation results.</p>
+
+      <h2>Six stages, one thread</h2>
+      <div class="article-parts">
+        <section><span>01</span><div><h3>Literature &amp; context</h3><p>Retrieve prior work relevant to the question, each entry tagged by why it matters — foundational theory, the method being applied, numerical precedent, or an applied context worth citing in the motivation.</p></div></section>
+        <section><span>02</span><div><h3>Hypothesis &amp; derivation</h3><p>State a testable hypothesis, then walk a step-by-step symbolic derivation the researcher can check line by line rather than accept as a black box.</p></div></section>
+        <section><span>03</span><div><h3>Model comparison</h3><p>Send the same question to several models and show the answers side by side — including where they disagree on how much of the derivation to show unprompted.</p></div></section>
+        <section><span>04</span><div><h3>Simulation</h3><p>Check the closed-form estimate against a numerical experiment, and report the two side by side instead of asking the researcher to trust either one alone.</p></div></section>
+        <section><span>05</span><div><h3>Peer review</h3><p>A reviewer pass that specifically hunts for unstated assumptions — degeneracy, validity range, basis truncation, unit conventions — the kind of gap a real reviewer would flag.</p></div></section>
+        <section><span>06</span><div><h3>Write-up &amp; export</h3><p>Assemble the accepted findings and the stage-one citations into a draft section, ready to paste into a paper draft.</p></div></section>
+      </div>
+      <p><a class="poc-demo-link" href="poc_physics_research_assistant/">Open the mock demo <span aria-hidden="true">→</span></a></p>
+
+      <h2>What the mock deliberately fakes</h2>
+      <p>Every literature entry, model answer, derivation step, and simulation number in the demo is a hand-written constant — there is no retrieval index, no API call to any model provider, and no numerical solver running anywhere. That's intentional: it lets the six-stage shape, the comparison UI, and the write-up assembly get tested and refined before committing to a specific vector store, a specific set of model API contracts, or a specific numerical backend. The model names are real because a researcher's actual choice is between real models with real behavioral differences — but every response shown is illustrative, not a benchmark result.</p>
+
+      <h2>Path to a real implementation</h2>
+      <p>Turning the mock into a running system means replacing each stage's fabricated data with a real service, without changing the six-stage shape the mock already validated. The target environment is a local <code>kind</code> (Kubernetes-in-Docker) cluster — small enough to iterate on a laptop, structured enough that the same manifests port to a managed cluster later.</p>
+
+      <h3>Options considered per stage</h3>
+      <div class="article-table-wrap">
+        <table>
+          <thead><tr><th>Stage</th><th>Lightweight option</th><th>Fuller option</th><th>Primary tradeoff</th></tr></thead>
+          <tbody>
+            <tr><td>Literature &amp; context</td><td>Static/curated corpus, keyword search</td><td>Vector DB (Qdrant or pgvector) over arXiv + Semantic Scholar ingestion</td><td>Ingestion pipeline complexity vs. retrieval quality</td></tr>
+            <tr><td>Model comparison</td><td>Single gateway service fanning out to provider APIs sequentially</td><td>Per-model adapter services behind a shared gateway, called in parallel</td><td>Operational surface area vs. latency and independent rate-limit handling</td></tr>
+            <tr><td>Simulation</td><td>Synchronous compute in the request path</td><td>Kubernetes Jobs (or a queue such as Redis/RabbitMQ) for longer-running numerics</td><td>Simplicity vs. not blocking the UI on a multi-minute solve</td></tr>
+            <tr><td>Peer review</td><td>A second pass of the same model with a critique-specific prompt</td><td>A distinct model/config dedicated to critique, run after the primary derivation</td><td>Cost and latency vs. genuinely independent critique</td></tr>
+            <tr><td>Write-up &amp; export</td><td>Template assembly of prior-stage outputs</td><td>A dedicated drafting pass that can revise for coherence across stages</td><td>Predictability vs. polish</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Recommended first architecture on <code>kind</code></h3>
+      <div class="architecture-flow" aria-label="Reference architecture for a local kind deployment">
+        <div class="architecture-flow-row"><div class="architecture-node">Browser UI</div><div class="architecture-node">nginx ingress controller</div><div class="architecture-node primary">API gateway service</div></div>
+        <div class="architecture-flow-row"><div class="architecture-node">Model gateway (fan-out to provider APIs)</div><div class="architecture-node">Retrieval service (pgvector)</div><div class="architecture-node">Simulation worker (Kubernetes Job per run)</div></div>
+        <div class="architecture-flow-row"><div class="architecture-node">Kubernetes Secrets (provider API keys)</div><div class="architecture-node">PostgreSQL (lifecycle state, citations)</div><div class="architecture-node">Logs/metrics (stdout → local log stack)</div></div>
+      </div>
+      <p class="architecture-flow-note">Start with a single API gateway rather than per-model adapter services — the mock's model-comparison stage only needs a shared request/response shape, not independent deployability, until a specific provider's quirks (rate limits, streaming behavior) force the split. Kubernetes Jobs are enough for the simulation stage before a queue is justified; a queue earns its keep once simulations run long enough, or often enough, that the API gateway can't wait on them synchronously.</p>
+
+      <h2>Production checklist</h2>
+      <ul class="article-checklist">
+        <li>Replace one stage at a time behind the same UI contract the mock already defines — the six-stage shape shouldn't change as the backend gets real.</li>
+        <li>Keep provider API keys in Kubernetes Secrets, never in application config or environment defaults checked into the repo.</li>
+        <li>Log every model call's provider, model version, and latency — the model-comparison stage is only trustworthy if it's reproducible after the fact.</li>
+        <li>Cap simulation job runtime and resource requests explicitly; an unbounded numerical job on a shared local cluster starves everything else.</li>
+        <li>Version the retrieval corpus's ingestion date alongside any citation it returns — a literature answer is only as current as its last ingest.</li>
+        <li>Treat the peer-review stage's output as a checklist for a human reviewer, not an automatic pass/fail gate.</li>
+        <li>Validate the full local <code>kind</code> deployment against the exact mock walkthrough before adding a second environment.</li>
+      </ul>
+
+      <footer class="article-closing">
+        <p class="article-quote">The mock's job was never to be a research tool — it was to prove the six-stage shape holds together before a single line of it depends on a live model call.</p>
+        <p><strong>A note on timing.</strong> Model names, capabilities, and provider APIs referenced here move quickly. Validate current model behavior and provider terms before routing real research work through any of them.</p>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="article-site-footer">
+    <div class="shell"><p>© 2026 Somesh Jha</p><a href="writing.html">More notes from the work →</a></div>
+  </footer>
+</body>
+</html>

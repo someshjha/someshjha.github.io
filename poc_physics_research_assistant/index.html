@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A mock research-lifecycle assistant for physics and math PhDs: literature retrieval, derivation, model comparison, simulation, peer critique, and write-up, all on illustrative mock data."
+    />
+    <meta name="theme-color" content="#1c1440" />
+    <title>Research Lifecycle Assistant — Physics &amp; Math Demo</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231c1440'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23fff'/%3E%3Cellipse cx='32' cy='32' rx='22' ry='9' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Cellipse cx='32' cy='32' rx='22' ry='9' fill='none' stroke='%23fff' stroke-width='3' transform='rotate(60 32 32)'/%3E%3Cellipse cx='32' cy='32' rx='22' ry='9' fill='none' stroke='%23fff' stroke-width='3' transform='rotate(120 32 32)'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#main-content" aria-label="Research Lifecycle Assistant home">
+          <span class="brand-mark" aria-hidden="true"><i></i></span>
+          <span class="brand-copy">
+            <strong>Research Lifecycle Assistant</strong>
+            <small>Physics &amp; math PhD demo</small>
+          </span>
+        </a>
+
+        <div class="environment-labels" aria-label="Demonstration notices">
+          <span class="notice notice-synthetic">
+            <i aria-hidden="true"></i>
+            Mock outputs, not live model calls
+          </span>
+          <span class="notice">Illustrative research question only</span>
+        </div>
+      </header>
+
+      <div class="workspace" id="main-content">
+        <aside class="control-rail" aria-labelledby="stage-heading">
+          <div class="rail-heading">
+            <span class="rail-step">01–06</span>
+            <div>
+              <p class="eyebrow">RESEARCH LIFECYCLE</p>
+              <h1 id="stage-heading">Walk the full loop</h1>
+            </div>
+          </div>
+
+          <p class="rail-intro">
+            One research question moves through six stages. Each stage keeps the same question in view so you can see how the answer accumulates.
+          </p>
+
+          <div class="stage-tabs" role="tablist" aria-label="Research lifecycle stage" aria-orientation="vertical">
+            <button class="stage-tab is-active" type="button" role="tab" id="tab-literature" aria-selected="true" aria-controls="stage-panel" tabindex="0" data-stage="literature">
+              <span class="stage-number">01</span>
+              <span><strong>Literature &amp; context</strong><small>Retrieve relevant prior work</small></span>
+              <i class="tab-check" aria-hidden="true">✓</i>
+            </button>
+            <button class="stage-tab" type="button" role="tab" id="tab-derivation" aria-selected="false" aria-controls="stage-panel" tabindex="-1" data-stage="derivation">
+              <span class="stage-number">02</span>
+              <span><strong>Hypothesis &amp; derivation</strong><small>Draft the working hypothesis</small></span>
+              <i class="tab-check" aria-hidden="true">✓</i>
+            </button>
+            <button class="stage-tab" type="button" role="tab" id="tab-comparison" aria-selected="false" aria-controls="stage-panel" tabindex="-1" data-stage="comparison">
+              <span class="stage-number">03</span>
+              <span><strong>Model comparison</strong><small>Same question, multiple models</small></span>
+              <i class="tab-check" aria-hidden="true">✓</i>
+            </button>
+            <button class="stage-tab" type="button" role="tab" id="tab-simulation" aria-selected="false" aria-controls="stage-panel" tabindex="-1" data-stage="simulation">
+              <span class="stage-number">04</span>
+              <span><strong>Simulation</strong><small>Numerical check of the estimate</small></span>
+              <i class="tab-check" aria-hidden="true">✓</i>
+            </button>
+            <button class="stage-tab" type="button" role="tab" id="tab-review" aria-selected="false" aria-controls="stage-panel" tabindex="-1" data-stage="review">
+              <span class="stage-number">05</span>
+              <span><strong>Peer review</strong><small>AI reviewer critiques the work</small></span>
+              <i class="tab-check" aria-hidden="true">✓</i>
+            </button>
+            <button class="stage-tab" type="button" role="tab" id="tab-writeup" aria-selected="false" aria-controls="stage-panel" tabindex="-1" data-stage="writeup">
+              <span class="stage-number">06</span>
+              <span><strong>Write-up &amp; export</strong><small>Assemble the section and citations</small></span>
+              <i class="tab-check" aria-hidden="true">✓</i>
+            </button>
+          </div>
+
+          <section class="policy-note" aria-labelledby="question-heading">
+            <div class="policy-heading-row">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm0 2.2L18 6.5V11c0 3.8-2.4 7.3-6 8.8C8.4 18.3 6 14.8 6 11V6.5l6-2.3Zm-1 4.3h2v5h-2v-5Zm0 6.5h2v2h-2v-2Z"/></svg>
+              <h2 id="question-heading">Research question</h2>
+            </div>
+            <p id="question-copy">A quantum harmonic oscillator is perturbed by a quartic anharmonic term λx⁴. How much does the ground-state energy shift, and does numerical diagonalization confirm the perturbative estimate?</p>
+          </section>
+
+          <p class="keyboard-hint">Use <kbd>↑</kbd> <kbd>↓</kbd> to switch stages</p>
+        </aside>
+
+        <section class="main-stage" aria-label="Active lifecycle stage">
+          <div class="stage-heading">
+            <div>
+              <p class="eyebrow" id="stage-eyebrow">STAGE 01 · LITERATURE &amp; CONTEXT</p>
+              <h2 id="stage-title">Retrieving relevant prior work</h2>
+            </div>
+            <div class="progress-anchor">
+              <span>Lifecycle progress</span>
+              <strong id="progress-label">1 / 6</strong>
+              <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+            </div>
+          </div>
+
+          <section class="stage-panel" id="stage-panel" role="tabpanel" aria-labelledby="tab-literature" aria-live="polite">
+
+            <!-- Stage 1: Literature -->
+            <div class="stage-view" data-view="literature">
+              <p class="stage-lede">Mock retrieval over an illustrative corpus, ranked by relevance to the research question above.</p>
+              <ul class="paper-list" id="paper-list"></ul>
+            </div>
+
+            <!-- Stage 2: Derivation -->
+            <div class="stage-view" data-view="derivation" hidden>
+              <p class="stage-lede">A drafted hypothesis and a step-by-step perturbative derivation, generated for illustration.</p>
+              <div class="hypothesis-card">
+                <p class="card-label">Hypothesis</p>
+                <p id="hypothesis-text"></p>
+              </div>
+              <ol class="derivation-steps" id="derivation-steps"></ol>
+            </div>
+
+            <!-- Stage 3: Model comparison -->
+            <div class="stage-view" data-view="comparison" hidden>
+              <p class="stage-lede">The same question, sent to several models. Toggle a model to include or exclude it from the comparison.</p>
+              <div class="model-picker" id="model-picker" role="group" aria-label="Models to compare"></div>
+              <div class="model-grid" id="model-grid"></div>
+              <p class="consensus-note" id="consensus-note"></p>
+            </div>
+
+            <!-- Stage 4: Simulation -->
+            <div class="stage-view" data-view="simulation" hidden>
+              <p class="stage-lede">A mock numerical diagonalization of the perturbed Hamiltonian, checked against the perturbative estimate above.</p>
+              <div class="simulation-grid">
+                <div class="chart-card">
+                  <p class="card-label">Lowest energy levels (ℏω units)</p>
+                  <svg id="energy-chart" viewBox="0 0 420 220" role="img" aria-labelledby="energy-chart-title"></svg>
+                  <p id="energy-chart-title" class="sr-only">Bar chart comparing perturbative and numerical ground-state energy estimates</p>
+                </div>
+                <div class="sim-summary">
+                  <p class="card-label">Result summary</p>
+                  <dl class="sim-stats" id="sim-stats"></dl>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 5: Peer review -->
+            <div class="stage-view" data-view="review" hidden>
+              <p class="stage-lede">A reviewer-model pass over the derivation and simulation, flagging assumptions worth double-checking.</p>
+              <ul class="critique-list" id="critique-list"></ul>
+            </div>
+
+            <!-- Stage 6: Write-up -->
+            <div class="stage-view" data-view="writeup" hidden>
+              <p class="stage-lede">The lifecycle assembled into a draft section, with the citations gathered in stage one.</p>
+              <div class="writeup-card">
+                <div class="writeup-toolbar">
+                  <p class="card-label">Draft section</p>
+                  <button type="button" class="copy-button" id="copy-writeup">Copy text</button>
+                </div>
+                <p id="writeup-status" role="status" aria-live="polite"></p>
+                <div id="writeup-text" class="writeup-text"></div>
+                <ol class="reference-list" id="reference-list"></ol>
+              </div>
+            </div>
+          </section>
+
+          <div class="stage-nav">
+            <button type="button" class="stage-nav-button" id="prev-stage">← Previous stage</button>
+            <button type="button" class="stage-nav-button primary" id="next-stage">Next stage →</button>
+          </div>
+
+          <footer class="disclaimer-footer">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm0 2.2L18 6.5V11c0 3.8-2.4 7.3-6 8.8C8.4 18.3 6 14.8 6 11V6.5l6-2.3ZM8.7 11.3l2.3 2.3 4.3-4.3 1.4 1.4-5.7 5.7-3.7-3.7 1.4-1.4Z"/></svg>
+            <p><strong>Everything on this page is mock data.</strong> No literature search, model call, or numerical simulation actually ran — this is a walkthrough of what the real lifecycle would produce.</p>
+          </footer>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
