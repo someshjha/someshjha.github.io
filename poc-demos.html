@@ -54,37 +54,12 @@
     </header>
 
     <nav class="shell demo-index" aria-label="Demonstration index">
-      <a href="#evidence-review-demo"><span>01</span> Durable review</a>
       <a href="#column-masking-demo"><span>03</span> Data masking</a>
       <a href="#financial-data-demo"><span>04</span> Agent scope</a>
       <a href="#streaming-orders-demo"><span>05</span> Stream recovery</a>
     </nav>
 
     <section class="demo-list">
-      <article class="demo-panel" id="evidence-review-demo" data-state="idle">
-        <div class="shell demo-grid">
-          <header class="demo-copy">
-            <p class="section-index">01 / Durable execution · Working demo</p>
-            <h2>Clinical evidence review</h2>
-            <p>Completed work should survive a worker failure, while model suggestions and reviewer decisions remain independently traceable.</p>
-          </header>
-          <div class="demo-stage">
-            <div class="workflow-steps" aria-label="Evidence review workflow">
-              <span class="is-done">Search complete</span><span class="is-done">Extract complete</span><span class="is-active">Screen batch 4</span><span>Human review</span>
-            </div>
-            <div class="review-record">
-              <div><small>Model suggestion</small><strong>Exclude</strong><span>Population mismatch · 0.81</span></div>
-              <div><small>Reviewer decision</small><strong>Include</strong><span>Relevant secondary outcome</span></div>
-            </div>
-            <div class="demo-controls" aria-label="Evidence review controls">
-              <button type="button" data-demo-action="restart" aria-pressed="false">Restart worker</button>
-              <button type="button" data-demo-action="override" aria-pressed="false">Record override</button>
-            </div>
-            <p class="demo-output" data-demo-output aria-live="polite">Choose a scenario to inspect the recovery or audit behaviour.</p>
-          </div>
-        </div>
-      </article>
-
       <article class="demo-panel" id="column-masking-demo">
         <div class="shell demo-grid">
           <header class="demo-copy">

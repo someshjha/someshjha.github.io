@@ -16,13 +16,6 @@ if (demos) {
     const action = button.dataset.demoAction;
     setPressed(button.closest('.demo-controls'), button);
 
-    if (panel.id === 'evidence-review-demo') {
-      panel.dataset.state = action;
-      output.textContent = action === 'restart'
-        ? 'Worker 2 resumed at screening batch 4. Completed search and extraction steps were not repeated.'
-        : 'Reviewer overrode one exclusion. The model suggestion remains in the audit trail beside the human decision.';
-    }
-
     if (panel.id === 'column-masking-demo') {
       const values = {
         support: ['Maya Chen', '••• ••• 1842', 'Hidden', 'Account support'],
