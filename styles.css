@@ -249,6 +249,8 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
 .form-submit { display: flex; align-items: center; gap: 16px; }
 .form-submit .button { flex: 0 0 auto; border: 0; cursor: pointer; }
 .form-submit small { color: var(--muted); font-size: 9px; line-height: 1.45; }
+.form-status { margin: -10px 0 4px; font-size: 13px; font-weight: 700; color: var(--copper-deep); }
+.form-status.form-status-error { color: #b4432c; }
 .form-honey { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0 !important; }
 .button-light { margin-top: 20px; background: var(--ink); color: var(--paper); }
 .button-light:hover { background: var(--panel-raised); }
