@@ -101,6 +101,17 @@
             <ul class="poc-stack" aria-label="Engagement outputs">
               <li>Architecture assessment</li><li>Options &amp; trade-offs</li><li>Risk register</li><li>Recommendation</li><li>ADR</li><li>Executive readout</li>
             </ul>
+            <div class="example-deliverable">
+              <p class="example-deliverable-label">Example deliverable — ADR excerpt</p>
+              <pre>ADR-014 — Adopt event-driven integration over point-to-point sync
+Status: Accepted
+Context: Three downstream systems each poll the core ledger on a
+fixed schedule; polling load is now the ledger's top scaling risk.
+Decision: A single Kafka topic becomes the system of record for
+balance-change events; downstream systems consume, not poll.
+Consequences: Downstream teams own their own consumers; the ledger
+no longer needs to know who is listening.</pre>
+            </div>
             <div class="poc-actions">
               <a class="poc-repo" href="architecture-decision-system.html">Read: Building an architecture decision system <span aria-hidden="true">↗</span></a>
             </div>
@@ -117,6 +128,16 @@
             <ul class="poc-stack" aria-label="Engagement outputs">
               <li>Findings</li><li>Severity ranking</li><li>Evidence</li><li>Remediation roadmap</li>
             </ul>
+            <div class="example-deliverable">
+              <p class="example-deliverable-label">Example deliverable — findings register entry</p>
+              <pre>Finding F-07 — Sev 2 (Resilience)
+Observation: Checkout calls the payment gateway with no timeout
+budget or circuit breaker.
+Risk: A slow gateway response holds a request thread until the
+platform-wide timeout, degrading unrelated traffic.
+Remediation: Add a bounded timeout and circuit breaker; fail fast
+to a queued-retry path instead of blocking the request.</pre>
+            </div>
           </li>
 
           <li class="poc-item reveal" id="ai-production-readiness">
@@ -130,6 +151,17 @@
             <ul class="poc-stack" aria-label="Engagement outputs">
               <li>Evaluation</li><li>Authorization &amp; identity</li><li>Tool &amp; data boundaries</li><li>Human approval design</li><li>Observability</li><li>Auditability</li>
             </ul>
+            <div class="example-deliverable">
+              <p class="example-deliverable-label">Example deliverable — approval gate spec</p>
+              <pre>Gate: Refund-issuing action
+Trigger: Agent proposes a refund over $500, or to a new payment
+method not on file.
+Requirement: Human approval before execution; decision and
+rationale logged to the audit trail.
+Covered failure mode: Agent proposes an out-of-policy refund after
+a prompt-injection attempt — gate blocks execution regardless of
+the agent's stated justification.</pre>
+            </div>
             <div class="poc-actions">
               <a class="poc-repo" href="pocs.html#financial-data">See evidence: Scoped agent access PoC <span aria-hidden="true">↗</span></a>
               <a class="poc-repo" href="choosing-agent-framework.html">Read: Choosing an agent framework <span aria-hidden="true">↗</span></a>
@@ -147,6 +179,14 @@
             <ul class="poc-stack" aria-label="Engagement outputs">
               <li>Architecture reviews</li><li>Technology decisions</li><li>Modernization roadmap</li><li>Design escalation</li><li>Vendor evaluation</li>
             </ul>
+            <div class="example-deliverable">
+              <p class="example-deliverable-label">Example deliverable — monthly review, one page</p>
+              <pre>This month: 2 design escalations resolved, 1 vendor evaluation in
+progress (event-streaming platform), 1 open risk carried forward
+(data-residency question on the EU rollout).
+Standing channel: architecture-escalations — median response time
+under 4 business hours.</pre>
+            </div>
           </li>
         </ol>
       </div>

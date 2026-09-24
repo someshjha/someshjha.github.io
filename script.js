@@ -104,39 +104,6 @@ window.addEventListener('message', (event) => {
   event.source?.postMessage({ type: 'theme', theme: document.documentElement.dataset.theme }, event.origin);
 });
 
-document.querySelectorAll('[data-ajax-form]').forEach((form) => {
-  const status = form.nextElementSibling?.matches('[data-form-status]') ? form.nextElementSibling : null;
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const submitButton = form.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
-    if (status) {
-      status.hidden = false;
-      status.classList.remove('form-status-error');
-      status.textContent = 'Sending…';
-    }
-    try {
-      const response = await fetch(form.action, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form),
-      });
-      if (!response.ok) throw new Error('Request failed');
-      form.reset();
-      form.hidden = true;
-      if (status) {
-        status.textContent = 'Thanks — your message is on its way. I read and respond to these personally.';
-      }
-    } catch {
-      submitButton.disabled = false;
-      if (status) {
-        status.classList.add('form-status-error');
-        status.textContent = 'Something went wrong sending that. Please try again, or email admin@someshjha.com directly.';
-      }
-    }
-  });
-});
-
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (reducedMotion || !('IntersectionObserver' in window)) {
   document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
