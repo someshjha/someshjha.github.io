@@ -1,205 +1,140 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="CareBoundary demonstrates responsibility-scoped patient record projections using synthetic healthcare data."
-    />
-    <meta name="theme-color" content="#123a35" />
-    <title>CareBoundary — Healthcare Data Access Demo</title>
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23123a35'/%3E%3Cpath d='M28 13h8v15h15v8H36v15h-8V36H13v-8h15z' fill='%23fff'/%3E%3C/svg%3E"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-    <script src="./app.js" defer></script>
-  </head>
-  <body>
-    <main class="app-shell">
-      <header class="topbar">
-        <a class="brand" href="#main-content" aria-label="CareBoundary home">
-          <span class="brand-mark" aria-hidden="true"><i></i></span>
-          <span class="brand-copy">
-            <strong>CareBoundary</strong>
-            <small>Healthcare data access demo</small>
-          </span>
-        </a>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f0e8">
+  <link rel="icon" type="image/png" sizes="512x512" href="../assets/brand/favicon-512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/brand/favicon-16.png">
+  <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+  <meta name="description" content="Mock-only embedded demo for the database column masking by role proof of concept.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Database column masking mock — Somesh Jha">
+  <meta property="og:description" content="A single-page mock-only showcase embedding the CareBoundary role-scoped record projection demo.">
+  <meta property="og:url" content="https://someshjha.com/poc_database_masking/">
+  <link rel="canonical" href="https://someshjha.com/poc_database_masking/">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="../styles.css?v=theme-notes-v3">
+  <script defer src="../script.js?v=theme-notes-v3"></script>
+  <title>Database column masking mock — Somesh Jha</title>
+</head>
+<body class="pocs-page poc-embed-page">
+  <a class="skip-link" href="#column-masking-frame">Skip to demo</a>
 
-        <div class="environment-labels" aria-label="Demonstration notices">
-          <span class="notice notice-synthetic">
-            <i aria-hidden="true"></i>
-            Synthetic patient data
-          </span>
-          <span class="notice">Not a compliance certification</span>
+  <header class="site-header scrolled" data-header>
+    <div class="shell nav-wrap">
+      <a class="brand" href="../index.html" aria-label="Somesh Jha, home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg">
+            <defs><clipPath id="archTop"><rect x="0" y="0" width="100" height="34"/></clipPath></defs>
+            <g clip-path="url(#archTop)">
+              <circle cx="50" cy="34" r="31" fill="currentColor"/>
+              <circle cx="50" cy="34" r="21" style="fill:var(--copper)"/>
+            </g>
+            <rect x="14" y="34" width="10" height="22" fill="currentColor"/>
+            <rect x="76" y="34" width="10" height="22" fill="currentColor"/>
+            <rect x="10" y="55" width="80" height="3" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="brand-name">Somesh Jha</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span><span></span>
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Primary navigation">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#services">Services</a>
+        <a href="../index.html#work">Work</a>
+        <a href="../engagements.html">Engagements</a>
+        <a href="../pocs.html" aria-current="page">PoCs</a>
+        <a href="../writing.html">Notes</a>
+        <a class="nav-cta" href="../index.html#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="poc-embed-hero" aria-labelledby="poc-title">
+      <div class="shell poc-embed-hero-grid">
+        <div>
+          <p class="eyebrow"><span></span> Mock-only embedded demo</p>
+          <h1 id="poc-title">Database column <em>masking.</em></h1>
         </div>
-      </header>
-
-      <div class="workspace" id="main-content">
-        <aside class="control-rail" aria-labelledby="access-heading">
-          <div class="rail-heading">
-            <span class="rail-step">01</span>
-            <div>
-              <p class="eyebrow">CALLER CONTEXT</p>
-              <h1 id="access-heading">Choose a responsibility</h1>
-            </div>
+        <div class="poc-embed-copy">
+          <p>This page embeds the CareBoundary demo directly below. The same query is issued for every role; the database boundary decides which columns of the record are returned, using synthetic patient data only.</p>
+          <div class="poc-embed-actions">
+            <a class="button button-dark" href="../tokenization-masking-cedar.html">Read the write-up <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="../pocs.html#column-masking">PoC registry</a>
           </div>
-
-          <p class="rail-intro">
-            Each role asks for the same patient. The database decides which columns leave the boundary.
-          </p>
-
-          <div class="role-tabs" role="tablist" aria-label="Healthcare responsibility">
-            <button
-              class="role-tab is-active"
-              type="button"
-              role="tab"
-              id="tab-clinical"
-              aria-selected="true"
-              aria-controls="record-panel"
-              tabindex="0"
-              data-role="clinical"
-            >
-              <span class="role-icon clinical-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M8 3v2H6v4a6 6 0 0 0 5 5.92V17a4 4 0 0 0 8 0v-2h-2v2a2 2 0 0 1-4 0v-2.08A6 6 0 0 0 18 9V5h-2V3h-2v4h2v2a4 4 0 0 1-8 0V7h2V3H8Zm10 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg>
-              </span>
-              <span><strong>Clinical</strong><small>Care delivery</small></span>
-              <i class="tab-check" aria-hidden="true">✓</i>
-            </button>
-
-            <button
-              class="role-tab"
-              type="button"
-              role="tab"
-              id="tab-billing"
-              aria-selected="false"
-              aria-controls="record-panel"
-              tabindex="-1"
-              data-role="billing"
-            >
-              <span class="role-icon billing-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M4 3h16v18l-3-2-3 2-2-2-2 2-3-2-3 2V3Zm2 2v12.3l1-.7 3 2 2-2 2 2 3-2 1 .7V5H6Zm2 3h8v2H8V8Zm0 4h8v2H8v-2Z"/></svg>
-              </span>
-              <span><strong>Billing</strong><small>Claims &amp; payment</small></span>
-              <i class="tab-check" aria-hidden="true">✓</i>
-            </button>
-
-            <button
-              class="role-tab"
-              type="button"
-              role="tab"
-              id="tab-support"
-              aria-selected="false"
-              aria-controls="record-panel"
-              tabindex="-1"
-              data-role="support"
-            >
-              <span class="role-icon support-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M12 3a8 8 0 0 0-8 8v6a3 3 0 0 0 3 3h3v-7H6v-2a6 6 0 0 1 12 0v2h-4v7h4v1h-5v2h5a2 2 0 0 0 2-2v-1a3 3 0 0 0 2-3v-6a8 8 0 0 0-8-8Zm-4 12v3H7a1 1 0 0 1-1-1v-2h2Zm10 0h2v2a1 1 0 0 1-1 1h-1v-3Z"/></svg>
-              </span>
-              <span><strong>Patient Support</strong><small>Service coordination</small></span>
-              <i class="tab-check" aria-hidden="true">✓</i>
-            </button>
-          </div>
-
-          <section class="policy-note" aria-labelledby="policy-heading">
-            <div class="policy-heading-row">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm0 2.2L18 6.5V11c0 3.8-2.4 7.3-6 8.8C8.4 18.3 6 14.8 6 11V6.5l6-2.3Zm-1 4.3h2v5h-2v-5Zm0 6.5h2v2h-2v-2Z"/></svg>
-              <h2 id="policy-heading">Policy in plain language</h2>
-            </div>
-            <p id="policy-copy">Clinical teams receive the information needed to make and document care decisions.</p>
-          </section>
-
-          <p class="keyboard-hint">Use <kbd>←</kbd> <kbd>→</kbd> to switch roles</p>
-        </aside>
-
-        <section class="main-stage" aria-label="Database projection result">
-          <div class="stage-heading">
-            <div>
-              <p class="eyebrow">DATABASE BOUNDARY</p>
-              <h2>One patient. One query. Different shape.</h2>
-            </div>
-            <div class="patient-anchor">
-              <span>Patient requested</span>
-              <strong>PT-DEMO-0042</strong>
-            </div>
-          </div>
-
-          <section class="query-card" aria-labelledby="query-heading">
-            <div class="query-label">
-              <span class="rail-step">02</span>
-              <div>
-                <p class="eyebrow">INVARIANT QUERY</p>
-                <h3 id="query-heading">Unchanged for every role</h3>
-              </div>
-            </div>
-            <pre aria-label="SQL query"><code><span>SELECT</span> *
-<span>FROM</span> patient_record
-<span>WHERE</span> patient_id = $1;</code></pre>
-            <div class="query-parameter">
-              <span>Parameter $1</span>
-              <strong>PT-DEMO-0042</strong>
-            </div>
-          </section>
-
-          <div class="identity-strip" aria-label="Active simulated identity">
-            <div class="identity-title">
-              <span class="rail-step">03</span>
-              <div><small>ACTIVE IDENTITY</small><strong id="identity-name">clinical.user</strong></div>
-            </div>
-            <div class="identity-fact"><small>Application role</small><strong id="application-role">Clinical</strong></div>
-            <div class="identity-arrow" aria-hidden="true">→</div>
-            <div class="identity-fact"><small>Resolved schema</small><strong id="database-schema">clinical_access</strong></div>
-            <div class="identity-arrow" aria-hidden="true">→</div>
-            <div class="identity-fact outcome"><small>Database result</small><strong id="identity-result">10 columns returned</strong></div>
-          </div>
-
-          <section
-            class="record-card"
-            id="record-panel"
-            role="tabpanel"
-            aria-labelledby="tab-clinical"
-            aria-live="polite"
-          >
-            <header class="record-header">
-              <div>
-                <p class="eyebrow">RETURNED TO CALLER</p>
-                <h3 id="record-heading">Clinical patient record</h3>
-                <p id="record-summary">Clinical fields needed for safe care delivery and continuity.</p>
-              </div>
-              <div class="column-count">
-                <strong id="column-count">10</strong>
-                <span>columns returned</span>
-              </div>
-            </header>
-
-            <div class="record-content">
-              <div class="field-view">
-                <div class="field-view-heading">
-                  <span>Readable record</span>
-                  <span class="boundary-badge"><i aria-hidden="true"></i> Database decided</span>
-                </div>
-                <dl class="field-grid" id="field-grid"></dl>
-              </div>
-
-              <div class="json-view">
-                <div class="json-heading">
-                  <span>Raw JSON</span>
-                  <span id="json-size">10 keys</span>
-                </div>
-                <pre><code id="json-output"></code></pre>
-              </div>
-            </div>
-
-            <footer class="record-footer">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm0 2.2L18 6.5V11c0 3.8-2.4 7.3-6 8.8C8.4 18.3 6 14.8 6 11V6.5l6-2.3ZM8.7 11.3l2.3 2.3 4.3-4.3 1.4 1.4-5.7 5.7-3.7-3.7 1.4-1.4Z"/></svg>
-              <p><strong>Restricted data is absent.</strong> The browser receives no hidden or blank placeholder fields from other responsibilities.</p>
-            </footer>
-          </section>
-        </section>
+        </div>
       </div>
-    </main>
-  </body>
+    </section>
+
+    <section class="poc-embed-shell" aria-labelledby="frame-title">
+      <div class="shell">
+        <div class="poc-embed-notice" role="note">
+          <strong>Mock only</strong>
+          <span>The embedded demo uses synthetic patient data and runs entirely in the browser — it is not a compliance certification and does not connect to a real database.</span>
+        </div>
+
+        <div class="poc-frame-card">
+          <div class="poc-frame-toolbar">
+            <div>
+              <span></span><span></span><span></span>
+            </div>
+            <strong id="frame-title">CareBoundary masking demo</strong>
+            <a href="./app.html" target="_blank" rel="noopener noreferrer">Open frame directly ↗</a>
+          </div>
+          <iframe
+            id="column-masking-frame"
+            title="CareBoundary column masking demo"
+            src="./app.html"
+            loading="eager"
+            referrerpolicy="no-referrer"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="poc-footer">
+    <div class="shell">
+      <p>© <span data-year></span> Somesh Jha</p>
+      <p>Mock-only public iframe · Synthetic data only</p>
+      <a href="../pocs.html">PoC registry ↑</a>
+    </div>
+  </footer>
+  <script>
+    const frame = document.querySelector("#column-masking-frame");
+
+    function resizeMaskingFrame() {
+      try {
+        const doc = frame.contentDocument;
+        if (!doc) return;
+        frame.style.height = "0px";
+        const height = Math.max(
+          doc.documentElement.scrollHeight,
+          doc.body?.scrollHeight || 0,
+          880
+        );
+        frame.style.height = `${height}px`;
+      } catch {
+        frame.style.height = "940px";
+      }
+    }
+
+    frame.addEventListener("load", () => {
+      resizeMaskingFrame();
+      const doc = frame.contentDocument;
+      if (!doc) return;
+      new ResizeObserver(() => requestAnimationFrame(resizeMaskingFrame)).observe(doc.documentElement);
+      doc.addEventListener("click", () => requestAnimationFrame(resizeMaskingFrame));
+      doc.addEventListener("input", () => requestAnimationFrame(resizeMaskingFrame));
+    });
+
+    new ResizeObserver(() => requestAnimationFrame(resizeMaskingFrame)).observe(frame);
+  </script>
+</body>
 </html>

@@ -49,7 +49,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--copper); outlin
 .nav-wrap, .brand, .nav { display: flex; align-items: center; }
 .nav-wrap { justify-content: space-between; }
 .brand { gap: 11px; text-decoration: none; font-weight: 700; letter-spacing: -.02em; }
-.brand-mark { display: grid; place-items: center; width: 34px; aspect-ratio: 1; background: var(--copper); color: var(--panel-dark); border-radius: 50%; font-family: var(--serif); font-size: 13px; }
+.brand-mark { display: grid; place-items: center; width: 34px; aspect-ratio: 1; background: var(--copper); color: var(--panel-dark); border-radius: 50%; }
+.brand-mark svg { width: 60%; height: 60%; }
 .brand-name { font-size: 15px; }
 .nav { gap: 28px; font-size: 13px; font-weight: 600; }
 .nav a { text-decoration: none; }
