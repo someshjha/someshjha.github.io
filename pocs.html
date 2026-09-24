@@ -7,7 +7,7 @@
   <meta name="description" content="Proof-of-concept systems by Somesh Jha, testing durable execution, cross-organization workflows, database security, agent access, and event-stream correctness.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Proof-of-concept registry — Somesh Jha">
-  <meta property="og:description" content="Five small systems built to test specific architectural claims under failure, trust, and operational constraints.">
+  <meta property="og:description" content="Seven small systems built to test specific architectural claims under failure, trust, and operational constraints.">
   <meta property="og:url" content="https://someshjha.com/pocs.html">
   <link rel="canonical" href="https://someshjha.com/pocs.html">
   <script>document.documentElement.classList.add('js')</script>
@@ -32,9 +32,10 @@
         <a href="index.html#about">About</a>
         <a href="index.html#services">Services</a>
         <a href="index.html#work">Work</a>
+        <a href="engagements.html">Engagements</a>
         <a href="pocs.html" aria-current="page">PoCs</a>
         <a href="writing.html">Notes</a>
-        <a class="nav-cta" href="index.html#contact">Contact <span aria-hidden="true">↗</span></a>
+        <a class="nav-cta" href="index.html#contact">Let’s talk <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -52,9 +53,9 @@
         </div>
       </div>
       <div class="shell poc-summary reveal" aria-label="Registry summary">
-        <div><strong>06</strong><span>Focused systems</span></div>
+        <div><strong>07</strong><span>Focused systems</span></div>
         <div><strong>06</strong><span>In verification</span></div>
-        <div><strong>00</strong><span>Planned</span></div>
+        <div><strong>01</strong><span>Planned</span></div>
         <a href="#entries">Browse the registry <span aria-hidden="true">↓</span></a>
       </div>
     </header>
@@ -63,7 +64,7 @@
       <div class="shell poc-layout">
         <aside class="poc-rail reveal">
           <p class="section-index">The registry</p>
-          <h2 id="registry-title">Six claims worth testing.</h2>
+          <h2 id="registry-title">Seven claims worth testing.</h2>
           <p>A compact view of the system boundary, status, stack, and available evidence.</p>
           <nav aria-label="PoC list">
             <a href="#physics-research-assistant"><span>01</span> Research lifecycle</a>
@@ -72,6 +73,7 @@
             <a href="#financial-data"><span>04</span> Scoped agent access</a>
             <a href="#streaming-orders"><span>05</span> Stream correctness</a>
             <a href="#evidence-review"><span>06</span> Durable review</a>
+            <a href="#agent-authorization-gateway"><span>07</span> Delegated authorization</a>
           </nav>
           <div class="poc-legend">
             <span><i class="status-dot status-active"></i> Verification in progress</span>
@@ -179,6 +181,19 @@
             <div class="poc-actions">
               <a class="poc-repo" href="https://github.com/someshjha/temporal-clinical-evidence-review" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
             </div>
+          </li>
+
+          <li class="poc-item reveal" id="agent-authorization-gateway">
+            <div class="poc-item-meta">
+              <span>07 / Delegated authorization</span>
+              <span class="poc-status"><i class="status-dot"></i> Planned</span>
+            </div>
+            <h3>Enterprise agent authorization gateway</h3>
+            <p class="poc-claim">Can a sub-agent ever obtain more authority than the parent agent that delegated the task?</p>
+            <p>A complete delegation path—user → agent → sub-agent → gateway → policy decision → MCP tool—tested end to end: identity propagation, delegated authorization, Cedar policy evaluation, short-lived capability issuance, MCP-level enforcement, a LangGraph execution path, and an immutable audit trail. The design is tested against specific attacks, not just the happy path: a prompt requesting an unauthorized tool, a sub-agent attempting privilege escalation, a tool called outside its task scope, an expired delegation still presented as valid, a confused-deputy scenario, a policy change mid-execution, and an action that requires human approval before it can proceed.</p>
+            <ul class="poc-stack" aria-label="Technology stack">
+              <li>Cedar policy engine</li><li>LangGraph</li><li>Model Context Protocol</li><li>Delegated authorization</li>
+            </ul>
           </li>
         </ol>
       </div>
