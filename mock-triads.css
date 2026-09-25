@@ -8,6 +8,7 @@ html[data-triad] .theme-toggle {
   display: none;
 }
 
+/* ——— Shared mock chrome ——— */
 html[data-triad] .mock-banner {
   position: sticky;
   top: 0;
@@ -51,9 +52,191 @@ html[data-triad] .site-header {
   top: 41px;
 }
 
+/* Soften/remove rounded-full pills sitewide in mocks */
+html[data-triad] .nav-cta,
+html[data-triad] .button,
+html[data-triad] .project-card li,
+html[data-triad] .poc-entry-action,
+html[data-triad] .poc-demo-link,
+html[data-triad] .poc-stack li,
+html[data-triad] .article-link > span {
+  border-radius: 2px;
+}
+
+/* ——— Remocked hero: brand + headline + support + CTA + full-bleed visual ——— */
 html[data-triad] .hero {
-  padding-top: 148px;
-  min-height: calc(88vh - 41px);
+  position: relative;
+  display: grid;
+  align-items: stretch;
+  min-height: calc(100vh - 41px);
+  padding: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: var(--ground-hero);
+}
+
+html[data-triad] .hero-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  width: var(--shell);
+  margin-inline: auto;
+  min-height: calc(100vh - 41px);
+  padding-top: 108px;
+}
+
+html[data-triad] .hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 48px 56px 0;
+  max-width: 560px;
+}
+
+html[data-triad] .hero-brand {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(52px, 7.2vw, 92px);
+  line-height: .92;
+  letter-spacing: -.045em;
+  color: var(--ink);
+}
+
+html[data-triad] .hero-headline {
+  margin: 0 0 18px;
+  max-width: 28ch;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(20px, 2.1vw, 28px);
+  line-height: 1.25;
+  letter-spacing: -.02em;
+  color: var(--ink-soft);
+}
+
+html[data-triad] .hero-headline em {
+  font-style: normal;
+  color: var(--copper-deep);
+}
+
+html[data-triad] .hero-intro {
+  margin: 0;
+  max-width: 42ch;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.55;
+}
+
+html[data-triad] .hero-actions {
+  margin-top: 28px;
+  gap: 22px;
+}
+
+html[data-triad] .hero-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  min-height: 100%;
+  padding: 88px 0 40px;
+}
+
+html[data-triad] .hero-visual-plane {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--ground-hero) 0%, color-mix(in srgb, var(--ground-hero) 55%, transparent) 18%, transparent 38%),
+    var(--ground-hero);
+}
+
+html[data-triad] .hero-visual-plane svg,
+html[data-triad] .hero-visual img {
+  position: absolute;
+  right: max(-40px, calc((100vw - var(--shell)) / -2 - 12px));
+  top: 50%;
+  transform: translateY(-48%);
+  width: min(760px, 58vw);
+  height: auto;
+  color: var(--ink);
+  opacity: .92;
+}
+
+html[data-triad] .hero-visual figcaption {
+  position: relative;
+  z-index: 1;
+  align-self: flex-end;
+  margin-top: auto;
+  padding: 0 8px 8px 0;
+  color: var(--muted);
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+html[data-triad] .hero-visual figcaption a {
+  color: var(--copper-deep);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--copper-deep) 35%, transparent);
+}
+
+/* Kill leftover live-site hero chrome when present */
+html[data-triad] .hero .eyebrow,
+html[data-triad] .hero-aside,
+html[data-triad] .orbit-card,
+html[data-triad] .availability,
+html[data-triad] .hero-foot {
+  display: none !important;
+}
+
+html[data-triad] .project-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-triad] .calendar-card {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@media (max-width: 960px) {
+  html[data-triad] .hero-layout {
+    grid-template-columns: 1fr;
+    padding-top: 96px;
+    min-height: auto;
+  }
+
+  html[data-triad] .hero-copy {
+    max-width: none;
+    padding: 28px 0 12px;
+  }
+
+  html[data-triad] .hero-visual {
+    min-height: 52vw;
+    padding: 12px 0 36px;
+  }
+
+  html[data-triad] .hero-visual-plane {
+    background: var(--ground-hero);
+  }
+
+  html[data-triad] .hero-visual-plane svg,
+  html[data-triad] .hero-visual img {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: 640px;
+    margin-inline: auto;
+    display: block;
+  }
 }
 
 /* ——— 1. Blueprint technical ——— */
@@ -88,47 +271,34 @@ html[data-triad="blueprint"] {
 }
 
 html[data-triad="blueprint"] body,
-html[data-triad="blueprint"] .nav {
+html[data-triad="blueprint"] .nav,
+html[data-triad="blueprint"] .hero-headline,
+html[data-triad="blueprint"] .hero-intro {
   font-family: var(--sans);
 }
 
-html[data-triad="blueprint"] h1,
 html[data-triad="blueprint"] h2,
 html[data-triad="blueprint"] h3,
-html[data-triad="blueprint"] .hero-intro,
 html[data-triad="blueprint"] .about-copy .lead,
 html[data-triad="blueprint"] .principles strong,
 html[data-triad="blueprint"] .service-number,
-html[data-triad="blueprint"] .hero-foot p,
 html[data-triad="blueprint"] .contact-lead,
-html[data-triad="blueprint"] .calendar-lead,
-html[data-triad="blueprint"] .orbit-core strong {
+html[data-triad="blueprint"] .calendar-lead {
   font-family: var(--display);
   font-weight: 500;
 }
 
-html[data-triad="blueprint"] h1 {
-  letter-spacing: -.04em;
-  font-weight: 450;
-}
-
 html[data-triad="blueprint"] .hero-brand {
-  font-family: var(--display);
   font-weight: 600;
-  letter-spacing: -.025em;
-  color: var(--copper-deep);
+  letter-spacing: -.04em;
+  color: var(--ink);
 }
 
-html[data-triad="blueprint"] .eyebrow,
 html[data-triad="blueprint"] .section-index,
-html[data-triad="blueprint"] .orbit-label,
-html[data-triad="blueprint"] .orbit-core small,
-html[data-triad="blueprint"] .hero-disciplines,
 html[data-triad="blueprint"] .project-meta,
-html[data-triad="blueprint"] .availability,
-html[data-triad="blueprint"] .footer {
+html[data-triad="blueprint"] .footer,
+html[data-triad="blueprint"] .hero-visual figcaption {
   font-family: var(--mono);
-  letter-spacing: .08em;
 }
 
 html[data-triad="blueprint"] .hero {
@@ -139,13 +309,12 @@ html[data-triad="blueprint"] .hero {
   background-position: -1px -1px;
 }
 
-html[data-triad="blueprint"] .nav-cta,
-html[data-triad="blueprint"] .button {
-  border-radius: 2px;
+html[data-triad="blueprint"] .hero-visual-plane svg {
+  color: #1e4566;
 }
 
-html[data-triad="blueprint"] .project-card li {
-  border-radius: 2px;
+html[data-triad="blueprint"] .button-dark {
+  color: #e8eef4;
 }
 
 /* ——— 2. Ink + sharp signal ——— */
@@ -179,45 +348,36 @@ html[data-triad="ink-signal"] {
   --display: Fraunces, Newsreader, Georgia, serif;
 }
 
-html[data-triad="ink-signal"] body {
+html[data-triad="ink-signal"] body,
+html[data-triad="ink-signal"] .hero-headline,
+html[data-triad="ink-signal"] .hero-intro {
   font-family: var(--sans);
 }
 
-html[data-triad="ink-signal"] h1,
 html[data-triad="ink-signal"] h2,
 html[data-triad="ink-signal"] h3,
-html[data-triad="ink-signal"] .hero-intro,
 html[data-triad="ink-signal"] .about-copy .lead,
 html[data-triad="ink-signal"] .principles strong,
 html[data-triad="ink-signal"] .service h3,
 html[data-triad="ink-signal"] .project-card h3,
 html[data-triad="ink-signal"] .contact-lead,
-html[data-triad="ink-signal"] .calendar-lead,
-html[data-triad="ink-signal"] .hero-foot p {
+html[data-triad="ink-signal"] .calendar-lead {
   font-family: var(--serif);
 }
 
 html[data-triad="ink-signal"] .hero-brand,
-html[data-triad="ink-signal"] .brand-name,
-html[data-triad="ink-signal"] .orbit-core strong {
+html[data-triad="ink-signal"] .brand-name {
   font-family: var(--display);
   font-weight: 500;
-  font-variation-settings: "SOFT" 40, "WONK" 0;
+  font-variation-settings: "SOFT" 30, "WONK" 0;
 }
 
 html[data-triad="ink-signal"] .hero-brand {
-  font-size: clamp(34px, 4.2vw, 52px);
-  letter-spacing: -.04em;
-  color: var(--ink);
-}
-
-html[data-triad="ink-signal"] h1 {
-  font-size: clamp(48px, 6vw, 78px);
-  line-height: .94;
+  font-size: clamp(56px, 7.6vw, 100px);
+  letter-spacing: -.05em;
 }
 
 html[data-triad="ink-signal"] .nav-cta {
-  border-radius: 2px;
   background: transparent;
   color: var(--copper-deep);
   border-color: var(--copper);
@@ -230,16 +390,11 @@ html[data-triad="ink-signal"] .nav-cta:hover {
 }
 
 html[data-triad="ink-signal"] .button-dark {
-  border-radius: 2px;
   color: #f7f7f5;
 }
 
-html[data-triad="ink-signal"] .button {
-  border-radius: 2px;
-}
-
-html[data-triad="ink-signal"] .hero {
-  background-image: radial-gradient(ellipse 80% 55% at 100% 0%, rgba(45, 106, 79, .07), transparent 55%);
+html[data-triad="ink-signal"] .hero-visual-plane svg {
+  color: #1b4332;
 }
 
 /* ——— 3. Concrete / industrial ——— */
@@ -274,30 +429,22 @@ html[data-triad="concrete"] {
 }
 
 html[data-triad="concrete"] body,
-html[data-triad="concrete"] h1,
 html[data-triad="concrete"] h2,
 html[data-triad="concrete"] h3,
+html[data-triad="concrete"] .hero-headline,
 html[data-triad="concrete"] .hero-intro,
 html[data-triad="concrete"] .about-copy .lead,
 html[data-triad="concrete"] .principles strong,
-html[data-triad="concrete"] .orbit-core strong,
 html[data-triad="concrete"] .contact-lead,
-html[data-triad="concrete"] .calendar-lead,
-html[data-triad="concrete"] .hero-foot p {
+html[data-triad="concrete"] .calendar-lead {
   font-family: var(--display);
-}
-
-html[data-triad="concrete"] h1 {
-  font-weight: 500;
-  letter-spacing: -.05em;
-  text-transform: none;
 }
 
 html[data-triad="concrete"] .hero-brand {
   font-weight: 600;
-  letter-spacing: -.03em;
+  letter-spacing: -.04em;
   text-transform: uppercase;
-  font-size: clamp(22px, 2.6vw, 32px);
+  font-size: clamp(44px, 6.4vw, 84px);
 }
 
 html[data-triad="concrete"] .nav-cta,
@@ -310,36 +457,22 @@ html[data-triad="concrete"] .button-dark {
   color: #e4e2de;
 }
 
-html[data-triad="concrete"] .orbit-core {
-  border-radius: 0;
-  inset: 32%;
-}
-
-html[data-triad="concrete"] .orbit-card,
-html[data-triad="concrete"] .orbit-card::before,
-html[data-triad="concrete"] .orbit-card::after {
-  border-radius: 0;
-}
-
-html[data-triad="concrete"] .hero {
-  background-image:
-    linear-gradient(135deg, rgba(92, 107, 115, .08) 0%, transparent 42%),
-    linear-gradient(0deg, transparent 0%, transparent 100%);
-}
-
 html[data-triad="concrete"] .brand-mark {
   border-radius: 0;
 }
 
-/* Alternate oxide as secondary signal via steel line accents */
-html[data-triad="concrete"] .eyebrow span,
-html[data-triad="concrete"] .hero-disciplines span + span::before {
-  background: #5c6b73;
+html[data-triad="concrete"] .hero-headline em {
   color: #5c6b73;
 }
 
-html[data-triad="concrete"] .hero-disciplines span + span::before {
-  color: #5c6b73;
+html[data-triad="concrete"] .hero-visual-plane svg {
+  color: #3a3a38;
+}
+
+html[data-triad="concrete"] .hero-visual-plane svg rect[stroke-width="2"],
+html[data-triad="concrete"] .hero-visual-plane svg rect[stroke-width="1.75"],
+html[data-triad="concrete"] .hero-visual-plane svg rect[stroke-width="1.5"] {
+  stroke: #a33b2b;
 }
 
 /* ——— 4. Minimal high contrast ——— */
@@ -373,22 +506,17 @@ html[data-triad="minimal"] {
   --display: "Instrument Serif", Playfair Display, Georgia, serif;
 }
 
-html[data-triad="minimal"] body {
-  font-family: var(--sans);
-}
-
-html[data-triad="minimal"] h1,
+html[data-triad="minimal"] body,
+html[data-triad="minimal"] .hero-headline,
+html[data-triad="minimal"] .hero-intro,
 html[data-triad="minimal"] h2,
 html[data-triad="minimal"] h3,
-html[data-triad="minimal"] .hero-intro,
 html[data-triad="minimal"] .about-copy .lead,
 html[data-triad="minimal"] .principles strong,
 html[data-triad="minimal"] .service h3,
 html[data-triad="minimal"] .project-card h3,
-html[data-triad="minimal"] .orbit-core strong,
 html[data-triad="minimal"] .contact-lead,
 html[data-triad="minimal"] .calendar-lead,
-html[data-triad="minimal"] .hero-foot p,
 html[data-triad="minimal"] .nav {
   font-family: var(--sans);
   font-weight: 450;
@@ -402,32 +530,20 @@ html[data-triad="minimal"] .brand-name {
 }
 
 html[data-triad="minimal"] .hero-brand {
-  font-size: clamp(40px, 5vw, 64px);
-  letter-spacing: -.035em;
-  line-height: .95;
-}
-
-html[data-triad="minimal"] h1 {
-  font-size: clamp(42px, 5.2vw, 68px);
+  font-size: clamp(58px, 8vw, 108px);
   letter-spacing: -.04em;
-  line-height: 1.02;
-  font-weight: 500;
+  line-height: .9;
 }
 
-html[data-triad="minimal"] h1 em,
+html[data-triad="minimal"] .hero-headline em {
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
 html[data-triad="minimal"] h2 em {
   color: var(--ink);
   font-style: normal;
   border-bottom: 1px solid var(--line);
-}
-
-html[data-triad="minimal"] .site-header {
-  border-bottom: 1px solid transparent;
-}
-
-html[data-triad="minimal"] .site-header.scrolled {
-  border-bottom-color: var(--line);
-  border-bottom-width: 1px;
 }
 
 html[data-triad="minimal"] .nav-cta {
@@ -464,40 +580,23 @@ html[data-triad="minimal"] .brand-mark {
   border-radius: 0;
 }
 
-html[data-triad="minimal"] .brand-mark svg [style*="--copper"],
 html[data-triad="minimal"] .brand-mark svg circle[style] {
   fill: var(--paper) !important;
-}
-
-html[data-triad="minimal"] .orbit-core {
-  background: var(--ink);
-  color: var(--paper);
-  box-shadow: none;
-}
-
-html[data-triad="minimal"] .orbit-label::before {
-  box-shadow: none;
 }
 
 html[data-triad="minimal"] .project-card li {
   border-radius: 0;
 }
 
-html[data-triad="minimal"] .hero {
-  border-bottom-width: 1px;
-  border-bottom-color: var(--line);
+html[data-triad="minimal"] .hero-visual-plane svg {
+  color: #111;
+  opacity: .88;
 }
 
-html[data-triad="minimal"] .section-index,
-html[data-triad="minimal"] .eyebrow {
+html[data-triad="minimal"] .section-index {
   letter-spacing: .2em;
   font-weight: 500;
   color: var(--muted);
-}
-
-html[data-triad="minimal"] .calendar-card {
-  box-shadow: none;
-  border-radius: 0;
 }
 
 /* Compare page */
