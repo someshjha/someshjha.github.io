@@ -130,7 +130,7 @@ html[data-theme="light"] .producer-evidence pre { background: #fffdf7; }
 html[data-theme="light"] .producer-receipt,
 html[data-theme="light"] .proof-callout,
 html[data-theme="light"] .what-proves,
-html[data-theme="light"] .reconciliation-banner { background: #e6f2ea; }
+html[data-theme="light"] .reconciliation-banner { background: #fbe9e0; }
 html[data-theme="light"] dialog { background: #fffaf1; }
 
 .brand {
@@ -360,7 +360,7 @@ td strong { color: var(--ink); }
 .event-compare strong { margin: 7px 0 4px; font-size: 10px; }
 .event-compare span { color: var(--muted); font-size: 9px; }
 .event-compare > span { color: var(--green); font-size: 16px; }
-.proof-callout { padding: 12px; border-left: 2px solid var(--green); color: var(--green-bright); background: #10241e; font-size: 10px; }
+.proof-callout { padding: 12px 14px; border: 1px solid rgba(225,122,86,.3); border-radius: 8px; color: var(--green-bright); background: #201b16; font-size: 10px; }
 
 .health-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
 .health-card { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
@@ -397,7 +397,7 @@ td strong { color: var(--ink); }
 .run-monitor h3 { margin: 14px 0 7px; font-size: 16px; }
 .run-monitor > p { margin: 0 0 18px; color: var(--muted); font-size: 9px; line-height: 1.6; }
 .progress-track { height: 4px; overflow: hidden; border-radius: 3px; background: var(--line); }
-.progress-track span { display: block; width: 0; height: 100%; background: var(--green); transition: width 260ms ease; }
+.progress-track span { display: block; width: 100%; height: 100%; background: var(--green); transform: scaleX(0); transform-origin: left; transition: transform 260ms ease; }
 .run-steps { display: grid; gap: 11px; margin-top: 20px; }
 .run-step { display: flex; align-items: center; gap: 9px; color: var(--subtle); font-size: 9px; }
 .run-step i { width: 17px; height: 17px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; font-style: normal; font-size: 8px; }
@@ -434,7 +434,7 @@ td strong { color: var(--ink); }
 .producer-evidence pre { min-height: 240px; max-height: 330px; margin: 17px 0; padding: 16px; overflow: auto; border: 1px solid var(--line); border-radius: 9px; color: #a8d9c5; background: #07100e; font: 9px/1.7 ui-monospace, monospace; white-space: pre-wrap; }
 .producer-receipts { display: grid; gap: 7px; }
 .empty-copy { margin: 0; color: var(--subtle); font-size: 9px; }
-.producer-receipt { display: grid; gap: 4px; padding: 11px; border-left: 2px solid var(--green); background: #10211c; }
+.producer-receipt { display: grid; gap: 4px; padding: 10px 13px; border: 1px solid rgba(225,122,86,.3); border-radius: 8px; background: #201b16; }
 .producer-receipt strong { color: var(--green-bright); font: 700 9px ui-monospace, monospace; }
 .producer-receipt span, .producer-receipt small { color: var(--muted); font: 8px ui-monospace, monospace; }
 .kafka-guide { display: grid; grid-template-columns: 240px 1fr; gap: 32px; margin-top: 14px; }
@@ -474,7 +474,7 @@ td strong { color: var(--ink); }
 .journey-step strong { margin-bottom: 3px; font-size: 10px; }
 .journey-step span { color: var(--muted); font-size: 9px; line-height: 1.45; }
 .journey-step time { color: var(--subtle); font: 8px ui-monospace, monospace; }
-.what-proves { margin-top: 9px; padding: 15px; border-left: 2px solid var(--green); color: var(--green-bright); background: #10241e; font-size: 10px; line-height: 1.55; }
+.what-proves { margin-top: 9px; padding: 13px 15px; border: 1px solid rgba(225,122,86,.3); border-radius: 8px; color: var(--green-bright); background: #201b16; font-size: 10px; line-height: 1.55; }
 
 dialog { width: min(420px, calc(100% - 30px)); padding: 0; border: 1px solid var(--line-strong); border-radius: 14px; color: var(--ink); background: #0e1b18; box-shadow: 0 24px 80px rgba(0,0,0,.5); }
 dialog::backdrop { background: rgba(2,8,7,.74); backdrop-filter: blur(4px); }

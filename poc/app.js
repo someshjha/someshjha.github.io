@@ -228,7 +228,7 @@ function renderMonitor() {
   monitor.innerHTML = `
     <div class="monitor-status"><i></i>${passed ? "VERIFICATION PASSED" : "SCENARIO RUNNING"}</div>
     <h3>${name}</h3><p>${passed ? "All expected results were observed and reconciled." : catalogue[state.run.type].description}</p>
-    <div class="progress-track"><span style="width:${progress}%"></span></div>
+    <div class="progress-track"><span style="transform:scaleX(${progress / 100})"></span></div>
     <div class="run-steps">${steps.map((step, index) => `<div class="run-step ${passed || index < currentStep ? "done" : index === currentStep ? "current" : ""}"><i>${passed || index < currentStep ? "✓" : index + 1}</i><span>${step}</span></div>`).join("")}</div>`;
 }
 

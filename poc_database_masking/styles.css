@@ -152,7 +152,7 @@ kbd { min-width: 21px; display: inline-grid; place-items: center; padding: 3px 5
 
 .stage-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
 .stage-heading h2 { margin: 0; font-size: clamp(1.55rem, 3vw, 2.2rem); line-height: 1.1; letter-spacing: -0.045em; }
-.patient-anchor { flex: 0 0 auto; display: grid; gap: 4px; padding-left: 18px; border-left: 2px solid #e8c9b8; }
+.patient-anchor { flex: 0 0 auto; display: grid; gap: 4px; padding-left: 18px; border-left: 1px solid var(--line); }
 .patient-anchor span { color: var(--muted); font-size: 0.72rem; }
 .patient-anchor strong { font: 800 0.84rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; }
 
@@ -170,7 +170,7 @@ kbd { min-width: 21px; display: inline-grid; place-items: center; padding: 3px 5
 
 .query-label { display: flex; align-items: center; gap: 12px; }
 .query-label h3 { margin: 0; font-size: 0.9rem; }
-.query-card pre { margin: 0; padding: 12px 15px; overflow-x: auto; border-left: 3px solid var(--green); color: #f5f0e8; background: var(--navy-deep); font: 0.78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.query-card pre { margin: 0; padding: 12px 15px; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; color: #f5f0e8; background: var(--navy-deep); font: 0.78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .query-card pre span { color: #e8a37c; font-weight: 800; }
 .query-parameter { display: grid; gap: 5px; }
 .query-parameter span { color: var(--muted); font-size: 0.7rem; }
