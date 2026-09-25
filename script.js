@@ -30,7 +30,7 @@ function notifyFrames(theme) {
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0f1d19' : '#f4f0e8');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0b1520' : '#e8eef4');
   document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
     button.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
     button.setAttribute('aria-pressed', String(theme === 'dark'));

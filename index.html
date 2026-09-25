@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f0e8">
+  <meta name="theme-color" content="#e8eef4">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/brand/favicon-512.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
@@ -16,8 +16,11 @@
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="https://someshjha.github.io/">
   <script>document.documentElement.classList.add('js')</script>
-  <link rel="stylesheet" href="styles.css?v=theme-notes-v5">
-  <script defer src="script.js?v=theme-notes-v5"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=blueprint-v1">
+  <script defer src="script.js?v=blueprint-v1"></script>
   <title>Somesh Jha — Technology Leader, Architect & AI Builder</title>
 </head>
 <body>
@@ -57,36 +60,23 @@
   </header>
 
   <main id="main">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="shell hero-grid">
+    <section class="hero" id="top" aria-labelledby="hero-brand">
+      <div class="shell hero-layout">
         <div class="hero-copy reveal">
-          <p class="eyebrow"><span></span> Technology leadership · Distributed systems · Applied AI</p>
-          <h1 id="hero-title"><span>Build the right system.</span><em>Get it into production.</em></h1>
-          <p class="hero-intro">I help technology leaders make consequential architecture decisions, modernize complex platforms, and move AI systems from promising prototypes into controlled production.</p>
+          <h1 class="hero-brand" id="hero-brand">Somesh Jha</h1>
+          <p class="hero-headline">Build the right system. <em>Get it into production.</em></p>
+          <p class="hero-intro">I help technology leaders make consequential architecture decisions, modernize complex platforms, and move AI systems from prototypes into controlled production.</p>
           <div class="hero-actions">
             <a class="button button-dark" href="#contact">Start a conversation <span aria-hidden="true">↗</span></a>
             <a class="text-link" href="#work">See the work <span aria-hidden="true">↓</span></a>
           </div>
         </div>
-        <div class="hero-aside reveal" aria-label="Areas of focus">
-          <div class="orbit-card">
-            <div class="orbit-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <span class="orbit-label orbit-label-a">Strategy</span>
-            <span class="orbit-label orbit-label-b">Systems</span>
-            <span class="orbit-label orbit-label-c">Scale</span>
-            <span class="orbit-label orbit-label-d">AI</span>
-            <span class="orbit-label orbit-label-e">Cloud</span>
-            <span class="orbit-label orbit-label-f">Data</span>
-            <span class="orbit-core"><strong>SJ</strong><small>Strategy to production</small></span>
+        <figure class="hero-visual reveal">
+          <div class="hero-visual-plane" aria-hidden="true">
+            <img src="assets/mock/hero-architecture.svg" alt="Target-state architecture excerpt showing legacy core modernization seams into domain services" width="920" height="720">
           </div>
-          <div class="availability"><span></span> Based in Burlington, Ontario</div>
-        </div>
-      </div>
-      <div class="shell hero-foot reveal">
-        <p>13+ years across banking, insurance, and telecom.</p>
-        <div class="hero-disciplines" aria-label="Disciplines">
-          <span>AI &amp; agentic systems</span><span>Enterprise architecture</span><span>Platform modernization</span>
-        </div>
+          <figcaption><a href="legacy-modernization.html">Work artifact</a> · Target-state excerpt, legacy core modernization</figcaption>
+        </figure>
       </div>
     </section>
 
