@@ -1,4 +1,28 @@
-if (window.top !== window.self) {
+function isEmbeddedFrame() {
+  // Prefer an explicit embed flag from the writing reader (or other shells).
+  try {
+    if (new URLSearchParams(window.location.search).get('embed') === '1') return true;
+  } catch {
+    // Ignore malformed query strings and keep evaluating parent context.
+  }
+
+  // Same-origin parent that hosts our known reader/shell iframes.
+  // Cross-origin parents (IDE previews, etc.) must NOT hide site chrome —
+  // those loads should look like standalone pages.
+  try {
+    if (window.parent === window) return false;
+    const parentDoc = window.parent.document;
+    return Boolean(
+      parentDoc.querySelector('#article-frame') ||
+      parentDoc.querySelector('.writing-frame-card iframe') ||
+      parentDoc.querySelector('.poc-frame-card iframe')
+    );
+  } catch {
+    return false;
+  }
+}
+
+if (isEmbeddedFrame()) {
   document.documentElement.classList.add('embedded-frame');
 }
 
