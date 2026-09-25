@@ -9,15 +9,15 @@
   --surface-soft: #162824;
   --line: #223b36;
   --line-strong: #315049;
-  --green: #5ee0a0;
-  --green-bright: #8af0bd;
-  --green-dark: #173b2c;
-  --amber: #f3c56b;
-  --amber-dark: #3e321b;
-  --red: #ff867c;
-  --red-dark: #40221f;
-  --blue: #76baff;
-  --violet: #ad9cff;
+  --green: #e17a56;
+  --green-bright: #f0996f;
+  --green-dark: #3a2016;
+  --amber: #d99a5c;
+  --amber-dark: #3a2a18;
+  --red: #d9695a;
+  --red-dark: #3a1f1c;
+  --blue: #8a9490;
+  --violet: #e17a56;
   --sidebar: 224px;
   --radius: 14px;
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -35,15 +35,15 @@ html[data-theme="light"] {
   --surface-soft: #ece6dc;
   --line: rgba(20, 35, 30, .16);
   --line-strong: rgba(20, 35, 30, .28);
-  --green: #147a52;
-  --green-bright: #0c6845;
-  --green-dark: #dfeee5;
+  --green: #9f4c35;
+  --green-bright: #7a3826;
+  --green-dark: #f3e3da;
   --amber: #9f6a10;
   --amber-dark: #f4e5c5;
   --red: #a8443d;
   --red-dark: #f3d8d5;
-  --blue: #246ca5;
-  --violet: #6e58b7;
+  --blue: #6b6058;
+  --violet: #9f4c35;
 }
 
 * { box-sizing: border-box; }
@@ -55,13 +55,13 @@ body {
   min-height: 100vh;
   color: var(--ink);
   background:
-    radial-gradient(circle at 72% -10%, rgba(57, 126, 101, 0.13), transparent 32rem),
+    radial-gradient(circle at 72% -10%, rgba(225, 122, 86, 0.13), transparent 32rem),
     var(--canvas);
 }
 
 html[data-theme="light"] body {
   background:
-    radial-gradient(circle at 72% -10%, rgba(20, 122, 82, 0.09), transparent 32rem),
+    radial-gradient(circle at 72% -10%, rgba(159, 76, 53, 0.09), transparent 32rem),
     var(--canvas);
 }
 
@@ -237,9 +237,9 @@ html[data-theme="light"] dialog { background: #fffaf1; }
 .pipeline-node strong { font-size: 12px; }
 .pipeline-node em { overflow: hidden; color: var(--muted); font-size: 10px; font-style: normal; text-overflow: ellipsis; white-space: nowrap; }
 .tech-icon { width: 40px; height: 40px; display: grid; place-items: center; flex: 0 0 auto; border: 1px solid; border-radius: 9px; font: 800 13px ui-monospace, monospace; }
-.kafka-icon { color: var(--violet); border-color: #4a426d; background: #1e1a31; }
-.flink-icon { color: #ff8aa6; border-color: #6a3646; background: #301923; }
-.postgres-icon { color: var(--blue); border-color: #2f526d; background: #142838; }
+.kafka-icon { color: var(--green); border-color: rgba(225,122,86,.35); background: rgba(225,122,86,.12); }
+.flink-icon { color: var(--amber); border-color: rgba(217,154,92,.4); background: rgba(217,154,92,.14); }
+.postgres-icon { color: var(--blue); border-color: rgba(138,148,144,.4); background: rgba(138,148,144,.14); }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px rgba(94,224,160,.7); }
 .status-dot.warning { background: var(--amber); box-shadow: 0 0 8px rgba(243,197,107,.7); }
 .flow-connector { display: flex; align-items: center; }

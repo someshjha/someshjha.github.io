@@ -1,22 +1,22 @@
 :root {
   color-scheme: dark;
   --ink: #eef5f4;
-  --muted: #9aacc9;
-  --subtle: #6b7c9c;
-  --canvas: #0a0e17;
-  --surface: #0f1420;
-  --surface-raised: #151c2c;
-  --surface-soft: #1b2436;
-  --line: #263252;
-  --violet: #a99bff;
-  --violet-dark: #241c47;
-  --green: #63e0a8;
-  --green-dark: #123a2c;
-  --amber: #f3c56b;
-  --amber-dark: #3e321b;
-  --red: #ff8c82;
-  --red-dark: #421f23;
-  --blue: #7bb8ff;
+  --muted: #b9c4bd;
+  --subtle: #8fa29c;
+  --canvas: #07110f;
+  --surface: #0f1d19;
+  --surface-raised: #172923;
+  --surface-soft: #1c2f28;
+  --line: #223b36;
+  --violet: #f0996f;
+  --violet-dark: #3a2016;
+  --green: #9f4c35;
+  --green-dark: #2e1912;
+  --amber: #d99a5c;
+  --amber-dark: #3a2a18;
+  --red: #d9695a;
+  --red-dark: #3a1f1c;
+  --blue: #d99a5c;
   --radius: 14px;
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
@@ -28,7 +28,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  background: radial-gradient(circle at 78% -10%, rgba(122, 106, 255, 0.14), transparent 34rem), var(--canvas);
+  background: radial-gradient(circle at 78% -10%, rgba(225, 122, 86, 0.14), transparent 34rem), var(--canvas);
 }
 button { font: inherit; color: inherit; -webkit-tap-highlight-color: transparent; cursor: pointer; }
 button:disabled { cursor: not-allowed; opacity: .45; }
@@ -53,7 +53,7 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 .status-badge[data-status="escalated"] { background: var(--amber-dark); color: var(--amber); }
 
 .primary-action {
-  background: var(--violet); color: #150f2e; border: none; border-radius: 999px;
+  background: var(--violet); color: #14231e; border: none; border-radius: 999px;
   padding: 10px 18px; font-size: 13px; font-weight: 760;
 }
 
@@ -79,8 +79,8 @@ button:disabled { cursor: not-allowed; opacity: .45; }
   background: var(--surface-soft); border: 1px solid var(--line); border-radius: 999px;
   padding: 9px 14px; font-size: 12.5px; font-weight: 640;
 }
-#kill-worker-btn { color: var(--red); border-color: rgba(255, 140, 130, .35); }
-#restart-worker-btn { color: var(--green); border-color: rgba(99, 224, 168, .35); }
+#kill-worker-btn { color: var(--red); border-color: rgba(217, 105, 90, .35); }
+#restart-worker-btn { color: var(--green); border-color: rgba(159, 76, 53, .35); }
 .worker-note { margin: 0; font-size: 12px; color: var(--subtle); line-height: 1.5; }
 
 .workflow-diagram ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; flex-wrap: wrap; }
@@ -113,8 +113,8 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 .decision-controls button {
   border-radius: 999px; border: 1px solid var(--line); padding: 9px 14px; font-size: 12.5px; font-weight: 660;
 }
-#confirm-fraud-btn { background: var(--red-dark); color: var(--red); border-color: rgba(255, 140, 130, .35); }
-#clear-btn { background: var(--green-dark); color: var(--green); border-color: rgba(99, 224, 168, .35); }
+#confirm-fraud-btn { background: var(--red-dark); color: var(--red); border-color: rgba(217, 105, 90, .35); }
+#clear-btn { background: var(--green-dark); color: var(--green); border-color: rgba(159, 76, 53, .35); }
 
 .text-btn { background: none; border: none; color: var(--blue); font-size: 12px; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
 

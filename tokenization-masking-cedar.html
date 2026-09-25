@@ -47,7 +47,7 @@
       <div class="article-shell">
         <p class="eyebrow"><span></span> Point of view · Database trust</p>
         <h1>Tokenization and masking <em>at scale.</em></h1>
-        <p class="article-subtitle">Moving column-level visibility to a policy engine instead of scattering it across application code — and what changes when the demo becomes a production system.</p>
+        <p class="article-subtitle">Moving column-level visibility to a policy engine instead of scattering it across application code, and what changes when the demo becomes a production system.</p>
         <p class="article-byline">By Somesh Jha <span aria-hidden="true">·</span> <time datetime="2026-09">September 2026</time></p>
       </div>
     </header>
@@ -55,34 +55,34 @@
     <article class="article-body article-shell">
       <aside class="article-summary" aria-labelledby="summary-title">
         <p class="article-label" id="summary-title">The recommendation</p>
-        <p>Decide who can see which field with a schema-validated, default-deny policy engine — Cedar is a strong choice — and keep that decision completely separate from how the field gets hidden. Enforcement is either a dynamic masking view at the database boundary or a vaulted tokenization service in front of it. The moment those two concerns merge into application <code>if</code> statements, the policy stops being auditable and starts drifting from what the database actually returns.</p>
+        <p>Decide who can see which field with a schema-validated, default-deny policy engine (Cedar is a strong choice), and keep that decision completely separate from how the field gets hidden. Enforcement is either a dynamic masking view at the database boundary or a vaulted tokenization service in front of it. The moment those two concerns merge into application <code>if</code> statements, the policy stops being auditable and starts drifting from what the database actually returns.</p>
         <p>That separation has a cost: someone has to own a schema for principals, resources, and actions, and every new column or role becomes a policy change, not a code change. For a handful of roles and tables that overhead isn't worth it. Past a few dozen roles across a shared platform, it's the only way the answer to "who can see this column" stays a single, reviewable artifact instead of an archaeology project.</p>
       </aside>
 
       <h2>The problem this decision solves</h2>
       <p class="article-lede">A single role check in a controller works until it doesn't: the second team that queries the table, the read replica the analytics job hits, the export job that forgot the filter. Masking that lives in application code is only as strong as the last engineer who remembered to add it.</p>
-      <p>The <a href="pocs.html#column-masking">column masking PoC</a> on this site tests the narrow version of this problem — one table, three roles, one query shape. This note is the scaled-up version: hundreds of columns, dozens of roles and partner integrations, multiple services reading the same tables, and a compliance team that needs to answer "who could have seen this field on this date" without reading source code.</p>
+      <p>The <a href="pocs.html#column-masking">column masking PoC</a> on this site tests the narrow version of this problem: one table, three roles, one query shape. This note is the scaled-up version: hundreds of columns, dozens of roles and partner integrations, multiple services reading the same tables, and a compliance team that needs to answer "who could have seen this field on this date" without reading source code.</p>
 
       <h2>Two mechanisms, one decision</h2>
       <div class="article-parts">
-        <section><span>01</span><div><h3>Masking</h3><p>The underlying value never leaves the database in readable form for an unauthorized caller. A dynamic view, a proxy, or a row/column security policy substitutes a redacted, truncated, or synthetic value at read time. Masking is usually one-directional — there is no path back to the original from the masked output.</p></div></section>
+        <section><span>01</span><div><h3>Masking</h3><p>The underlying value never leaves the database in readable form for an unauthorized caller. A dynamic view, a proxy, or a row/column security policy substitutes a redacted, truncated, or synthetic value at read time. Masking is usually one-directional. There is no path back to the original from the masked output.</p></div></section>
         <section><span>02</span><div><h3>Tokenization</h3><p>The original value is replaced with a token that is meaningless outside a vault, and the mapping is stored separately from every other system that uses the token. An authorized caller can detokenize; everyone else only ever holds a token. Tokenization is reversible by design, which is exactly why the detokenization path needs its own policy decision.</p></div></section>
       </div>
       <p>They are not competing choices. A payment field is usually tokenized so a support agent can reference "card ending 4242" without ever seeing the PAN, while a diagnosis field is usually masked outright for anyone outside clinical care, because there is no legitimate reason for billing to reconstruct it.</p>
 
       <h2>Evaluation criteria</h2>
       <div class="article-parts">
-        <section><span>01</span><div><h3>Policy expressiveness</h3><p>Can the engine express attribute-based rules — role, data classification, purpose of use, time of day, case status — not just a static role-to-table map?</p></div></section>
+        <section><span>01</span><div><h3>Policy expressiveness</h3><p>Can the engine express attribute-based rules (role, data classification, purpose of use, time of day, case status) rather than a static role-to-table map?</p></div></section>
         <section><span>02</span><div><h3>Decision latency</h3><p>Is the authorization check cheap enough to run per-column, per-request, without becoming the slowest part of the query path?</p></div></section>
-        <section><span>03</span><div><h3>Auditability</h3><p>Can every permit or deny be reconstructed later — which policy version, which principal attributes, which resource — without replaying application logs?</p></div></section>
+        <section><span>03</span><div><h3>Auditability</h3><p>Can every permit or deny be reconstructed later, including which policy version, which principal attributes, and which resource, without replaying application logs?</p></div></section>
         <section><span>04</span><div><h3>Reversibility control</h3><p>Is detokenization itself a policy-gated action with its own audit trail, not an implicit side effect of holding a database credential?</p></div></section>
         <section><span>05</span><div><h3>Blast radius of a bug</h3><p>If a policy is wrong, does it fail open or closed? A default-deny engine turns a missing rule into an incident that's caught in staging, not a silent leak.</p></div></section>
-        <section><span>06</span><div><h3>Integration surface</h3><p>Does the enforcement point sit at the database boundary, the API gateway, or both — and does that match where the data actually fans out to other services?</p></div></section>
+        <section><span>06</span><div><h3>Integration surface</h3><p>Does the enforcement point sit at the database boundary, the API gateway, or both, and does that match where the data actually fans out to other services?</p></div></section>
       </div>
 
       <h2>Where Cedar fits</h2>
-      <p>Cedar is an open-source, schema-validated authorization language originally built for Amazon Verified Permissions and released independently of it. It is deliberately narrow: it does not run business logic, it answers one question — <em>can this principal take this action on this resource, given this context</em> — as <code>Allow</code>, <code>Deny</code>, or an explicit reason. Policies are <code>permit</code> or <code>forbid</code> statements, evaluation is default-deny, and any matching <code>forbid</code> overrides every <code>permit</code>. That last rule is what makes Cedar a good fit for masking: the default state of a new column is invisible, and a <code>forbid</code> for a sensitive field can't be quietly outvoted by a broad role grant written somewhere else.</p>
-      <p>Cedar policies can be unit-tested and schema-validated in CI the same way a type system catches a bad call — a policy that references a role or a resource attribute the schema doesn't define fails to compile, before it ever reaches production.</p>
+      <p>Cedar is an open-source, schema-validated authorization language originally built for Amazon Verified Permissions and released independently of it. It is deliberately narrow: it does not run business logic; it answers one question, <em>can this principal take this action on this resource, given this context?</em> The answer is always <code>Allow</code>, <code>Deny</code>, or an explicit reason. Policies are <code>permit</code> or <code>forbid</code> statements, evaluation is default-deny, and any matching <code>forbid</code> overrides every <code>permit</code>. That last rule is what makes Cedar a good fit for masking: the default state of a new column is invisible, and a <code>forbid</code> for a sensitive field can't be quietly outvoted by a broad role grant written somewhere else.</p>
+      <p>Cedar policies can be unit-tested and schema-validated in CI the same way a type system catches a bad call: a policy that references a role or a resource attribute the schema doesn't define fails to compile, before it ever reaches production.</p>
 
       <h2>Field-level entitlement, in policy</h2>
       <p>The pattern is to model each protected column as a resource the principal is requesting to view, not to try to encode masking rules inside SQL. Enforcement then asks Cedar one question per field, or a batch of them, and only reveals the fields that came back <code>Allow</code>.</p>
@@ -158,7 +158,7 @@ when {
         <div class="architecture-flow-row"><div class="architecture-node primary">Per-field decision: allow · deny · detokenize</div></div>
         <div class="architecture-flow-row"><div class="architecture-node">Masking view / column proxy</div><div class="architecture-node">Token vault (Vault Transit, KMS-backed, or a managed tokenization service)</div><div class="architecture-node">Audit and decision log</div></div>
       </div>
-      <p class="architecture-flow-note">The database itself should never be trusted to be the last line of defense on its own — the masking view or column proxy enforces what Cedar decided, and the token vault is the only place that can map a token back to a value. A compromised application credential should get tokens and masked values, not a path around either service.</p>
+      <p class="architecture-flow-note">The database itself should never be the last line of defense on its own. The masking view or column proxy enforces what Cedar decided, and the token vault is the only place that can map a token back to a value; a compromised application credential should only ever yield tokens and masked values.</p>
 
       <h2>Side by side</h2>
       <div class="article-table-wrap">
@@ -175,20 +175,20 @@ when {
 
       <h2>Production checklist</h2>
       <ul class="article-checklist">
-        <li>Classify every column before writing a single policy — masking rules are only as good as the classification pipeline behind them.</li>
+        <li>Classify every column before writing a single policy: masking rules are only as good as the classification pipeline behind them.</li>
         <li>Validate every Cedar policy against a schema in CI; treat an unknown resource or action as a build failure, not a runtime surprise.</li>
         <li>Default deny: a new column or a new role should be invisible until a policy explicitly grants it.</li>
-        <li>Put detokenization behind its own action and its own audit trail — never treat it as implied by "can view this field."</li>
+        <li>Put detokenization behind its own action and its own audit trail; never treat it as implied by "can view this field."</li>
         <li>Cache decisions at the request or session grain, not the field grain, so per-column checks don't dominate query latency.</li>
         <li>Log every deny as well as every allow; a pattern of denies against one principal is often the earliest signal of a compromised credential.</li>
-        <li>Separate the token vault's operational access from the application database's — the two should never share an admin path.</li>
+        <li>Separate the token vault's operational access from the application database's, so the two never share an admin path.</li>
         <li>Test the policy set the way you'd test code: known-good grants, known-bad denials, and regression cases for every incident you've already had.</li>
-        <li>Pilot on one high-sensitivity table before generalizing the pattern — the <a href="pocs.html#column-masking">column masking PoC</a> is that pilot at a single-table scale.</li>
+        <li>Pilot on one high-sensitivity table before generalizing the pattern; the <a href="pocs.html#column-masking">column masking PoC</a> is that pilot at a single-table scale.</li>
       </ul>
 
       <footer class="article-closing">
         <p class="article-quote">The database should never be the only thing standing between a role and a column it shouldn't see. Make the decision reviewable, and make it the same decision every service gets.</p>
-        <p><strong>A note on timing.</strong> Cedar, Amazon Verified Permissions, and the managed tokenization landscape are all moving quickly. The architectural separation here — decision engine, enforcement point, vault, audit — outlasts any specific product; validate current capabilities and compliance certifications before a production commitment.</p>
+        <p><strong>A note on timing.</strong> Cedar, Amazon Verified Permissions, and the managed tokenization landscape are all moving quickly. The architectural separation here (decision engine, enforcement point, vault, audit) outlasts any specific product; validate current capabilities and compliance certifications before a production commitment.</p>
       </footer>
     </article>
   </main>

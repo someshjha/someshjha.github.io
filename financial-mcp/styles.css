@@ -8,12 +8,12 @@
   --surface-raised: #11211e;
   --surface-soft: #162824;
   --line: #223b36;
-  --green: #5ee0a0;
-  --green-dark: #173b2c;
-  --amber: #f3c56b;
-  --amber-dark: #3e321b;
-  --red: #ff867c;
-  --red-dark: #40221f;
+  --green: #e17a56;
+  --green-dark: #3a2016;
+  --amber: #d99a5c;
+  --amber-dark: #3a2a18;
+  --red: #d9695a;
+  --red-dark: #3a1f1c;
   --sidebar: 224px;
   --radius: 14px;
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -26,7 +26,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  background: radial-gradient(circle at 72% -10%, rgba(57, 126, 101, 0.13), transparent 32rem), var(--canvas);
+  background: radial-gradient(circle at 72% -10%, rgba(225, 122, 86, 0.13), transparent 32rem), var(--canvas);
 }
 button, input, select { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
