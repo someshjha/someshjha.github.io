@@ -1,4 +1,28 @@
-if (window.top !== window.self) {
+function isEmbeddedFrame() {
+  // Prefer an explicit embed flag from the writing reader (or other shells).
+  try {
+    if (new URLSearchParams(window.location.search).get('embed') === '1') return true;
+  } catch {
+    // Ignore malformed query strings and keep evaluating parent context.
+  }
+
+  // Same-origin parent that hosts our known reader/shell iframes.
+  // Cross-origin parents (IDE previews, etc.) must NOT hide site chrome —
+  // those loads should look like standalone pages.
+  try {
+    if (window.parent === window) return false;
+    const parentDoc = window.parent.document;
+    return Boolean(
+      parentDoc.querySelector('#article-frame') ||
+      parentDoc.querySelector('.writing-frame-card iframe') ||
+      parentDoc.querySelector('.poc-frame-card iframe')
+    );
+  } catch {
+    return false;
+  }
+}
+
+if (isEmbeddedFrame()) {
   document.documentElement.classList.add('embedded-frame');
 }
 
@@ -30,7 +54,15 @@ function notifyFrames(theme) {
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0f1d19' : '#f4f0e8');
+  const triad = document.documentElement.dataset.triad;
+  const themeColors = {
+    blueprint: { light: '#e8eef4', dark: '#0b1520' },
+    'ink-signal': { light: '#f7f7f5', dark: '#0c1210' },
+    concrete: { light: '#e4e2de', dark: '#141311' },
+    minimal: { light: '#fafafa', dark: '#0a0a0a' },
+  };
+  const pair = themeColors[triad] || themeColors.blueprint;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? pair.dark : pair.light);
   document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
     button.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
     button.setAttribute('aria-pressed', String(theme === 'dark'));
@@ -67,6 +99,19 @@ function mountThemeToggle() {
 const initialTheme = getPreferredTheme();
 mountThemeToggle();
 applyTheme(initialTheme);
+
+// iframe-theme-onload: push current theme once each frame finishes loading
+
+document.querySelectorAll('iframe').forEach((frame) => {
+  frame.addEventListener('load', () => {
+    try {
+      frame.contentWindow?.postMessage({ type: 'theme', theme: document.documentElement.dataset.theme || 'light' }, window.location.origin);
+    } catch {
+      // ignore
+    }
+  });
+});
+
 
 const setHeader = () => header?.classList.toggle('scrolled', window.scrollY > 24);
 if (header) {

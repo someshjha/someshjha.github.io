@@ -1,22 +1,22 @@
 :root {
   color-scheme: dark;
-  --ink: #eef5f4;
-  --muted: #91a5a2;
-  --subtle: #607472;
-  --canvas: #07110f;
-  --surface: #0c1816;
-  --surface-raised: #11211e;
-  --surface-soft: #162824;
-  --line: #223b36;
-  --green: #e17a56;
-  --green-dark: #3a2016;
-  --amber: #d99a5c;
-  --amber-dark: #3a2a18;
-  --red: #d9695a;
-  --red-dark: #3a1f1c;
+  --ink: #e8eef4;
+  --muted: #8fa0b0;
+  --subtle: #6a7f94;
+  --canvas: #0b1520;
+  --surface: #101c2a;
+  --surface-raised: #122033;
+  --surface-soft: #15263a;
+  --line: #243548;
+  --green: #6a9cc4;
+  --green-dark: #1c3348;
+  --amber: #8ab4d4;
+  --amber-dark: #243548;
+  --red: #9aa8b8;
+  --red-dark: #2a3038;
   --sidebar: 224px;
   --radius: 14px;
-  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Source Sans 3", "IBM Plex Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
 }
 
@@ -26,7 +26,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  background: radial-gradient(circle at 72% -10%, rgba(225, 122, 86, 0.13), transparent 32rem), var(--canvas);
+  background: radial-gradient(circle at 72% -10%, rgba(47, 95, 138, 0.13), transparent 32rem), var(--canvas);
 }
 button, input, select { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -38,15 +38,15 @@ a { color: inherit; }
 .mock-only-banner {
   display: flex; justify-content: space-between; gap: 18px; align-items: center;
   margin: 0 0 18px; padding: 14px 16px;
-  border: 1px solid rgba(243, 197, 107, .45); border-radius: var(--radius);
-  background: rgba(62, 50, 27, .78); color: var(--amber);
+  border: 1px solid rgba(138, 180, 212, .45); border-radius: var(--radius);
+  background: rgba(20, 36, 51, .88); color: var(--amber);
   box-shadow: 0 14px 34px rgba(0, 0, 0, .18);
 }
 .mock-only-banner div { display: grid; gap: 4px; }
 .mock-only-banner strong { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
-.mock-only-banner span { color: #f8dfaa; font-size: 13px; line-height: 1.45; }
+.mock-only-banner span { color: #d5dee8; font-size: 13px; line-height: 1.45; }
 .mock-only-banner a {
-  flex: 0 0 auto; color: var(--ink); background: var(--amber); border-radius: 999px;
+  flex: 0 0 auto; color: var(--ink); background: var(--amber); border-radius: 2px;
   padding: 10px 13px; font-size: 12px; font-weight: 760; text-decoration: none;
 }
 
@@ -72,7 +72,7 @@ a { color: inherit; }
 
 .sidebar-footer { margin-top: auto; display: grid; gap: 8px; }
 .environment-chip {
-  justify-self: start; padding: 4px 9px; border-radius: 999px; font-size: 10.5px; font-weight: 800;
+  justify-self: start; padding: 4px 9px; border-radius: 2px; font-size: 10.5px; font-weight: 800;
   letter-spacing: .06em; background: var(--amber-dark); color: var(--amber);
 }
 .synthetic-label { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--subtle); }
@@ -139,7 +139,7 @@ a { color: inherit; }
 }
 .capability-list li.is-granted { background: var(--green-dark); color: var(--green); }
 .capability-list li.is-denied { background: var(--surface-soft); color: var(--subtle); }
-.capability-list li span { font-family: Inter, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+.capability-list li span { font-family: "IBM Plex Sans", "Source Sans 3", sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
 
 .console-layout { display: grid; grid-template-columns: minmax(260px, 340px) 1fr; gap: 18px; align-items: start; }
 .console-form { display: grid; gap: 12px; align-content: start; }
@@ -150,7 +150,7 @@ a { color: inherit; }
 }
 .primary-action {
   justify-self: start; display: inline-flex; align-items: center; gap: 6px;
-  background: var(--green); color: #07160f; border: none; border-radius: 999px;
+  background: var(--green); color: #07160f; border: none; border-radius: 2px;
   padding: 10px 16px; font-size: 13px; font-weight: 760; cursor: pointer;
 }
 .console-evidence { display: grid; gap: 6px; }
@@ -169,7 +169,7 @@ a { color: inherit; }
 .catalog-row span.is-granted { color: var(--green); }
 .catalog-row span.is-denied { color: var(--subtle); }
 .catalog-row button {
-  background: var(--surface-soft); border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface-soft); border: 1px solid var(--line); border-radius: 2px;
   padding: 5px 12px; font-size: 11.5px; color: var(--ink); cursor: pointer;
 }
 
@@ -182,7 +182,7 @@ thead th {
 }
 tbody td { padding: 8px 12px; border-bottom: 1px solid var(--line); color: var(--muted); }
 tbody tr:last-child td { border-bottom: none; }
-.decision-badge { padding: 2px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; }
+.decision-badge { padding: 2px 8px; border-radius: 2px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; }
 tr.decision-allow .decision-badge { background: var(--green-dark); color: var(--green); }
 tr.decision-deny .decision-badge { background: var(--red-dark); color: var(--red); }
 tr.decision-error .decision-badge { background: var(--amber-dark); color: var(--amber); }
@@ -198,3 +198,29 @@ tr.decision-error .decision-badge { background: var(--amber-dark); color: var(--
   .main-content { margin-left: 0; padding: 18px 16px 40px; }
   .console-layout { grid-template-columns: 1fr; }
 }
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --ink: #1a2a3a;
+  --muted: #5a6f84;
+  --subtle: #6a7f94;
+  --canvas: #e8eef4;
+  --surface: #f0f4f8;
+  --surface-raised: #ffffff;
+  --surface-soft: #dce5ee;
+  --line: #c8d4e2;
+  --green: #2f5f8a;
+  --green-dark: #d5dee8;
+  --amber: #3d5166;
+  --amber-dark: #dce5ee;
+  --red: #5c6b73;
+  --red-dark: #d5dee8;
+}
+html[data-theme="light"] body {
+  background: radial-gradient(circle at 72% -10%, rgba(47, 95, 138, 0.1), transparent 32rem), var(--canvas);
+}
+html[data-theme="light"] .mock-only-banner {
+  background: #dce5ee; color: #1e4566; border-color: #8ab4d4;
+}
+html[data-theme="light"] .mock-only-banner span { color: #3d5166; }
+html[data-theme="light"] .mock-only-banner a { color: #e8eef4; background: #2f5f8a; }

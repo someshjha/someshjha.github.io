@@ -1,0 +1,874 @@
+/* Design triad mocks — scoped under html[data-triad]. Live site unchanged when absent. */
+
+html[data-triad] {
+  color-scheme: light dark;
+}
+
+/* ——— Shared mock chrome ——— */
+html[data-triad] .mock-banner {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 20px;
+  padding: 10px max(24px, calc((100vw - min(1200px, calc(100vw - 48px))) / 2));
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 88%, white);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+html[data-triad][data-theme="dark"] .mock-banner {
+  background: color-mix(in srgb, var(--paper) 92%, black);
+}
+
+html[data-triad] .mock-banner a {
+  color: var(--copper-deep);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--copper-deep) 40%, transparent);
+}
+
+html[data-triad] .mock-banner nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+html[data-triad] .mock-banner a[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+html[data-triad] .site-header {
+  top: 41px;
+}
+
+/* Soften/remove rounded-full pills sitewide in mocks */
+html[data-triad] .nav-cta,
+html[data-triad] .button,
+html[data-triad] .project-card li,
+html[data-triad] .poc-entry-action,
+html[data-triad] .poc-demo-link,
+html[data-triad] .poc-stack li,
+html[data-triad] .article-link > span {
+  border-radius: 2px;
+}
+
+/* ——— Remocked hero: brand + headline + support + CTA + full-bleed visual ——— */
+html[data-triad] .hero {
+  position: relative;
+  display: grid;
+  align-items: stretch;
+  min-height: calc(100vh - 41px);
+  padding: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: var(--ground-hero);
+}
+
+html[data-triad] .hero-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  width: var(--shell);
+  margin-inline: auto;
+  min-height: calc(100vh - 41px);
+  padding-top: 108px;
+}
+
+html[data-triad] .hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 48px 56px 0;
+  max-width: 560px;
+}
+
+html[data-triad] .hero-brand {
+  margin: 0 0 22px;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(52px, 7.2vw, 92px);
+  line-height: .92;
+  letter-spacing: -.045em;
+  color: var(--ink);
+}
+
+html[data-triad] .hero-headline {
+  margin: 0 0 18px;
+  max-width: 28ch;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(20px, 2.1vw, 28px);
+  line-height: 1.25;
+  letter-spacing: -.02em;
+  color: var(--ink-soft);
+}
+
+html[data-triad] .hero-headline em {
+  font-style: normal;
+  color: var(--copper-deep);
+}
+
+html[data-triad] .hero-intro {
+  margin: 0;
+  max-width: 42ch;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.55;
+}
+
+html[data-triad] .hero-actions {
+  margin-top: 28px;
+  gap: 22px;
+}
+
+html[data-triad] .hero-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  min-height: 100%;
+  padding: 88px 0 40px;
+}
+
+html[data-triad] .hero-visual-plane {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--ground-hero) 0%, color-mix(in srgb, var(--ground-hero) 55%, transparent) 18%, transparent 38%),
+    var(--ground-hero);
+}
+
+html[data-triad] .hero-visual-plane svg,
+html[data-triad] .hero-visual img {
+  position: absolute;
+  right: max(-40px, calc((100vw - var(--shell)) / -2 - 12px));
+  top: 50%;
+  transform: translateY(-48%);
+  width: min(600px, 46vw);
+  height: auto;
+  color: var(--ink);
+  opacity: .92;
+}
+
+html[data-triad] .hero-visual figcaption {
+  position: relative;
+  z-index: 1;
+  align-self: flex-end;
+  margin-top: auto;
+  padding: 0 8px 8px 0;
+  color: var(--muted);
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+html[data-triad] .hero-visual figcaption a {
+  color: var(--copper-deep);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--copper-deep) 35%, transparent);
+}
+
+/* Kill leftover live-site hero chrome when present */
+html[data-triad] .hero .eyebrow,
+html[data-triad] .hero-aside,
+html[data-triad] .orbit-card,
+html[data-triad] .availability,
+html[data-triad] .hero-foot {
+  display: none !important;
+}
+
+html[data-triad] .project-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-triad] .calendar-card {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@media (max-width: 960px) {
+  html[data-triad] .hero-layout {
+    grid-template-columns: 1fr;
+    padding-top: 96px;
+    min-height: auto;
+  }
+
+  html[data-triad] .hero-copy {
+    max-width: none;
+    padding: 28px 0 12px;
+  }
+
+  html[data-triad] .hero-visual {
+    min-height: 52vw;
+    padding: 12px 0 36px;
+  }
+
+  html[data-triad] .hero-visual-plane {
+    background: var(--ground-hero);
+  }
+
+  html[data-triad] .hero-visual-plane svg,
+  html[data-triad] .hero-visual img {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+    display: block;
+  }
+}
+
+/* Dark grounds: override live Blueprint hard-coded navy so each triad keeps its own night surface */
+html[data-triad][data-theme="dark"] .site-header.scrolled,
+html[data-triad][data-theme="dark"] .js .nav.open,
+html[data-triad][data-theme="dark"] .hero,
+html[data-triad][data-theme="dark"] .about {
+  background: var(--ground-hero);
+}
+
+html[data-triad][data-theme="dark"] .services {
+  background: var(--ground-services);
+}
+
+html[data-triad][data-theme="dark"] .work,
+html[data-triad][data-theme="dark"] .contact {
+  background: var(--ground-work);
+}
+
+html[data-triad][data-theme="dark"] .contact {
+  background: var(--ground-contact);
+}
+
+html[data-triad][data-theme="dark"] .project-card,
+html[data-triad][data-theme="dark"] .calendar-card {
+  background: rgba(255, 255, 255, .045);
+}
+
+html[data-triad][data-theme="dark"] .project-visual {
+  background: var(--paper);
+}
+
+/* ——— 1. Blueprint technical ——— */
+html[data-triad="blueprint"] {
+  --paper: #e8eef4;
+  --paper-deep: #d5dee8;
+  --ink: #1a2a3a;
+  --ink-soft: #3d5166;
+  --muted: #5a6f84;
+  --line: rgba(26, 42, 58, .18);
+  --highlight: #b8c9db;
+  --copper: #2f5f8a;
+  --copper-deep: #1e4566;
+  --panel-dark: #142433;
+  --panel-raised: #1c3348;
+  --on-dark: #e8eef4;
+  --on-dark-muted: #a8b8c8;
+  --ground-hero: #e8eef4;
+  --ground-about: #e8eef4;
+  --ground-services: #dce5ee;
+  --ground-work: #d2dce8;
+  --ground-contact: #c8d4e2;
+  --ground-orbit: #d5dee8;
+  --ground-calendar: #f0f4f8;
+  --ground-header-scrolled: rgba(232, 238, 244, .96);
+  --accent-soft: rgba(47, 95, 138, .12);
+  --orbit-line: rgba(26, 42, 58, .2);
+  --serif: "IBM Plex Sans", "Source Sans 3", ui-sans-serif, sans-serif;
+  --sans: "Source Sans 3", "IBM Plex Sans", ui-sans-serif, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --display: "IBM Plex Sans", "Source Sans 3", ui-sans-serif, sans-serif;
+}
+
+html[data-triad="blueprint"] body,
+html[data-triad="blueprint"] .nav,
+html[data-triad="blueprint"] .hero-headline,
+html[data-triad="blueprint"] .hero-intro {
+  font-family: var(--sans);
+}
+
+html[data-triad="blueprint"] h2,
+html[data-triad="blueprint"] h3,
+html[data-triad="blueprint"] .about-copy .lead,
+html[data-triad="blueprint"] .principles strong,
+html[data-triad="blueprint"] .service-number,
+html[data-triad="blueprint"] .contact-lead,
+html[data-triad="blueprint"] .calendar-lead {
+  font-family: var(--display);
+  font-weight: 500;
+}
+
+html[data-triad="blueprint"] .hero-brand {
+  font-weight: 600;
+  letter-spacing: -.04em;
+  color: var(--ink);
+}
+
+html[data-triad="blueprint"] .section-index,
+html[data-triad="blueprint"] .project-meta,
+html[data-triad="blueprint"] .footer,
+html[data-triad="blueprint"] .hero-visual figcaption {
+  font-family: var(--mono);
+}
+
+html[data-triad="blueprint"] .hero {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
+}
+
+html[data-triad="blueprint"] .hero-visual-plane svg {
+  color: #1e4566;
+}
+
+html[data-triad="blueprint"] .button-dark {
+  color: #e8eef4;
+}
+
+html[data-triad="blueprint"][data-theme="dark"] {
+  --paper: #0b1520;
+  --paper-deep: #122033;
+  --ink: #e8eef4;
+  --ink-soft: #b8c4d0;
+  --muted: #8fa0b0;
+  --line: rgba(232, 238, 244, .15);
+  --highlight: #3d5f7a;
+  --copper: #6a9cc4;
+  --copper-deep: #8ab4d4;
+  --ground-hero: #0b1520;
+  --ground-about: #0b1520;
+  --ground-services: #101c2a;
+  --ground-work: #122033;
+  --ground-contact: #15263a;
+  --ground-orbit: #122033;
+  --ground-calendar: #15263a;
+  --ground-header-scrolled: rgba(11, 21, 32, .96);
+  --accent-soft: rgba(106, 156, 196, .14);
+  --orbit-line: rgba(232, 238, 244, .18);
+}
+
+html[data-triad="blueprint"][data-theme="dark"] .hero-visual-plane svg {
+  color: #9ec5e0;
+}
+
+html[data-triad="blueprint"][data-theme="dark"] .button-dark {
+  color: #0b1520;
+}
+
+/* ——— 2. Ink + sharp signal ——— */
+html[data-triad="ink-signal"] {
+  --paper: #f7f7f5;
+  --paper-deep: #ebebe6;
+  --ink: #1a1f1c;
+  --ink-soft: #3f4842;
+  --muted: #6a736c;
+  --line: rgba(26, 31, 28, .14);
+  --highlight: #c5d9cb;
+  --copper: #2d6a4f;
+  --copper-deep: #1b4332;
+  --panel-dark: #14201a;
+  --panel-raised: #1c2c24;
+  --on-dark: #f7f7f5;
+  --on-dark-muted: #b5c0b8;
+  --ground-hero: #f7f7f5;
+  --ground-about: #f7f7f5;
+  --ground-services: #efefeb;
+  --ground-work: #e8e8e2;
+  --ground-contact: #e2e8e4;
+  --ground-orbit: #ebebe6;
+  --ground-calendar: #fcfcfa;
+  --ground-header-scrolled: rgba(247, 247, 245, .96);
+  --accent-soft: rgba(45, 106, 79, .1);
+  --orbit-line: rgba(26, 31, 28, .16);
+  --serif: "Source Serif 4", Literata, Georgia, serif;
+  --sans: "DM Sans", "Satoshi", ui-sans-serif, sans-serif;
+  --mono: ui-monospace, monospace;
+  --display: Fraunces, Newsreader, Georgia, serif;
+}
+
+html[data-triad="ink-signal"] body,
+html[data-triad="ink-signal"] .hero-headline,
+html[data-triad="ink-signal"] .hero-intro {
+  font-family: var(--sans);
+}
+
+html[data-triad="ink-signal"] h2,
+html[data-triad="ink-signal"] h3,
+html[data-triad="ink-signal"] .about-copy .lead,
+html[data-triad="ink-signal"] .principles strong,
+html[data-triad="ink-signal"] .service h3,
+html[data-triad="ink-signal"] .project-card h3,
+html[data-triad="ink-signal"] .contact-lead,
+html[data-triad="ink-signal"] .calendar-lead {
+  font-family: var(--serif);
+}
+
+html[data-triad="ink-signal"] .hero-brand,
+html[data-triad="ink-signal"] .brand-name {
+  font-family: var(--display);
+  font-weight: 500;
+  font-variation-settings: "SOFT" 30, "WONK" 0;
+}
+
+html[data-triad="ink-signal"] .hero-brand {
+  font-size: clamp(56px, 7.6vw, 100px);
+  letter-spacing: -.05em;
+}
+
+html[data-triad="ink-signal"] .nav-cta {
+  background: transparent;
+  color: var(--copper-deep);
+  border-color: var(--copper);
+}
+
+html[data-triad="ink-signal"] .nav-cta:hover {
+  background: var(--copper);
+  color: var(--paper);
+  border-color: var(--copper);
+}
+
+html[data-triad="ink-signal"] .button-dark {
+  color: #f7f7f5;
+}
+
+html[data-triad="ink-signal"] .hero-visual-plane svg {
+  color: #1b4332;
+}
+
+html[data-triad="ink-signal"][data-theme="dark"] {
+  --paper: #0c1210;
+  --paper-deep: #141c18;
+  --ink: #f0f2f0;
+  --ink-soft: #c5cec8;
+  --muted: #8a968e;
+  --line: rgba(240, 242, 240, .14);
+  --highlight: #2a4a3a;
+  --copper: #5a9e7c;
+  --copper-deep: #8fbc9e;
+  --ground-hero: #0c1210;
+  --ground-about: #0c1210;
+  --ground-services: #101814;
+  --ground-work: #141c18;
+  --ground-contact: #182018;
+  --ground-orbit: #141c18;
+  --ground-calendar: #182018;
+  --ground-header-scrolled: rgba(12, 18, 16, .96);
+  --accent-soft: rgba(90, 158, 124, .14);
+  --orbit-line: rgba(240, 242, 240, .16);
+}
+
+html[data-triad="ink-signal"][data-theme="dark"] .hero-visual-plane svg {
+  color: #8fbc9e;
+}
+
+html[data-triad="ink-signal"][data-theme="dark"] .nav-cta {
+  background: transparent;
+  color: var(--copper-deep);
+  border-color: var(--copper);
+}
+
+html[data-triad="ink-signal"][data-theme="dark"] .nav-cta:hover {
+  background: var(--copper);
+  color: var(--paper);
+  border-color: var(--copper);
+}
+
+html[data-triad="ink-signal"][data-theme="dark"] .button-dark {
+  color: #0c1210;
+}
+
+/* ——— 3. Concrete / industrial ——— */
+html[data-triad="concrete"] {
+  --paper: #e4e2de;
+  --paper-deep: #d4d1cb;
+  --ink: #1c1b19;
+  --ink-soft: #3f3d39;
+  --muted: #6a6762;
+  --line: rgba(28, 27, 25, .18);
+  --highlight: #c4b8a8;
+  --copper: #a33b2b;
+  --copper-deep: #7a2c20;
+  --panel-dark: #1c1b19;
+  --panel-raised: #2a2825;
+  --on-dark: #e4e2de;
+  --on-dark-muted: #a8a49c;
+  --ground-hero: #e4e2de;
+  --ground-about: #e4e2de;
+  --ground-services: #d8d5cf;
+  --ground-work: #cdc9c2;
+  --ground-contact: #c4c0b8;
+  --ground-orbit: #d4d1cb;
+  --ground-calendar: #eeece8;
+  --ground-header-scrolled: rgba(228, 226, 222, .96);
+  --accent-soft: rgba(163, 59, 43, .1);
+  --orbit-line: rgba(28, 27, 25, .2);
+  --serif: "Space Grotesk", "Schibsted Grotesk", ui-sans-serif, sans-serif;
+  --sans: "Space Grotesk", "Schibsted Grotesk", ui-sans-serif, sans-serif;
+  --mono: ui-monospace, monospace;
+  --display: "Space Grotesk", "Schibsted Grotesk", ui-sans-serif, sans-serif;
+}
+
+html[data-triad="concrete"] body,
+html[data-triad="concrete"] h2,
+html[data-triad="concrete"] h3,
+html[data-triad="concrete"] .hero-headline,
+html[data-triad="concrete"] .hero-intro,
+html[data-triad="concrete"] .about-copy .lead,
+html[data-triad="concrete"] .principles strong,
+html[data-triad="concrete"] .contact-lead,
+html[data-triad="concrete"] .calendar-lead {
+  font-family: var(--display);
+}
+
+html[data-triad="concrete"] .hero-brand {
+  font-weight: 600;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  font-size: clamp(44px, 6.4vw, 84px);
+}
+
+html[data-triad="concrete"] .nav-cta,
+html[data-triad="concrete"] .button,
+html[data-triad="concrete"] .project-card li {
+  border-radius: 0;
+}
+
+html[data-triad="concrete"] .button-dark {
+  color: #e4e2de;
+}
+
+html[data-triad="concrete"] .brand-mark {
+  border-radius: 0;
+}
+
+html[data-triad="concrete"] .hero-headline em {
+  color: #5c6b73;
+}
+
+html[data-triad="concrete"] .hero-visual-plane svg {
+  color: #3a3a38;
+}
+
+html[data-triad="concrete"] .hero-visual-plane svg rect[stroke-width="2"],
+html[data-triad="concrete"] .hero-visual-plane svg rect[stroke-width="1.75"],
+html[data-triad="concrete"] .hero-visual-plane svg rect[stroke-width="1.5"] {
+  stroke: #a33b2b;
+}
+
+html[data-triad="concrete"][data-theme="dark"] {
+  --paper: #141311;
+  --paper-deep: #1c1b19;
+  --ink: #e8e6e2;
+  --ink-soft: #c4c0b8;
+  --muted: #8a8680;
+  --line: rgba(232, 230, 226, .14);
+  --highlight: #4a3a32;
+  --copper: #c45a48;
+  --copper-deep: #d47868;
+  --ground-hero: #141311;
+  --ground-about: #141311;
+  --ground-services: #1a1916;
+  --ground-work: #1c1b19;
+  --ground-contact: #22201c;
+  --ground-orbit: #1c1b19;
+  --ground-calendar: #22201c;
+  --ground-header-scrolled: rgba(20, 19, 17, .96);
+  --accent-soft: rgba(196, 90, 72, .14);
+  --orbit-line: rgba(232, 230, 226, .16);
+}
+
+html[data-triad="concrete"][data-theme="dark"] .hero-visual-plane svg {
+  color: #c8c4bc;
+}
+
+html[data-triad="concrete"][data-theme="dark"] .hero-visual-plane svg rect[stroke-width="2"],
+html[data-triad="concrete"][data-theme="dark"] .hero-visual-plane svg rect[stroke-width="1.75"],
+html[data-triad="concrete"][data-theme="dark"] .hero-visual-plane svg rect[stroke-width="1.5"] {
+  stroke: #c45a48;
+}
+
+html[data-triad="concrete"][data-theme="dark"] .hero-headline em {
+  color: #8a9aa4;
+}
+
+html[data-triad="concrete"][data-theme="dark"] .button-dark {
+  color: #141311;
+}
+
+/* ——— 4. Minimal high contrast ——— */
+html[data-triad="minimal"] {
+  --paper: #fafafa;
+  --paper-deep: #f0f0f0;
+  --ink: #111111;
+  --ink-soft: #333333;
+  --muted: #666666;
+  --line: #888888;
+  --highlight: #e0e0e0;
+  --copper: #111111;
+  --copper-deep: #111111;
+  --panel-dark: #111111;
+  --panel-raised: #222222;
+  --on-dark: #fafafa;
+  --on-dark-muted: #bbbbbb;
+  --ground-hero: #fafafa;
+  --ground-about: #fafafa;
+  --ground-services: #f5f5f5;
+  --ground-work: #f0f0f0;
+  --ground-contact: #ebebeb;
+  --ground-orbit: #f0f0f0;
+  --ground-calendar: #ffffff;
+  --ground-header-scrolled: rgba(250, 250, 250, .97);
+  --accent-soft: rgba(17, 17, 17, .06);
+  --orbit-line: rgba(17, 17, 17, .2);
+  --serif: "Instrument Serif", Playfair Display, Georgia, serif;
+  --sans: "Geist", "IBM Plex Sans", ui-sans-serif, -apple-system, sans-serif;
+  --mono: ui-monospace, monospace;
+  --display: "Instrument Serif", Playfair Display, Georgia, serif;
+}
+
+html[data-triad="minimal"] body,
+html[data-triad="minimal"] .hero-headline,
+html[data-triad="minimal"] .hero-intro,
+html[data-triad="minimal"] h2,
+html[data-triad="minimal"] h3,
+html[data-triad="minimal"] .about-copy .lead,
+html[data-triad="minimal"] .principles strong,
+html[data-triad="minimal"] .service h3,
+html[data-triad="minimal"] .project-card h3,
+html[data-triad="minimal"] .contact-lead,
+html[data-triad="minimal"] .calendar-lead,
+html[data-triad="minimal"] .nav {
+  font-family: var(--sans);
+  font-weight: 450;
+}
+
+html[data-triad="minimal"] .hero-brand,
+html[data-triad="minimal"] .brand-name {
+  font-family: var(--display);
+  font-weight: 400;
+  font-style: italic;
+}
+
+html[data-triad="minimal"] .hero-brand {
+  font-size: clamp(58px, 8vw, 108px);
+  letter-spacing: -.04em;
+  line-height: .9;
+}
+
+html[data-triad="minimal"] .hero-headline em {
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+html[data-triad="minimal"] h2 em {
+  color: var(--ink);
+  font-style: normal;
+  border-bottom: 1px solid var(--line);
+}
+
+html[data-triad="minimal"] .nav-cta {
+  border-radius: 0;
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  padding: 9px 14px;
+}
+
+html[data-triad="minimal"] .nav-cta:hover,
+html[data-triad="minimal"] .site-header.scrolled .nav-cta:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+html[data-triad="minimal"] .button {
+  border-radius: 0;
+}
+
+html[data-triad="minimal"] .button-dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html[data-triad="minimal"] .button-dark:hover {
+  background: #333;
+}
+
+html[data-triad="minimal"] .brand-mark {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 0;
+}
+
+html[data-triad="minimal"] .brand-mark svg circle[style] {
+  fill: var(--paper) !important;
+}
+
+html[data-triad="minimal"] .project-card li {
+  border-radius: 0;
+}
+
+html[data-triad="minimal"] .hero-visual-plane svg {
+  color: #111;
+  opacity: .88;
+}
+
+html[data-triad="minimal"][data-theme="dark"] {
+  --paper: #0a0a0a;
+  --paper-deep: #141414;
+  --ink: #f5f5f5;
+  --ink-soft: #d0d0d0;
+  --muted: #999999;
+  --line: #555555;
+  --highlight: #333333;
+  --copper: #f5f5f5;
+  --copper-deep: #f5f5f5;
+  --ground-hero: #0a0a0a;
+  --ground-about: #0a0a0a;
+  --ground-services: #111111;
+  --ground-work: #141414;
+  --ground-contact: #1a1a1a;
+  --ground-orbit: #141414;
+  --ground-calendar: #1a1a1a;
+  --ground-header-scrolled: rgba(10, 10, 10, .97);
+  --accent-soft: rgba(245, 245, 245, .08);
+  --orbit-line: rgba(245, 245, 245, .18);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .hero-visual-plane svg {
+  color: #e0e0e0;
+  opacity: .9;
+}
+
+html[data-triad="minimal"][data-theme="dark"] .nav-cta {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .nav-cta:hover,
+html[data-triad="minimal"][data-theme="dark"] .site-header.scrolled .nav-cta:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .button-dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .button-dark:hover {
+  background: #d0d0d0;
+}
+
+html[data-triad="minimal"][data-theme="dark"] .brand-mark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .brand-mark svg circle[style] {
+  fill: var(--paper) !important;
+}
+
+html[data-triad="minimal"] .section-index {
+  letter-spacing: .2em;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Compare page */
+.mock-compare-page {
+  margin: 0;
+  background: #111;
+  color: #fafafa;
+  font-family: "IBM Plex Sans", ui-sans-serif, sans-serif;
+}
+
+.mock-compare-page header {
+  padding: 28px clamp(20px, 4vw, 48px) 18px;
+  border-bottom: 1px solid #333;
+}
+
+.mock-compare-page h1 {
+  margin: 0 0 8px;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 500;
+  letter-spacing: -.03em;
+}
+
+.mock-compare-page header p {
+  margin: 0;
+  color: #999;
+  font-size: 14px;
+  max-width: 640px;
+  line-height: 1.5;
+}
+
+.mock-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: #333;
+  min-height: calc(100vh - 120px);
+}
+
+.mock-compare-cell {
+  display: flex;
+  flex-direction: column;
+  background: #111;
+  min-height: 70vh;
+}
+
+.mock-compare-cell figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #333;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.mock-compare-cell figcaption a {
+  color: #8ab4d4;
+  text-decoration: none;
+}
+
+.mock-compare-cell iframe {
+  flex: 1;
+  width: 100%;
+  min-height: 720px;
+  border: 0;
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  .mock-compare-grid {
+    grid-template-columns: 1fr;
+  }
+}

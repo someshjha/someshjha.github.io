@@ -81,15 +81,21 @@ throughout the site's copy — plus a `REV. A` revision mark opposite it.
 
 ## Palette
 
-Reuses the site's existing tokens (`styles.css`) rather than introducing new
-color — the mark is not allowed its own palette:
+Reuses the site's Blueprint technical tokens (`styles.css`) rather than
+introducing a separate mark palette:
 
 | Role | Variable | Value |
 |---|---|---|
-| Ink (arch, piers, ground line) | `--panel-dark` / `--ink` | `#14231e` |
-| Paper ground | `--paper` | `#f6f1e7` |
-| Keystone accent | `--copper` | `#e17a56` |
-| Muted title-block text | — | `#647069` region |
+| Ink (arch, piers, ground line) | `--panel-dark` / `--ink` | `#142433` / `#1a2a3a` |
+| Paper ground | `--paper` | `#e8eef4` |
+| Keystone / accent | `--copper` | `#2f5f8a` |
+| Muted title-block text | `--muted` | `#5a6f84` region |
+
+Typography: IBM Plex Sans (display) · Source Sans 3 (body) · IBM Plex Mono (labels).
+
+For swapping the live site to another design triad (or extending tokens), see
+`THEME.md` and the Project playbook `docs/theme-switch-playbook.md`
+(`/cursor/stores/self/docs/theme-switch-playbook.md` in agent environments).
 
 ## Extending it
 
