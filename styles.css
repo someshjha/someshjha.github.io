@@ -231,10 +231,10 @@ h1 em, h2 em { font-weight: 500; color: var(--copper); }
 .hero-visual-plane img,
 .hero-visual-plane svg {
   position: absolute;
-  right: max(-40px, calc((100vw - var(--shell)) / -2 - 12px));
+  right: max(-24px, calc((100vw - var(--shell)) / -2 - 8px));
   top: 50%;
   transform: translateY(-48%);
-  width: min(760px, 58vw);
+  width: min(600px, 46vw);
   height: auto;
   color: var(--copper-deep);
   opacity: .92;
