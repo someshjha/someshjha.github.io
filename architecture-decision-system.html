@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
   <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
-  <meta name="description" content="Why architecture should preserve decisions, constraints, trade-offs, ownership, and review triggers—not only diagrams.">
+  <meta name="description" content="Why architecture should preserve decisions, constraints, trade-offs, ownership, and review triggers, and treat diagrams as just one output of that record.">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Architecture is a decision system, not a diagram — Somesh Jha">
   <meta property="og:description" content="Creating alignment and preserving decision context as systems and organizations evolve.">
@@ -55,13 +55,13 @@
     <article class="article-body article-shell">
       <aside class="article-summary" aria-labelledby="summary-title">
         <p class="article-label" id="summary-title">Executive summary</p>
-        <p>Most organizations treat architecture as a set of diagrams—boxes, arrows, and lines produced for a review and then filed away. But a diagram is a snapshot: it shows the decisions a team landed on, not the constraints, trade-offs, and people behind them. When those people move on and memory fades, the picture survives. The reasoning behind it usually does not.</p>
-        <p>Teams end up re-litigating settled trade-offs, onboarding takes longer, and architectural drift goes unnoticed until it surfaces as an incident or an expensive re-platform. Architecture should instead operate as a decision system: a living, traceable record of what was decided, why, and under what conditions it should be revisited—with diagrams as one output of that system.</p>
+        <p>Most organizations treat architecture as a set of diagrams: boxes, arrows, and lines produced for a review and then filed away. But a diagram is a snapshot: it shows the decisions a team landed on, not the constraints, trade-offs, and people behind them. When those people move on and memory fades, the picture survives. The reasoning behind it usually does not.</p>
+        <p>Teams end up re-litigating settled trade-offs, onboarding takes longer, and architectural drift goes unnoticed until it surfaces as an incident or an expensive re-platform. Architecture should instead operate as a decision system: a living, traceable record of what was decided, why, and under what conditions it should be revisited, treating diagrams as one output of that system.</p>
       </aside>
 
       <h2>The diagram trap</h2>
       <p class="article-lede">Diagrams are excellent at showing <em>what</em> a system looks like. They are poor at preserving <em>why</em> it looks that way.</p>
-      <p>A C4 diagram or deployment topology captures a point-in-time shape. It does not capture the alternatives that were rejected, the constraint that forced a compromise, or the budget and organizational realities that shaped the outcome. That context lives, at best, in a chat thread or a meeting nobody recorded—and at worst, only in the head of whoever made the call.</p>
+      <p>A C4 diagram or deployment topology captures a point-in-time shape. It does not capture the alternatives that were rejected, the constraint that forced a compromise, or the budget and organizational realities that shaped the outcome. That context lives, at best, in a chat thread or a meeting nobody recorded. At worst, it lives only in the head of whoever made the call.</p>
 
       <div class="article-two-col">
         <section class="article-card">
@@ -111,7 +111,7 @@
       <p class="article-quote">In the diagram-centric model, the artifact you keep has the least information. In the decision-system model, the artifact you keep explains the system.</p>
 
       <h2>Two audiences, one system</h2>
-      <p>The payoff shows up on both sides of the table—for the business and for engineering, in different forms.</p>
+      <p>The payoff shows up on both sides of the table, for the business and for engineering, in different forms.</p>
       <div class="article-two-col">
         <section class="article-card">
           <h3>For the business</h3>
@@ -186,7 +186,7 @@
 
       <footer class="article-closing">
         <p class="article-quote">A diagram tells you what a system looks like today. A decision system tells you why it looks that way, what was rejected, and what it would take to change it.</p>
-        <p><strong>A note on tooling.</strong> This is the thinking behind Archavow, my local-first architecture workbench: decisions—not diagrams—are treated as the source of truth, with views kept traceable to the reasoning that produced them.</p>
+        <p><strong>A note on tooling.</strong> This is the thinking behind Archavow, my local-first architecture workbench: decisions are treated as the source of truth, and views stay traceable to the reasoning that produced them.</p>
       </footer>
     </article>
   </main>

@@ -56,7 +56,7 @@
       <aside class="article-summary" aria-labelledby="summary-title">
         <p class="article-label" id="summary-title">The recommendation</p>
         <p>Decide who can see which field with a schema-validated, default-deny policy engine (Cedar is a strong choice), and keep that decision completely separate from how the field gets hidden. Enforcement is either a dynamic masking view at the database boundary or a vaulted tokenization service in front of it. The moment those two concerns merge into application <code>if</code> statements, the policy stops being auditable and starts drifting from what the database actually returns.</p>
-        <p>That separation has a cost: someone has to own a schema for principals, resources, and actions, and every new column or role becomes a policy change, not a code change. For a handful of roles and tables that overhead isn't worth it. Past a few dozen roles across a shared platform, it's the only way the answer to "who can see this column" stays a single, reviewable artifact instead of an archaeology project.</p>
+        <p>That separation has a cost: someone has to own a schema for principals, resources, and actions, and every new column or role becomes a policy change instead of a code change. For a handful of roles and tables that overhead isn't worth it. Past a few dozen roles across a shared platform, it's the only way the answer to "who can see this column" stays a single, reviewable artifact instead of an archaeology project.</p>
       </aside>
 
       <h2>The problem this decision solves</h2>
@@ -75,8 +75,8 @@
         <section><span>01</span><div><h3>Policy expressiveness</h3><p>Can the engine express attribute-based rules (role, data classification, purpose of use, time of day, case status) rather than a static role-to-table map?</p></div></section>
         <section><span>02</span><div><h3>Decision latency</h3><p>Is the authorization check cheap enough to run per-column, per-request, without becoming the slowest part of the query path?</p></div></section>
         <section><span>03</span><div><h3>Auditability</h3><p>Can every permit or deny be reconstructed later, including which policy version, which principal attributes, and which resource, without replaying application logs?</p></div></section>
-        <section><span>04</span><div><h3>Reversibility control</h3><p>Is detokenization itself a policy-gated action with its own audit trail, not an implicit side effect of holding a database credential?</p></div></section>
-        <section><span>05</span><div><h3>Blast radius of a bug</h3><p>If a policy is wrong, does it fail open or closed? A default-deny engine turns a missing rule into an incident that's caught in staging, not a silent leak.</p></div></section>
+        <section><span>04</span><div><h3>Reversibility control</h3><p>Is detokenization itself a policy-gated action with its own audit trail, rather than an implicit side effect of holding a database credential?</p></div></section>
+        <section><span>05</span><div><h3>Blast radius of a bug</h3><p>If a policy is wrong, does it fail open or closed? A default-deny engine turns a missing rule into an incident caught in staging instead of a silent leak.</p></div></section>
         <section><span>06</span><div><h3>Integration surface</h3><p>Does the enforcement point sit at the database boundary, the API gateway, or both, and does that match where the data actually fans out to other services?</p></div></section>
       </div>
 
@@ -152,7 +152,7 @@ when {
       <p>Notice what the application never does: it never asks "is this user Billing." It asks Cedar "can this principal view this field, right now, given this context," and renders whatever comes back. The role-to-field mapping lives in one reviewable place instead of being reconstructed from scattered conditionals.</p>
 
       <h2>Reference architecture</h2>
-      <p>Cedar is a decision point, not an enforcement point. Production systems need both, kept as separate services so a masking bug and an authorization bug fail independently and get diagnosed independently.</p>
+      <p>Cedar makes the decision; something else enforces it. Production systems need both, kept as separate services so a masking bug and an authorization bug fail independently and get diagnosed independently.</p>
       <div class="architecture-flow" aria-label="Reference architecture for policy-driven masking and tokenization">
         <div class="architecture-flow-row"><div class="architecture-node">Client or service request</div><div class="architecture-node">API gateway</div><div class="architecture-node primary">Cedar policy decision point</div></div>
         <div class="architecture-flow-row"><div class="architecture-node primary">Per-field decision: allow · deny · detokenize</div></div>
@@ -176,7 +176,7 @@ when {
       <h2>Production checklist</h2>
       <ul class="article-checklist">
         <li>Classify every column before writing a single policy: masking rules are only as good as the classification pipeline behind them.</li>
-        <li>Validate every Cedar policy against a schema in CI; treat an unknown resource or action as a build failure, not a runtime surprise.</li>
+        <li>Validate every Cedar policy against a schema in CI, so an unknown resource or action fails the build well before it can become a runtime surprise.</li>
         <li>Default deny: a new column or a new role should be invisible until a policy explicitly grants it.</li>
         <li>Put detokenization behind its own action and its own audit trail; never treat it as implied by "can view this field."</li>
         <li>Cache decisions at the request or session grain, not the field grain, so per-column checks don't dominate query latency.</li>

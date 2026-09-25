@@ -55,7 +55,7 @@
     <article class="article-body article-shell">
       <aside class="article-summary" aria-labelledby="summary-title">
         <p class="article-label" id="summary-title">The recommendation</p>
-        <p>Don't ask "which model is best at physics" in the abstract. Ask which model is best at the specific stage of the research lifecycle you're currently in. In the <a href="pocs.html#physics-research-assistant">mock demo</a> below, every model agrees on the sign and leading order of a perturbative energy shift, but they diverge on whether they volunteer the second-order correction, whether they show their work symbolically or jump to a number, and how much they hedge. That divergence is what a PhD researcher actually needs to see before trusting a model's output in a derivation, not any single leaderboard score.</p>
+        <p>Don't ask "which model is best at physics" in the abstract. Ask which model is best at the specific stage of the research lifecycle you're currently in. In the <a href="pocs.html#physics-research-assistant">mock demo</a> below, every model agrees on the sign and leading order of a perturbative energy shift, but they diverge on whether they volunteer the second-order correction, whether they show their work symbolically or jump to a number, and how much they hedge. A single leaderboard score would hide exactly that divergence, which is what a PhD researcher actually needs to see before trusting a model's output in a derivation.</p>
         <p>The demo below is deliberately mock: no literature search ran, no model was called, no simulation executed. It exists to pin down the shape of the tool (six stages, one running research question, a model comparison in the middle) before any of it touches a real API key or a real corpus.</p>
       </aside>
 
@@ -100,7 +100,7 @@
         <div class="architecture-flow-row"><div class="architecture-node">Model gateway (fan-out to provider APIs)</div><div class="architecture-node">Retrieval service (pgvector)</div><div class="architecture-node">Simulation worker (Kubernetes Job per run)</div></div>
         <div class="architecture-flow-row"><div class="architecture-node">Kubernetes Secrets (provider API keys)</div><div class="architecture-node">PostgreSQL (lifecycle state, citations)</div><div class="architecture-node">Logs/metrics (stdout → local log stack)</div></div>
       </div>
-      <p class="architecture-flow-note">Start with a single API gateway rather than per-model adapter services: the mock's model-comparison stage only needs a shared request/response shape, not independent deployability, until a specific provider's quirks (rate limits, streaming behavior) force the split. Kubernetes Jobs are enough for the simulation stage before a queue is justified; a queue earns its keep once simulations run long enough, or often enough, that the API gateway can't wait on them synchronously.</p>
+      <p class="architecture-flow-note">Start with a single API gateway rather than per-model adapter services: the mock's model-comparison stage only needs a shared request/response shape until a specific provider's quirks (rate limits, streaming behavior) force independent deployability. Kubernetes Jobs are enough for the simulation stage before a queue is justified; a queue earns its keep once simulations run long enough, or often enough, that the API gateway can't wait on them synchronously.</p>
 
       <h2>Production checklist</h2>
       <ul class="article-checklist">
@@ -109,7 +109,7 @@
         <li>Log every model call's provider, model version, and latency: the model-comparison stage is only trustworthy if it's reproducible after the fact.</li>
         <li>Cap simulation job runtime and resource requests explicitly; an unbounded numerical job on a shared local cluster starves everything else.</li>
         <li>Version the retrieval corpus's ingestion date alongside any citation it returns: a literature answer is only as current as its last ingest.</li>
-        <li>Treat the peer-review stage's output as a checklist for a human reviewer, not an automatic pass/fail gate.</li>
+        <li>Treat the peer-review stage's output as a checklist for a human reviewer to work through, rather than an automatic pass/fail gate.</li>
         <li>Validate the full local <code>kind</code> deployment against the exact mock walkthrough before adding a second environment.</li>
       </ul>
 
