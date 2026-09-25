@@ -127,7 +127,7 @@ function renderHistory() {
   const body = document.getElementById("history-body");
   const log = workflow.getEventHistory();
   if (log.length === 0) {
-    body.innerHTML = `<tr><td colspan="5">No events yet — start the case.</td></tr>`;
+    body.innerHTML = `<tr><td colspan="5">No events yet. Start the case.</td></tr>`;
     return;
   }
   body.innerHTML = log

@@ -47,7 +47,7 @@
       <div class="article-shell">
         <p class="eyebrow"><span></span> Patent · Intellectual property</p>
         <h1>Extracting and analyzing information from <em>engineering drawings.</em></h1>
-        <p class="article-subtitle">US Patent 11,270,105, assigned to IBM. One of ten named inventors on a system that reads technical drawings the way an engineer does—symbols, connections, and annotations, checked against real standards.</p>
+        <p class="article-subtitle">US Patent 11,270,105, assigned to IBM. One of ten named inventors on a system that reads technical drawings the way an engineer does: symbols, connections, and annotations, checked against real standards.</p>
         <p class="article-byline">Patent No. 11,270,105 <span aria-hidden="true">·</span> Filed September 24, 2019 <span aria-hidden="true">·</span> Issued March 8, 2022</p>
       </div>
     </header>
@@ -55,13 +55,13 @@
     <article class="article-body article-shell">
       <aside class="article-summary" aria-labelledby="summary-title">
         <p class="article-label" id="summary-title">Executive summary</p>
-        <p>Engineering drawings—PCB fabrication prints, architectural plans, wiring diagrams—encode most of their meaning in symbols, connecting lines, and text annotations that vary in orientation, scale, and style from one drawing to the next. Reading them at scale has traditionally required a person. This patent describes a machine-learning pipeline that classifies the symbols (nodes) in a drawing, traces the connections (edges) between them, extracts each one's text and attributes, and checks the result against published standards and domain rules to catch errors a human reviewer would otherwise have to find by hand.</p>
+        <p>Engineering drawings (PCB fabrication prints, architectural plans, wiring diagrams) encode most of their meaning in symbols, connecting lines, and text annotations that vary in orientation, scale, and style from one drawing to the next. Reading them at scale has traditionally required a person. This patent describes a machine-learning pipeline that classifies the symbols (nodes) in a drawing, traces the connections (edges) between them, extracts each one's text and attributes, and checks the result against published standards and domain rules to catch errors a human reviewer would otherwise have to find by hand.</p>
         <p>Somesh Jha is one of ten named inventors, credited while at IBM (Toronto). The patent is assigned to International Business Machines Corporation.</p>
       </aside>
 
       <h2>The problem with reading drawings automatically</h2>
       <p class="article-lede">Symbols in a technical drawing rarely appear the same way twice.</p>
-      <p>The same component can show up rotated, rescaled, or redrawn in a slightly different house style across a set of drawings, which breaks pattern-matching approaches that expect a fixed template. Existing automated extraction tools could locate some of this content, but struggled to stay accurate across those variations—and even when extraction worked, nothing in the pipeline could tell whether the result was actually correct: a wire rated for less current than the annotation implies, a symbol missing a required label, a connection that doesn't match the standard it claims to follow. Catching that kind of error still meant a person reading the whole drawing.</p>
+      <p>The same component can show up rotated, rescaled, or redrawn in a slightly different house style across a set of drawings, which breaks pattern-matching approaches that expect a fixed template. Existing automated extraction tools could locate some of this content, but struggled to stay accurate across those variations. Even when extraction worked, nothing in the pipeline could tell whether the result was actually correct: a wire rated for less current than the annotation implies, a symbol missing a required label, a connection that doesn't match the standard it claims to follow. Catching that kind of error still meant a person reading the whole drawing.</p>
 
       <div class="article-two-col">
         <section class="article-card">
@@ -84,7 +84,7 @@
         </section>
       </div>
 
-      <p class="article-quote">The correction component can flag errors, suggest corrections, or modify attributes based on domain knowledge—for example, catching when a wire annotation specifies current exceeding the wire's rated ampacity.</p>
+      <p class="article-quote">The correction component can flag errors, suggest corrections, or modify attributes based on domain knowledge: for example, catching when a wire annotation specifies current exceeding the wire's rated ampacity.</p>
 
       <h2>The method, step by step</h2>
       <p>Six steps, run in sequence on each drawing.</p>
@@ -113,7 +113,7 @@
       </div>
 
       <footer class="article-closing">
-        <p class="article-quote">The attribute database behind the correction component holds published standards—IPC, ISO, IEC—alongside domain-specific rules, so an error gets caught against the actual rule it violates, not just a pattern mismatch.</p>
+        <p class="article-quote">The attribute database behind the correction component holds published standards (IPC, ISO, IEC) alongside domain-specific rules, so an error gets caught against the actual rule it violates rather than a generic pattern mismatch.</p>
         <p><strong>Read the filing.</strong> The full specification and claims are public on <a href="https://patents.google.com/patent/US11270105B2/en" target="_blank" rel="noreferrer">Google Patents</a>.</p>
       </footer>
     </article>

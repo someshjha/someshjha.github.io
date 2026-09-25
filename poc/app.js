@@ -189,7 +189,7 @@ function renderQuality(summary) {
   $("#duplicate-card").innerHTML = `
     <p class="eyebrow">DEDUPLICATION EVIDENCE</p><h3>Same identifier, one business result</h3><p>Flink keyed state remembers processed event identifiers for the configured retention period.</p>
     <div class="event-compare"><div><small>ORIGINAL</small><strong>EVT-ORDER-004</strong><span>Accepted · 14:01:37</span></div><span>≠</span><div><small>REPLAY</small><strong>EVT-ORDER-004</strong><span>Ignored · 14:03:09</span></div></div>
-    <div class="proof-callout">Duplicate prevented — order count and financial totals remained unchanged.</div>`;
+    <div class="proof-callout">Duplicate prevented: order count and financial totals remained unchanged.</div>`;
 }
 
 function renderHealth(summary) {
@@ -253,7 +253,7 @@ function openOrderDrawer(orderId) {
       <div class="journey-step"><i>3</i><div><strong>${order.paymentStatus === "UNPAID" ? "Awaiting payment" : "Payment correlated"}</strong><span>${order.paymentStatus === "UNPAID" ? "No payment event has been observed." : `${order.paymentId} matched by order_id. ${lateDetail}`}</span></div><time>+0.67s</time></div>
       <div class="journey-step"><i>4</i><div><strong>Current state persisted</strong><span>Idempotent upsert completed in PostgreSQL.</span></div><time>+${(order.latencyMs / 1000).toFixed(2)}s</time></div>
     </div>
-    <div class="what-proves">${order.late ? "Late event applied — the correct order and event-time result were updated." : "This proves that a valid source event becomes queryable operational state within the latency target."}</div>`;
+    <div class="what-proves">${order.late ? "Late event applied: the correct order and event-time result were updated." : "This proves that a valid source event becomes queryable operational state within the latency target."}</div>`;
   $("#drawer-backdrop").hidden = false;
   $("#order-drawer").classList.add("open");
   $("#order-drawer").setAttribute("aria-hidden", "false");
@@ -284,7 +284,7 @@ async function executeScenario(type) {
   navigate("lab");
   try {
     await api.runScenario(type);
-    showToast(`${catalogue[type].name} completed — verification passed.`);
+    showToast(`${catalogue[type].name} completed: verification passed.`);
   } catch (error) {
     showToast(error.message);
   }

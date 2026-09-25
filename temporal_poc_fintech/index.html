@@ -63,7 +63,7 @@
           <h1 id="poc-title">Fraud case <em>investigation.</em></h1>
         </div>
         <div class="poc-embed-copy">
-          <p>This page embeds a mock fraud-investigation console directly below. It simulates Temporal's durable execution model in the browser — retries with backoff, SLA timers, signals, queries, and resumption after a worker restart — against one representative case, with no real Temporal server involved.</p>
+          <p>This page embeds a mock fraud-investigation console directly below. It simulates Temporal's durable execution model in the browser (retries with backoff, SLA timers, signals, queries, and resumption after a worker restart) against one representative case, with no real Temporal server involved.</p>
           <div class="poc-embed-actions">
             <a class="button button-dark" href="https://github.com/someshjha/poc_temporal" target="_blank" rel="noopener noreferrer">Real implementation repo <span aria-hidden="true">↗</span></a>
             <a class="text-link" href="../pocs.html#prior-authorization">PoC registry</a>
@@ -76,7 +76,7 @@
       <div class="shell">
         <div class="poc-embed-notice" role="note">
           <strong>Mock only</strong>
-          <span>The embedded console below still simulates Temporal's execution model in the browser with fake data. A real implementation now exists and runs — a real Temporal server, Postgres, and Python worker deployed to a local <code>kind</code> cluster, verified end-to-end by killing the worker pod mid-case and confirming it resumes without re-running completed work. See the GitHub repository to run it yourself.</span>
+          <span>The embedded console below still simulates Temporal's execution model in the browser with fake data. A real implementation now exists and runs: a real Temporal server, Postgres, and Python worker deployed to a local <code>kind</code> cluster, verified end-to-end by killing the worker pod mid-case and confirming it resumes without re-running completed work. See the GitHub repository to run it yourself.</span>
         </div>
 
         <div class="poc-frame-card">

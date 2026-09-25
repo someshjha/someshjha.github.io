@@ -49,7 +49,7 @@
         <button type="button" id="kill-worker-btn">Kill worker mid-case</button>
         <button type="button" id="restart-worker-btn" disabled>Restart worker</button>
       </div>
-      <p class="worker-note">Killing the worker interrupts whatever step is in flight. Completed steps are never re-run on restart — the interrupted step alone re-executes from scratch, the way a real Temporal activity retried after a crash would.</p>
+      <p class="worker-note">Killing the worker interrupts whatever step is in flight. Completed steps are never re-run on restart: the interrupted step alone re-executes from scratch, the way a real Temporal activity retried after a crash would.</p>
     </section>
 
     <section class="workflow-diagram" aria-label="Workflow steps">
@@ -79,7 +79,7 @@
           <p class="eyebrow">Read-only query</p>
           <h2>Case status</h2>
         </div>
-        <p class="query-note">A query reads current state without writing to the event history below — unlike every other action on this page.</p>
+        <p class="query-note">A query reads current state without writing to the event history below, unlike every other action on this page.</p>
         <button type="button" id="query-btn">Query case status</button>
         <pre id="query-result">Not queried yet.</pre>
       </section>
@@ -93,7 +93,7 @@
       <div class="table-scroll">
         <table>
           <thead><tr><th>#</th><th>Time</th><th>Event</th><th>Name</th><th>Detail</th></tr></thead>
-          <tbody id="history-body"><tr><td colspan="5">No events yet — start the case.</td></tr></tbody>
+          <tbody id="history-body"><tr><td colspan="5">No events yet. Start the case.</td></tr></tbody>
         </table>
       </div>
     </section>
