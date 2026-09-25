@@ -93,6 +93,10 @@ introducing a separate mark palette:
 
 Typography: IBM Plex Sans (display) · Source Sans 3 (body) · IBM Plex Mono (labels).
 
+For swapping the live site to another design triad (or extending tokens), see
+`THEME.md` and the Project playbook `docs/theme-switch-playbook.md`
+(`/cursor/stores/self/docs/theme-switch-playbook.md` in agent environments).
+
 ## Extending it
 
 Any new mark, icon, or diagram added to the site should ask the same
