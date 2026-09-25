@@ -1,3 +1,7 @@
+if (window.top !== window.self) {
+  document.documentElement.classList.add('embedded-frame');
+}
+
 const header = document.querySelector('[data-header]');
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.nav');

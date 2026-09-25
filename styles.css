@@ -263,6 +263,8 @@ h1 em, h2 em { font-weight: 400; color: var(--copper); }
 /* Long-form notes */
 .article-page { background: var(--paper); color: var(--ink); }
 .article-nav { background: var(--panel-dark); color: var(--on-dark); border-bottom: 1px solid rgba(255,255,255,.12); }
+html.embedded-frame .article-nav,
+html.embedded-frame .article-more-notes { display: none; }
 .article-nav-inner { display: flex; align-items: center; justify-content: space-between; min-height: 76px; }
 .article-back { color: var(--on-dark-muted); font-size: 12px; font-weight: 700; text-decoration: none; }
 .article-back:hover { color: var(--on-dark); }
