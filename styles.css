@@ -602,7 +602,7 @@ html[data-theme="dark"] .writing-frame-card { background: #0b1520; box-shadow: 9
 .poc-frame-toolbar strong { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
 .poc-frame-toolbar a { color: var(--on-dark-muted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-decoration: none; text-transform: uppercase; }
 .poc-frame-toolbar a:hover { color: var(--on-dark); }
-.poc-frame-card iframe { display: block; width: 100%; min-height: 880px; border: 0; background: #07110f; }
+.poc-frame-card iframe { display: block; width: 100%; min-height: 880px; border: 0; background: #0b1520; }
 
 /* Agent framework note */
 .framework-list { display: grid; gap: 18px; margin: 35px 0; font-family: var(--sans); }
