@@ -71,6 +71,19 @@ if (!triadMock) {
 }
 applyTheme(initialTheme);
 
+// iframe-theme-onload: push current theme once each frame finishes loading
+
+document.querySelectorAll('iframe').forEach((frame) => {
+  frame.addEventListener('load', () => {
+    try {
+      frame.contentWindow?.postMessage({ type: 'theme', theme: document.documentElement.dataset.theme || 'light' }, window.location.origin);
+    } catch {
+      // ignore
+    }
+  });
+});
+
+
 const setHeader = () => header?.classList.toggle('scrolled', window.scrollY > 24);
 if (header) {
   setHeader();
