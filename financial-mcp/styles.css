@@ -10,9 +10,9 @@
   --line: #243548;
   --green: #6a9cc4;
   --green-dark: #1c3348;
-  --amber: #d99a5c;
+  --amber: #8ab4d4;
   --amber-dark: #243548;
-  --red: #d9695a;
+  --red: #9aa8b8;
   --red-dark: #2a3038;
   --sidebar: 224px;
   --radius: 14px;
@@ -38,13 +38,13 @@ a { color: inherit; }
 .mock-only-banner {
   display: flex; justify-content: space-between; gap: 18px; align-items: center;
   margin: 0 0 18px; padding: 14px 16px;
-  border: 1px solid rgba(243, 197, 107, .45); border-radius: var(--radius);
-  background: rgba(62, 50, 27, .78); color: var(--amber);
+  border: 1px solid rgba(138, 180, 212, .45); border-radius: var(--radius);
+  background: rgba(20, 36, 51, .88); color: var(--amber);
   box-shadow: 0 14px 34px rgba(0, 0, 0, .18);
 }
 .mock-only-banner div { display: grid; gap: 4px; }
 .mock-only-banner strong { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
-.mock-only-banner span { color: #f8dfaa; font-size: 13px; line-height: 1.45; }
+.mock-only-banner span { color: #d5dee8; font-size: 13px; line-height: 1.45; }
 .mock-only-banner a {
   flex: 0 0 auto; color: var(--ink); background: var(--amber); border-radius: 2px;
   padding: 10px 13px; font-size: 12px; font-weight: 760; text-decoration: none;

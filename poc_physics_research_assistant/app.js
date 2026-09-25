@@ -246,7 +246,7 @@
     }).join("");
 
     chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
-    chart.innerHTML = `<line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#e1ddec" stroke-width="1" />${bars}`;
+    chart.innerHTML = `<line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#243548" stroke-width="1" />${bars}`;
 
     const stats = document.querySelector("#sim-stats");
     stats.replaceChildren();
