@@ -64,8 +64,11 @@ function mountThemeToggle() {
   document.body.appendChild(button);
 }
 
-const initialTheme = getPreferredTheme();
-mountThemeToggle();
+const triadMock = Boolean(document.documentElement.dataset.triad);
+const initialTheme = triadMock ? 'light' : getPreferredTheme();
+if (!triadMock) {
+  mountThemeToggle();
+}
 applyTheme(initialTheme);
 
 const setHeader = () => header?.classList.toggle('scrolled', window.scrollY > 24);
