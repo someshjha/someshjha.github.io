@@ -1,11 +1,7 @@
 /* Design triad mocks — scoped under html[data-triad]. Live site unchanged when absent. */
 
 html[data-triad] {
-  color-scheme: light;
-}
-
-html[data-triad] .theme-toggle {
-  display: none;
+  color-scheme: light dark;
 }
 
 /* ——— Shared mock chrome ——— */
@@ -28,6 +24,10 @@ html[data-triad] .mock-banner {
   font-weight: 650;
   letter-spacing: .06em;
   text-transform: uppercase;
+}
+
+html[data-triad][data-theme="dark"] .mock-banner {
+  background: color-mix(in srgb, var(--paper) 92%, black);
 }
 
 html[data-triad] .mock-banner a {
@@ -160,7 +160,7 @@ html[data-triad] .hero-visual img {
   right: max(-40px, calc((100vw - var(--shell)) / -2 - 12px));
   top: 50%;
   transform: translateY(-48%);
-  width: min(760px, 58vw);
+  width: min(600px, 46vw);
   height: auto;
   color: var(--ink);
   opacity: .92;
@@ -233,10 +233,40 @@ html[data-triad] .calendar-card {
     top: auto;
     transform: none;
     width: 100%;
-    max-width: 640px;
+    max-width: 520px;
     margin-inline: auto;
     display: block;
   }
+}
+
+/* Dark grounds: override live Blueprint hard-coded navy so each triad keeps its own night surface */
+html[data-triad][data-theme="dark"] .site-header.scrolled,
+html[data-triad][data-theme="dark"] .js .nav.open,
+html[data-triad][data-theme="dark"] .hero,
+html[data-triad][data-theme="dark"] .about {
+  background: var(--ground-hero);
+}
+
+html[data-triad][data-theme="dark"] .services {
+  background: var(--ground-services);
+}
+
+html[data-triad][data-theme="dark"] .work,
+html[data-triad][data-theme="dark"] .contact {
+  background: var(--ground-work);
+}
+
+html[data-triad][data-theme="dark"] .contact {
+  background: var(--ground-contact);
+}
+
+html[data-triad][data-theme="dark"] .project-card,
+html[data-triad][data-theme="dark"] .calendar-card {
+  background: rgba(255, 255, 255, .045);
+}
+
+html[data-triad][data-theme="dark"] .project-visual {
+  background: var(--paper);
 }
 
 /* ——— 1. Blueprint technical ——— */
@@ -315,6 +345,36 @@ html[data-triad="blueprint"] .hero-visual-plane svg {
 
 html[data-triad="blueprint"] .button-dark {
   color: #e8eef4;
+}
+
+html[data-triad="blueprint"][data-theme="dark"] {
+  --paper: #0b1520;
+  --paper-deep: #122033;
+  --ink: #e8eef4;
+  --ink-soft: #b8c4d0;
+  --muted: #8fa0b0;
+  --line: rgba(232, 238, 244, .15);
+  --highlight: #3d5f7a;
+  --copper: #6a9cc4;
+  --copper-deep: #8ab4d4;
+  --ground-hero: #0b1520;
+  --ground-about: #0b1520;
+  --ground-services: #101c2a;
+  --ground-work: #122033;
+  --ground-contact: #15263a;
+  --ground-orbit: #122033;
+  --ground-calendar: #15263a;
+  --ground-header-scrolled: rgba(11, 21, 32, .96);
+  --accent-soft: rgba(106, 156, 196, .14);
+  --orbit-line: rgba(232, 238, 244, .18);
+}
+
+html[data-triad="blueprint"][data-theme="dark"] .hero-visual-plane svg {
+  color: #9ec5e0;
+}
+
+html[data-triad="blueprint"][data-theme="dark"] .button-dark {
+  color: #0b1520;
 }
 
 /* ——— 2. Ink + sharp signal ——— */
@@ -397,6 +457,48 @@ html[data-triad="ink-signal"] .hero-visual-plane svg {
   color: #1b4332;
 }
 
+html[data-triad="ink-signal"][data-theme="dark"] {
+  --paper: #0c1210;
+  --paper-deep: #141c18;
+  --ink: #f0f2f0;
+  --ink-soft: #c5cec8;
+  --muted: #8a968e;
+  --line: rgba(240, 242, 240, .14);
+  --highlight: #2a4a3a;
+  --copper: #5a9e7c;
+  --copper-deep: #8fbc9e;
+  --ground-hero: #0c1210;
+  --ground-about: #0c1210;
+  --ground-services: #101814;
+  --ground-work: #141c18;
+  --ground-contact: #182018;
+  --ground-orbit: #141c18;
+  --ground-calendar: #182018;
+  --ground-header-scrolled: rgba(12, 18, 16, .96);
+  --accent-soft: rgba(90, 158, 124, .14);
+  --orbit-line: rgba(240, 242, 240, .16);
+}
+
+html[data-triad="ink-signal"][data-theme="dark"] .hero-visual-plane svg {
+  color: #8fbc9e;
+}
+
+html[data-triad="ink-signal"][data-theme="dark"] .nav-cta {
+  background: transparent;
+  color: var(--copper-deep);
+  border-color: var(--copper);
+}
+
+html[data-triad="ink-signal"][data-theme="dark"] .nav-cta:hover {
+  background: var(--copper);
+  color: var(--paper);
+  border-color: var(--copper);
+}
+
+html[data-triad="ink-signal"][data-theme="dark"] .button-dark {
+  color: #0c1210;
+}
+
 /* ——— 3. Concrete / industrial ——— */
 html[data-triad="concrete"] {
   --paper: #e4e2de;
@@ -473,6 +575,46 @@ html[data-triad="concrete"] .hero-visual-plane svg rect[stroke-width="2"],
 html[data-triad="concrete"] .hero-visual-plane svg rect[stroke-width="1.75"],
 html[data-triad="concrete"] .hero-visual-plane svg rect[stroke-width="1.5"] {
   stroke: #a33b2b;
+}
+
+html[data-triad="concrete"][data-theme="dark"] {
+  --paper: #141311;
+  --paper-deep: #1c1b19;
+  --ink: #e8e6e2;
+  --ink-soft: #c4c0b8;
+  --muted: #8a8680;
+  --line: rgba(232, 230, 226, .14);
+  --highlight: #4a3a32;
+  --copper: #c45a48;
+  --copper-deep: #d47868;
+  --ground-hero: #141311;
+  --ground-about: #141311;
+  --ground-services: #1a1916;
+  --ground-work: #1c1b19;
+  --ground-contact: #22201c;
+  --ground-orbit: #1c1b19;
+  --ground-calendar: #22201c;
+  --ground-header-scrolled: rgba(20, 19, 17, .96);
+  --accent-soft: rgba(196, 90, 72, .14);
+  --orbit-line: rgba(232, 230, 226, .16);
+}
+
+html[data-triad="concrete"][data-theme="dark"] .hero-visual-plane svg {
+  color: #c8c4bc;
+}
+
+html[data-triad="concrete"][data-theme="dark"] .hero-visual-plane svg rect[stroke-width="2"],
+html[data-triad="concrete"][data-theme="dark"] .hero-visual-plane svg rect[stroke-width="1.75"],
+html[data-triad="concrete"][data-theme="dark"] .hero-visual-plane svg rect[stroke-width="1.5"] {
+  stroke: #c45a48;
+}
+
+html[data-triad="concrete"][data-theme="dark"] .hero-headline em {
+  color: #8a9aa4;
+}
+
+html[data-triad="concrete"][data-theme="dark"] .button-dark {
+  color: #141311;
 }
 
 /* ——— 4. Minimal high contrast ——— */
@@ -591,6 +733,64 @@ html[data-triad="minimal"] .project-card li {
 html[data-triad="minimal"] .hero-visual-plane svg {
   color: #111;
   opacity: .88;
+}
+
+html[data-triad="minimal"][data-theme="dark"] {
+  --paper: #0a0a0a;
+  --paper-deep: #141414;
+  --ink: #f5f5f5;
+  --ink-soft: #d0d0d0;
+  --muted: #999999;
+  --line: #555555;
+  --highlight: #333333;
+  --copper: #f5f5f5;
+  --copper-deep: #f5f5f5;
+  --ground-hero: #0a0a0a;
+  --ground-about: #0a0a0a;
+  --ground-services: #111111;
+  --ground-work: #141414;
+  --ground-contact: #1a1a1a;
+  --ground-orbit: #141414;
+  --ground-calendar: #1a1a1a;
+  --ground-header-scrolled: rgba(10, 10, 10, .97);
+  --accent-soft: rgba(245, 245, 245, .08);
+  --orbit-line: rgba(245, 245, 245, .18);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .hero-visual-plane svg {
+  color: #e0e0e0;
+  opacity: .9;
+}
+
+html[data-triad="minimal"][data-theme="dark"] .nav-cta {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .nav-cta:hover,
+html[data-triad="minimal"][data-theme="dark"] .site-header.scrolled .nav-cta:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .button-dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .button-dark:hover {
+  background: #d0d0d0;
+}
+
+html[data-triad="minimal"][data-theme="dark"] .brand-mark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html[data-triad="minimal"][data-theme="dark"] .brand-mark svg circle[style] {
+  fill: var(--paper) !important;
 }
 
 html[data-triad="minimal"] .section-index {

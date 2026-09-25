@@ -30,7 +30,15 @@ function notifyFrames(theme) {
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0b1520' : '#e8eef4');
+  const triad = document.documentElement.dataset.triad;
+  const themeColors = {
+    blueprint: { light: '#e8eef4', dark: '#0b1520' },
+    'ink-signal': { light: '#f7f7f5', dark: '#0c1210' },
+    concrete: { light: '#e4e2de', dark: '#141311' },
+    minimal: { light: '#fafafa', dark: '#0a0a0a' },
+  };
+  const pair = themeColors[triad] || themeColors.blueprint;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? pair.dark : pair.light);
   document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
     button.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
     button.setAttribute('aria-pressed', String(theme === 'dark'));
@@ -64,11 +72,8 @@ function mountThemeToggle() {
   document.body.appendChild(button);
 }
 
-const triadMock = Boolean(document.documentElement.dataset.triad);
-const initialTheme = triadMock ? 'light' : getPreferredTheme();
-if (!triadMock) {
-  mountThemeToggle();
-}
+const initialTheme = getPreferredTheme();
+mountThemeToggle();
 applyTheme(initialTheme);
 
 // iframe-theme-onload: push current theme once each frame finishes loading

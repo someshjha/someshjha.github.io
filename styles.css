@@ -649,7 +649,7 @@ html[data-theme="dark"] .writing-frame-card { background: #07110f; box-shadow: 9
   .hero-visual { min-height: 52vw; padding: 12px 0 36px; }
   .hero-visual-plane { background: transparent; }
   .hero-visual-plane img,
-  .hero-visual-plane svg { position: relative; right: auto; top: auto; transform: none; width: 100%; max-width: 640px; margin-inline: auto; display: block; }
+  .hero-visual-plane svg { position: relative; right: auto; top: auto; transform: none; width: 100%; max-width: 520px; margin-inline: auto; display: block; }
   html[data-theme="dark"] .hero-diagram-light { display: none; }
   html[data-theme="dark"] .hero-diagram-dark { display: block; }
 }
