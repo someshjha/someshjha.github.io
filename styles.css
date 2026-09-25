@@ -258,6 +258,29 @@ h1 em, h2 em { font-weight: 500; color: var(--copper); }
   border-bottom: 1px solid color-mix(in srgb, var(--copper-deep) 35%, transparent);
 }
 
+/* Dark mode: keep the drafting-sheet plate light so #1e4566 strokes stay legible */
+html[data-theme="dark"] .hero-visual-plane {
+  background: linear-gradient(90deg, var(--ground-hero) 0%, color-mix(in srgb, var(--ground-hero) 75%, transparent) 10%, transparent 26%);
+}
+html[data-theme="dark"] .hero-visual-plane img,
+html[data-theme="dark"] .hero-visual-plane svg {
+  background: #e8eef4;
+  padding: 16px 14px;
+  border: 1px solid rgba(232, 238, 244, .28);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .35),
+    14px 14px 0 rgba(0, 0, 0, .28);
+  opacity: 1;
+  border-radius: 2px;
+}
+html[data-theme="dark"] .hero-visual figcaption {
+  color: var(--on-dark-muted);
+}
+html[data-theme="dark"] .hero-visual figcaption a {
+  color: var(--copper);
+  border-bottom-color: color-mix(in srgb, var(--copper) 45%, transparent);
+}
+
 .section { padding: 92px 0; }
 .section-index { color: var(--copper-deep); }
 .two-col { display: grid; grid-template-columns: .85fr 1.15fr; gap: 11vw; }
