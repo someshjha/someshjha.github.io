@@ -239,7 +239,7 @@ h1 em, h2 em { font-weight: 500; color: var(--copper); }
   color: var(--copper-deep);
   opacity: .92;
 }
-.hero-diagram-dark { display: none; }
+.hero-visual-plane .hero-diagram-dark { display: none; }
 .hero-visual figcaption {
   position: relative;
   z-index: 1;
