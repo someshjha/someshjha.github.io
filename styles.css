@@ -648,8 +648,13 @@ html[data-theme="dark"] .writing-frame-card { background: #0b1520; box-shadow: 9
 @media (max-width: 960px) {
   .hero-layout { grid-template-columns: 1fr; padding-top: 96px; min-height: auto; }
   .hero-copy { max-width: none; padding: 28px 0 12px; }
-  .hero-visual { min-height: 52vw; padding: 12px 0 36px; }
-  .hero-visual-plane { background: transparent; }
+  .hero-visual { min-height: 0; padding: 12px 0 36px; }
+  /* The plane is absolutely positioned on desktop to let the diagram bleed off
+     the viewport edge; on mobile the image becomes an in-flow block instead, so
+     the plane must go static too—otherwise it stays pinned to the shrunk
+     min-height box while its now-in-flow image overflows past it, landing the
+     figcaption (bottom-aligned within that box) in the middle of the image. */
+  .hero-visual-plane { position: static; background: transparent; }
   .hero-visual-plane img,
   .hero-visual-plane svg { position: relative; right: auto; top: auto; transform: none; width: 100%; max-width: 520px; margin-inline: auto; display: block; }
   html[data-theme="dark"] .hero-diagram-light { display: none; }
