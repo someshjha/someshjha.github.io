@@ -18,11 +18,14 @@
   --red-dark: #2a3038;
   --blue: #8ab4d4;
   --radius: 14px;
+  --display: "IBM Plex Sans", "Source Sans 3", ui-sans-serif, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-family: "Source Sans 3", "IBM Plex Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
 }
 
 * { box-sizing: border-box; }
+h1, h2, h3 { font-family: var(--display); }
 html { min-width: 320px; background: var(--canvas); }
 body {
   margin: 0;
@@ -38,7 +41,7 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 .eyebrow { margin: 0 0 4px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--subtle); }
 
 .case-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
-.case-header h1 { margin: 4px 0 8px; font-size: 26px; letter-spacing: -.01em; font-family: ui-monospace, monospace; }
+.case-header h1 { margin: 4px 0 8px; font-size: 26px; letter-spacing: -.01em; font-family: var(--mono); }
 .case-claim { margin: 0; max-width: 46ch; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
 .case-header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
 
@@ -105,7 +108,7 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 
 .sla-clock { display: grid; gap: 6px; margin-bottom: 14px; }
 .sla-clock span { font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--subtle); }
-.sla-clock strong { font-size: 24px; font-family: ui-monospace, monospace; color: var(--amber); }
+.sla-clock strong { font-size: 24px; font-family: var(--mono); color: var(--amber); }
 .sla-track { height: 6px; border-radius: 2px; background: var(--surface-soft); overflow: hidden; }
 .sla-fill { height: 100%; width: 100%; background: var(--amber); transform: scaleX(1); transform-origin: left; transition: transform .2s linear; }
 
@@ -125,7 +128,7 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 }
 #query-result {
   margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-  padding: 12px; font-size: 12px; color: var(--muted); font-family: ui-monospace, monospace;
+  padding: 12px; font-size: 12px; color: var(--muted); font-family: var(--mono);
   white-space: pre-wrap; word-break: break-word; max-height: 220px; overflow: auto;
 }
 

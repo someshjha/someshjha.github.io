@@ -16,11 +16,14 @@
   --red-dark: #2a3038;
   --sidebar: 224px;
   --radius: 14px;
+  --display: "IBM Plex Sans", "Source Sans 3", ui-sans-serif, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-family: "Source Sans 3", "IBM Plex Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
 }
 
 * { box-sizing: border-box; }
+h1, h2, h3 { font-family: var(--display); }
 html { min-width: 320px; background: var(--canvas); }
 body {
   margin: 0;
@@ -115,10 +118,10 @@ a { color: inherit; }
 .overview-copy strong { color: var(--ink); }
 
 .schema-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-.schema-card h3 { margin: 0 0 10px; font-size: 14px; color: var(--green); font-family: ui-monospace, monospace; }
+.schema-card h3 { margin: 0 0 10px; font-size: 14px; color: var(--green); font-family: var(--mono); }
 .schema-card table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 .schema-card th { text-align: left; color: var(--subtle); font-weight: 600; padding: 4px 6px; border-bottom: 1px solid var(--line); }
-.schema-card td { padding: 4px 6px; border-bottom: 1px solid var(--line); color: var(--muted); font-family: ui-monospace, monospace; }
+.schema-card td { padding: 4px 6px; border-bottom: 1px solid var(--line); color: var(--muted); font-family: var(--mono); }
 .schema-card tr:last-child td { border-bottom: none; }
 
 .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 18px; }
@@ -135,7 +138,7 @@ a { color: inherit; }
 .capability-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .capability-list li {
   display: flex; justify-content: space-between; align-items: center; padding: 8px 10px;
-  border-radius: 8px; font-size: 13px; font-family: ui-monospace, monospace;
+  border-radius: 8px; font-size: 13px; font-family: var(--mono);
 }
 .capability-list li.is-granted { background: var(--green-dark); color: var(--green); }
 .capability-list li.is-denied { background: var(--surface-soft); color: var(--subtle); }
@@ -157,7 +160,7 @@ a { color: inherit; }
 .console-evidence pre {
   margin: 0 0 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
   padding: 12px; font-size: 12px; overflow: auto; max-height: 220px; color: var(--muted);
-  font-family: ui-monospace, monospace; white-space: pre-wrap; word-break: break-word;
+  font-family: var(--mono); white-space: pre-wrap; word-break: break-word;
 }
 
 .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
