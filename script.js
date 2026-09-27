@@ -39,7 +39,9 @@ function getPreferredTheme() {
     saved = null;
   }
   if (saved === 'dark' || saved === 'light') return saved;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  // Default to light regardless of system preference; the visitor's own
+  // toggle (saved above) is the only thing that should switch this.
+  return 'light';
 }
 
 function notifyFrames(theme) {

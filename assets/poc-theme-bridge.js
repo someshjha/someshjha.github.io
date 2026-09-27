@@ -20,7 +20,10 @@
     } catch {
       // ignore
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Default to light regardless of system preference, matching the parent
+    // site; the parent's own theme (once it answers theme-request) still
+    // wins via the message listener below.
+    return 'light';
   }
 
   applyTheme(readStored());
