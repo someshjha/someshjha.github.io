@@ -11,7 +11,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css?v=blueprint-v3" />
-    <script src="../assets/poc-theme-bridge.js"></script>
+    <script>
+      // Always dark: this mock is a terminal/console showcase, built dark-first
+      // with an incomplete light-theme retrofit (dark gradients/badges left
+      // hardcoded throughout), so it should not follow the parent site's theme
+      // toggle or system preference.
+      document.documentElement.dataset.theme = 'dark';
+    </script>
   </head>
   <body>
     <div class="app-shell">
