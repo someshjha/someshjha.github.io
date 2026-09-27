@@ -81,7 +81,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid #2f5f8a; outline-offs
   padding: 0 11px;
   border: 1px solid var(--line);
   border-radius: 2px;
-  color: #5a6f84;
+  color: var(--muted);
   background: var(--surface-soft);
   font-size: 12px;
   font-weight: 700;
@@ -231,8 +231,8 @@ kbd { min-width: 21px; display: inline-grid; place-items: center; padding: 3px 5
 
 .record-footer { min-height: 57px; display: flex; align-items: center; gap: 11px; padding: 11px 20px; border-top: 1px solid #c8d4e2; background: #f0f4f8; }
 .record-footer svg { width: 22px; height: 22px; flex: 0 0 auto; fill: var(--green); }
-.record-footer p { margin: 0; color: #5a6f84; font-size: 12px; line-height: 1.45; }
-.record-footer strong { color: #1a2a3a; }
+.record-footer p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.record-footer strong { color: var(--ink); }
 
 body[data-role="billing"] .column-count { color: var(--billing); background: var(--billing-soft); }
 body[data-role="billing"] .query-card pre { border-left-color: var(--billing); }
@@ -325,5 +325,24 @@ html[data-theme="dark"] {
 html[data-theme="dark"] .topbar {
   border-bottom-color: var(--line);
   background: rgba(16, 28, 42, 0.94);
+}
+
+html[data-theme="dark"] .record-footer {
+  border-top-color: var(--line);
+  background: var(--surface-soft);
+}
+
+html[data-theme="dark"] .notice-synthetic {
+  border-color: #3d5166;
+  color: #9ec5e0;
+  background: #1c3348;
+}
+
+html[data-theme="dark"] .rail-step {
+  background: #243548;
+}
+
+html[data-theme="dark"] .identity-strip {
+  background: var(--surface-soft);
 }
 
